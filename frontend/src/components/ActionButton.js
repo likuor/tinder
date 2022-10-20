@@ -11,14 +11,36 @@ const ActionButton = (props) => {
     switch (icon) {
       case 'like':
         return (
-          <Fab color='primary' aria-label='like'>
+          <Fab
+            style={{
+              margin: 0,
+              top: 'auto',
+              right: 50,
+              bottom: 200,
+              left: 'auto',
+              position: 'fixed',
+            }}
+            color='primary'
+            aria-label='like'
+          >
             <FavoriteIcon />
           </Fab>
         );
 
       case 'no':
         return (
-          <Fab color='secondary' aria-label='like'>
+          <Fab
+            style={{
+              margin: 0,
+              top: 'auto',
+              left: 50,
+              bottom: 200,
+              rigth: 'auto',
+              position: 'fixed',
+            }}
+            color='secondary'
+            aria-label='no'
+          >
             <CloseIcon />
           </Fab>
         );
