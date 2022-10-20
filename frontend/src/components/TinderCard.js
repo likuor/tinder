@@ -11,9 +11,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import userImage from '../image/userImages/test.jpg';
 import Pill from './Pill';
 import ActionButton from './ActionButton';
-import StackLayout from '../Layout/StackLayout';
-
-import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -35,7 +33,7 @@ const TinderCard = () => {
 
   return (
     <>
-      <Card sx={{ maxWidth: 345 }}>
+      <Card sx={{ maxWidth: 345, mx: 'auto' }}>
         <CardMedia
           component='img'
           height='400'
@@ -55,18 +53,11 @@ const TinderCard = () => {
               <InfoIcon />
             </ExpandMore>
           </Typography>
-          <StackLayout>
-            <Box
-              sx={{
-                flexWrap: 'wrap',
-                display: 'flex',
-              }}
-            >
-              <Pill text='Game' />
-              <Pill text='Ping pong' />
-              <Pill text='Anime' />
-            </Box>
-          </StackLayout>
+          <Stack direction='row' spacing={1} sx={{ mr: 0.3 }}>
+            <Pill text='Game' />
+            <Pill text='Ping pong' />
+            <Pill text='Anime' />
+          </Stack>
         </CardContent>
         <Collapse in={expanded} timeout='auto' unmountOnExit>
           <CardContent>
