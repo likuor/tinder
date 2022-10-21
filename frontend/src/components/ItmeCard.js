@@ -25,7 +25,7 @@ const ExpandInfo = styled((props) => {
   }),
 }));
 
-const ItmeCard = ({ users }) => {
+const ItmeCard = ({ user }) => {
   const [expanded, setExpanded] = React.useState(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -33,57 +33,48 @@ const ItmeCard = ({ users }) => {
 
   return (
     <>
-      {users?.map((user) => {
-        return (
-          <Card sx={{ maxWidth: 345, mx: 'auto' }} key={user.id}>
-            <ImageListItem>
-              <img
-                src={userImage}
-                srcSet={userImage}
-                alt={'ttt'}
-                loading='lazy'
-              />
-              <ImageListItemBar
-                title={`${user.username} ${user.age}`}
-                subtitle={user.about}
-                actionIcon={
-                  <ExpandInfo
-                    sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                    expand={expanded}
-                    aria-expanded={expanded}
-                    aria-label='show more'
-                    onClick={handleExpandClick}
-                  >
-                    <InfoIcon />
-                  </ExpandInfo>
-                }
-              />
-            </ImageListItem>
-
-            <CardContent>
-              <CardActions
-                disableSpacing
-                sx={{
-                  justifyContent: 'space-around',
-                }}
+      <Card sx={{ maxWidth: 345, mx: 'auto' }} key={user.id}>
+        <ImageListItem>
+          <img src={userImage} srcSet={userImage} alt={'ttt'} loading='lazy' />
+          <ImageListItemBar
+            title={`${user.username} ${user.age}`}
+            subtitle={user.about}
+            actionIcon={
+              <ExpandInfo
+                sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
+                expand={expanded}
+                aria-expanded={expanded}
+                aria-label='show more'
+                onClick={handleExpandClick}
               >
-                <BasicButton text='no' />
-                <BasicButton text='like' />
-              </CardActions>
-              <Collapse in={expanded} timeout='auto' unmountOnExit>
-                <Typography paragraph variant='h6'>
-                  My Interests
-                </Typography>
-                <Stack direction='row' spacing={1} sx={{ mr: 0.3 }}>
-                  {user.interests?.map((interest, index) => {
-                    return <Pill text={interest} key={index} />;
-                  })}
-                </Stack>
-              </Collapse>
-            </CardContent>
-          </Card>
-        );
-      })}
+                <InfoIcon />
+              </ExpandInfo>
+            }
+          />
+        </ImageListItem>
+
+        <CardContent>
+          <CardActions
+            disableSpacing
+            sx={{
+              justifyContent: 'space-around',
+            }}
+          >
+            <BasicButton text='no' />
+            <BasicButton text='like' />
+          </CardActions>
+          <Collapse in={expanded} timeout='auto' unmountOnExit>
+            <Typography paragraph variant='h6'>
+              My Interests
+            </Typography>
+            <Stack direction='row' spacing={1} sx={{ mr: 0.3 }}>
+              {user.interests?.map((interest, index) => {
+                return <Pill text={interest} key={index} />;
+              })}
+            </Stack>
+          </Collapse>
+        </CardContent>
+      </Card>
     </>
   );
 };

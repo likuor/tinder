@@ -1,6 +1,7 @@
 import React from 'react';
 import ItmeCard from '../components/ItmeCard';
 import MainLayout from '../Layout/MainLayout';
+import { pickRandomUser } from '../helper/helper';
 
 const users = [
   {
@@ -27,11 +28,13 @@ const users = [
   },
 ];
 
+const randomUser = pickRandomUser(users);
+
 const Home = () => {
   return (
     <>
       <MainLayout>
-        <ItmeCard users={users} />
+        <ItmeCard user={randomUser} />
       </MainLayout>
     </>
   );
