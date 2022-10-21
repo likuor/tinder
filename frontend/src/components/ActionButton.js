@@ -18,7 +18,7 @@ const ActionButton = (props) => {
 
       case 'no':
         return (
-          <Fab color='secondary' aria-label='like'>
+          <Fab color='secondary' aria-label='no'>
             <CloseIcon />
           </Fab>
         );
