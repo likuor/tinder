@@ -2,6 +2,7 @@ const User = require("../models/Users");
 const bcrypt = require("bcrypt");
 const CreateUser = async (req, res) => {
 	try {
+		console.log(req.body);
     const checkEmail = await User.findOne({ email: req.body.email });
     if (checkEmail) return res.json("exsist");
 		const hashPsw = await bcrypt
@@ -10,13 +11,11 @@ const CreateUser = async (req, res) => {
 				return hashedPassword;
 			});
 		const newUser = await new User({
-			username: req.body.username,
 			email: req.body.email,
 			password: hashPsw,
 		});
 		const user = await newUser.save();
-		// console.log("new",newUser);
-    res.status(200).json(user);
+    res.status(200).json({...user._doc, user_id: user._id.toString()});
 	} catch (err) {
 		res.status(500).json(err);
 	}

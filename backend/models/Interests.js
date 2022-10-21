@@ -1,9 +1,5 @@
 const mongoose = require("mongoose");
-const InterestsSchema = new mongoose.Schema({
-	intrests_id: {
-		type: mongoose.SchemaTypes.ObjectId,
-		required: true,
-	},
+const UserInterestsSchema = new mongoose.Schema({
 	user_id: {
 		type: String,
 		required: true,
@@ -12,4 +8,4 @@ const InterestsSchema = new mongoose.Schema({
 		type: String,
 	},
 });
-module.exports = mongoose.modelNames("Interests", InterestsSchema);
+module.exports = mongoose.model("UserInterests", UserInterestsSchema);

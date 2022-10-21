@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 const UserSchema = new mongoose.Schema(
 	{
+		user_id: {
+			type: String,
+		},
 		email: {
 			type: String,
 			required: true,
@@ -14,20 +17,19 @@ const UserSchema = new mongoose.Schema(
 		},
 		username: {
 			type: String,
-			required: true,
-			unique: true,
+			default: "",
 		},
 		job: {
 			type: String,
 			default: "",
 		},
 		sexual_orientation: {
-			type: String,
-			default: "",
+			type: Number,
+			default: 0,
 		},
 		age: {
-			type: String,
-			default: "",
+			type: Number,
+			default: 0,
 		},
 		about: {
 			type: String,
@@ -35,8 +37,8 @@ const UserSchema = new mongoose.Schema(
 			max: 150,
 		},
 		gender: {
-			type: String,
-			default: ""
+			type: Number,
+			default: 0,
 		},
 	},
 	{ timestamps: true }
