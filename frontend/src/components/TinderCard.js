@@ -26,6 +26,7 @@ const ExpandMore = styled((props) => {
 
 const TinderCard = () => {
   const [expanded, setExpanded] = React.useState(false);
+  console.log(expanded);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
