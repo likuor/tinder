@@ -4,6 +4,8 @@ const port = 8000;
 require("dotenv").config();
 const mongoose = require("mongoose");
 const authRoute = require("./routes/auth")
+const settingRoute = require("./routes/setting")
+const interestsRoute = require("./routes/interests");
 
 mongoose
 	.connect(process.env.APP_MONGO_URL)
@@ -18,7 +20,9 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
 	res.send("hello express");
 });
-app.use("/auth", authRoute)
+app.use("/", authRoute)
+app.use("/", settingRoute);
+app.use("/", interestsRoute);
 app
   .listen(port, () => {
     console.log(`Example app listening on port ${port}`);
