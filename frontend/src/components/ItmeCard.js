@@ -39,12 +39,12 @@ const ItmeCard = ({ user }) => {
           <img
             src={user.image}
             srcSet={user.image}
-            alt={'ttt'}
+            alt={`${user.username} pic`}
             loading='lazy'
           />
           <ImageListItemBar
-            title={`${user.username} ${user.age}`}
-            subtitle={user.about}
+            title={`${user.username} ${user.age} `}
+            subtitle={user.job}
             actionIcon={
               <ExpandInfo
                 sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
@@ -74,9 +74,9 @@ const ItmeCard = ({ user }) => {
             <BasicButton text='like' />
           </CardActions>
           <Collapse in={expanded} timeout='auto' unmountOnExit>
-            <Typography paragraph variant='h6'>
-              My Interests
-            </Typography>
+            <Typography variant='h1'>About me</Typography>
+            <Typography variant='body1'>{user.about}</Typography>
+            <Typography variant='h1'>My Interests</Typography>
             <Stack direction='row' spacing={1} sx={{ mr: 0.3 }}>
               {user.interests?.map((interest, index) => {
                 return <Pill text={interest} key={index} />;

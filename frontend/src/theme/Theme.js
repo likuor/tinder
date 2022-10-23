@@ -1,15 +1,17 @@
 import { createTheme } from '@mui/material';
 
-const Theme = createTheme();
-
-Theme.typography.h1 = {
-  fontSize: '1.2rem',
-  '@media (min-width:600px)': {
-    fontSize: '1.5rem',
+const Theme = createTheme({
+  typography: {
+    h1: {
+      fontSize: '1.25rem',
+      fontWeight: 500,
+      lineHeight: 1.6,
+      letterSpacing: '0.0075em',
+    },
+    body1: {
+      fontSize: '1rem',
+    },
   },
-  [Theme.breakpoints.up('md')]: {
-    fontSize: '2rem',
-  },
-};
+});
 
 export default Theme;
