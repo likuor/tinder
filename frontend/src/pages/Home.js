@@ -2,6 +2,8 @@ import React from 'react';
 import ItmeCard from '../components/ItmeCard';
 import MainLayout from '../Layout/MainLayout';
 import { pickRandomUser } from '../helper/helper';
+import userImageAtsu from '../image/userImages/test.jpg';
+import userImageRachel from '../image/userImages/rachel.jpg';
 
 const users = [
   {
@@ -11,7 +13,7 @@ const users = [
     sexual_orientation: 1,
     age: 23,
     about: 'Hi I like sushi',
-    image: '',
+    image: userImageAtsu,
     gender: 2,
     interests: ['cafe', 'cook', 'soccer'],
   },
@@ -22,7 +24,7 @@ const users = [
     sexual_orientation: 2,
     age: 27,
     about: 'Hi I like wine',
-    image: '',
+    image: userImageRachel,
     gender: 1,
     interests: ['wine', 'dessert', 'cafe'],
   },

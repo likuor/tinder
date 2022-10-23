@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import IconButton from '@mui/material/IconButton';
 import InfoIcon from '@mui/icons-material/Info';
-import userImage from '../image/userImages/test.jpg';
 import { styled } from '@mui/material/styles';
 import Collapse from '@mui/material/Collapse';
 import Typography from '@mui/material/Typography';
@@ -26,16 +25,23 @@ const ExpandInfo = styled((props) => {
 }));
 
 const ItmeCard = ({ user }) => {
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = useState(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  console.log(user);
 
   return (
     <>
       <Card sx={{ maxWidth: 345, mx: 'auto', my: '1.3rem' }} key={user.id}>
         <ImageListItem>
-          <img src={userImage} srcSet={userImage} alt={'ttt'} loading='lazy' />
+          <img
+            src={user.image}
+            srcSet={user.image}
+            alt={'ttt'}
+            loading='lazy'
+          />
           <ImageListItemBar
             title={`${user.username} ${user.age}`}
             subtitle={user.about}
@@ -47,7 +53,11 @@ const ItmeCard = ({ user }) => {
                 aria-label='show more'
                 onClick={handleExpandClick}
               >
-                <InfoIcon />
+                {!expanded ? (
+                  <InfoIcon />
+                ) : (
+                  <InfoIcon sx={{ color: '#f8f8f8' }} />
+                )}
               </ExpandInfo>
             }
           />
