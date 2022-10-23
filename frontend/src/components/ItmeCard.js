@@ -33,7 +33,7 @@ const ItmeCard = ({ user }) => {
 
   return (
     <>
-      <Card sx={{ maxWidth: 345, mx: 'auto' }} key={user.id}>
+      <Card sx={{ maxWidth: 345, mx: 'auto', my: '1.3rem' }} key={user.id}>
         <ImageListItem>
           <img src={userImage} srcSet={userImage} alt={'ttt'} loading='lazy' />
           <ImageListItemBar

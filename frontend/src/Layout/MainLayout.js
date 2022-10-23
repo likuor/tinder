@@ -1,15 +1,17 @@
 import React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
+import Navbar from '../components/Navbar';
 
 const Layout = ({ children }) => {
   return (
-    <React.Fragment>
+    <>
       <CssBaseline />
-      <Container maxWidth='sm' sx={{ py: 2 }}>
+      <Container maxWidth='sm' sx={{ height: '100vh' }}>
         {children}
+        <Navbar />
       </Container>
-    </React.Fragment>
+    </>
   );
 };
 
