@@ -30,8 +30,6 @@ const ItmeCard = ({ user }) => {
     setExpanded(!expanded);
   };
 
-  console.log(user);
-
   return (
     <>
       <Card sx={{ maxWidth: 345, mx: 'auto', my: '1.3rem' }} key={user.id}>
