@@ -1,84 +1,234 @@
 import React, { useState } from 'react';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
+import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
-import Fade from '@mui/material/Fade';
-import Backdrop from '@mui/material/Backdrop';
+import { styled } from '@mui/material/styles';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import Box from '@mui/material/Box';
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  '& .MuiDialogContent-root': {
+    padding: theme.spacing(2),
+  },
+  '& .MuiDialogActions-root': {
+    padding: theme.spacing(1),
+  },
+}));
 
-function ChildModal() {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+const courses = [
+  {
+    value: 'CRS',
+    label: 'Customer Relations Specialist',
+  },
+  {
+    value: 'HM',
+    label: 'Hospitality Management',
+  },
+  {
+    value: 'IBM',
+    label: 'International Business Management',
+  },
+  {
+    value: 'UI/UX',
+    label: 'UI/UX Design',
+  },
+  {
+    value: 'NSSS',
+    label: 'Network and System Solutions Specialist',
+  },
+  {
+    value: 'DMS',
+    label: 'Digital Marketing Specialit',
+  },
+  {
+    value: 'WMAD',
+    label: 'Web and Mobile App Development',
+  },
+];
+const genders = [
+  {
+    value: 'male',
+    label: 'Male',
+  },
+  {
+    value: 'female',
+    label: 'Female',
+  },
+  {
+    value: 'X',
+    label: 'X',
+  },
+];
+
+const sexualOrientation = [
+  {
+    value: 'male',
+    label: 'Male',
+  },
+  {
+    value: 'female',
+    label: 'Female',
+  },
+  {
+    value: 'X',
+    label: 'X',
+  },
+];
+
+function BootstrapDialogTitle(props) {
+  const { children, onClose, ...other } = props;
 
   return (
-    <>
-      <Button onClick={handleOpen}>Open Child Modal</Button>
-      <Modal
-        hideBackdrop
-        open={open}
-        onClose={handleClose}
-        aria-labelledby='child-modal-title'
-        aria-describedby='child-modal-description'
-      >
-        <Fade in={open}>
-          <Box sx={{ ...style, width: 200 }}>
-            <h2 id='child-modal-title'>Text in a child modal</h2>
-            <p id='child-modal-description'>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-            </p>
-            <Button onClick={handleClose}>Close Child Modal</Button>
-          </Box>
-        </Fade>
-      </Modal>
-    </>
+    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+      {children}
+      {onClose ? (
+        <IconButton
+          aria-label='close'
+          onClick={onClose}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </DialogTitle>
   );
 }
 
+BootstrapDialogTitle.propTypes = {
+  children: PropTypes.node,
+  onClose: PropTypes.func.isRequired,
+};
+
 export default function BasicModal(props) {
   const { open, setOpen } = props;
+  const [course, setCourse] = useState('CRS');
+
   const handleClose = () => {
     setOpen(false);
+  };
+  const handleCourse = (event) => {
+    setCourse(event.target.value);
   };
 
   return (
     <>
-      <Modal
-        open={open}
+      <BootstrapDialog
         onClose={handleClose}
-        aria-labelledby='transition-modal-title'
-        aria-describedby='transition-modal-description'
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
+        aria-labelledby='customized-dialog-title'
+        open={open}
       >
-        <Fade in={open}>
-          <Box sx={{ ...style, width: 400 }}>
-            <h2 id='parent-modal-title'>Text in a modal</h2>
-            <p id='parent-modal-description'>
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </p>
-            <ChildModal />
+        <BootstrapDialogTitle
+          id='customized-dialog-title'
+          onClose={handleClose}
+          sx={{
+            width: 310,
+          }}
+        >
+          Edit
+        </BootstrapDialogTitle>
+        <DialogContent dividers>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              mx: 'auto',
+              my: 1,
+            }}
+          >
+            <TextField
+              id='standard-multiline-static'
+              label='About me'
+              multiline
+              rows={10}
+              defaultValue='Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
+            cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
+            dui. Donec ullamcorper nulla non metus auctor fringilla.'
+              variant='standard'
+            />
           </Box>
-        </Fade>
-      </Modal>
+
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              mx: 'auto',
+              my: 3,
+            }}
+          >
+            <TextField
+              id='outlined-select-currency'
+              select
+              label='Course'
+              value={course}
+              onChange={handleCourse}
+            >
+              {courses.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              mx: 'auto',
+              my: 3,
+            }}
+          >
+            <TextField
+              id='outlined-select-currency'
+              select
+              label='Gender'
+              value={'male'}
+            >
+              {genders.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              mx: 'auto',
+              my: 3,
+            }}
+          >
+            <TextField
+              id='outlined-select-currency'
+              select
+              label='Sex Orientation'
+              value={'male'}
+            >
+              {sexualOrientation.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={handleClose}>
+            Save changes
+          </Button>
+        </DialogActions>
+      </BootstrapDialog>
     </>
   );
 }

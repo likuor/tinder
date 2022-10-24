@@ -12,7 +12,7 @@ import BasicModal from '../components/BasicModal';
 
 const Profile = () => {
   const [open, setOpen] = useState(false);
-  const handleOpen = () => {
+  const handleClickOpen = () => {
     setOpen(true);
   };
 
@@ -36,7 +36,7 @@ const Profile = () => {
               aria-label='edit'
               color={'primary'}
               size='large'
-              onClick={handleOpen}
+              onClick={handleClickOpen}
             >
               <EditIcon />
             </IconButton>
