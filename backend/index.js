@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const authRoute = require("./routes/auth")
 const settingRoute = require("./routes/setting")
 const interestsRoute = require("./routes/interests");
+const likesRoute = require("./routes/likes");
 
 mongoose
 	.connect(process.env.APP_MONGO_URL)
@@ -23,6 +24,7 @@ app.get("/", (req, res) => {
 app.use("/", authRoute)
 app.use("/", settingRoute);
 app.use("/", interestsRoute);
+app.use("/", likesRoute);
 app
   .listen(port, () => {
     console.log(`Example app listening on port ${port}`);
