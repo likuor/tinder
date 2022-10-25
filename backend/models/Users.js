@@ -1,9 +1,6 @@
 const mongoose = require("mongoose");
 const UserSchema = new mongoose.Schema(
 	{
-		user_id: {
-			type: String,
-		},
 		email: {
 			type: String,
 			required: true,
@@ -19,7 +16,7 @@ const UserSchema = new mongoose.Schema(
 			type: String,
 			default: "",
 		},
-		job: {
+		course: {
 			type: String,
 			default: "",
 		},
@@ -40,6 +37,10 @@ const UserSchema = new mongoose.Schema(
 			type: Number,
 			default: 0,
 		},
+		interests: {
+			type: Array,
+			default:[]
+		}
 	},
 	{ timestamps: true }
 );

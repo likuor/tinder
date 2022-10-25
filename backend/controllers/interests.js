@@ -1,5 +1,4 @@
 const MongoClient = require("mongodb").MongoClient;
-const UserInterests = require("../models/Interests")
 const Getinterests = (req, res) => {
 	try {
 		MongoClient.connect(process.env.APP_MONGO_URL, (err, db)=> {
@@ -20,17 +19,5 @@ const Getinterests = (req, res) => {
 		res.status(500).json(err);
 	}
 };
-const sendInterests =async (req, res) => {
-  try {
-    const newInterests = new UserInterests({
-      user_id: req.body.user_id,
-      hobby : req.body.hobby
-    })
-    const user = await newInterests.save()
-    res.status(200).json(user)
-    
-  } catch (err) {
-    console.log(err);
-  }
-}
-module.exports = { Getinterests, sendInterests };
+
+module.exports = { Getinterests };
