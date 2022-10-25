@@ -1,16 +1,13 @@
 const mongoose = require("mongoose");
 const LikeSchema = new mongoose.Schema(
 	{
-		likes_id: {
-			type: mongoose.SchemaTypes.ObjectId,
-		},
-		user_id_from: {
+		from: {
 			type: String,
 		},
-		user_id_to: {
+		to: {
 			type: String,
 		},
 	},
 	{ timestamps: true }
 );
-module.exports = mongoose.modelNames("like", LikeSchema);
+module.exports = mongoose.model("Like", LikeSchema);

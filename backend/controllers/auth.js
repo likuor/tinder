@@ -14,8 +14,18 @@ const CreateUser = async (req, res) => {
 			email: req.body.email,
 			password: hashPsw,
 		});
+		// const addIdUser = await {
+		// 	// ...newUser,
+		// 	...newUser._doc,
+		// 	user_id: newUser._id.toString(),
+		// };
+		// console.log("add", addIdUser);
+		// const user = await addIdUser.save();
 		const user = await newUser.save();
-    res.status(200).json({...user._doc, user_id: user._id.toString()});
+
+		// console.log("user",user);
+		// console.log("add",user);
+		res.status(200).json({ ...user._doc, user_id:user._id });
 	} catch (err) {
 		res.status(500).json(err);
 	}
