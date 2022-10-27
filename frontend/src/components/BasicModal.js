@@ -17,8 +17,6 @@ import BoxLayout from '../Layout/BoxLayout';
 import axios from 'axios';
 
 ////////////////////////// dummy //////////////////////////
-const top100Films = [{ hobby: 'coffee' }, { hobby: 'The Godfather' }];
-
 const courses = [
   {
     value: 'NONE',
@@ -142,11 +140,11 @@ export default function BasicModal(props) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
 
-  const [interests, setInterests] = React.useState([]);
-  const [inputInterestsVal, setInputInterestsVal] = React.useState('');
+  const [interests, setInterests] = useState([]);
+  const [inputInterestsVal, setInputInterestsVal] = useState('');
 
-  const [sexualOri, setSexualOri] = React.useState([]);
-  const [inputSexualOriVal, setInputSexualOriVal] = React.useState('');
+  const [sexualOri, setSexualOri] = useState([]);
+  const [inputSexualOriVal, setInputSexualOriVal] = useState('');
 
   const nameRef = useRef(null);
   const aboutRef = useRef(null);
@@ -155,12 +153,18 @@ export default function BasicModal(props) {
   const ageRef = useRef(null);
   // const interestsRef = useRef(null);
   // const sexualOrientationRef = useRef(null);
+  const [interestsData, setInterestsData] = useState([]);
 
   useEffect(() => {
+    axios.get('http://localhost:8000/interests').then((response) => {
+      setInterestsData(response.data);
+    });
+
     if (selectedImage) {
       setImageUrl(URL.createObjectURL(selectedImage));
     }
   }, [selectedImage]);
+  console.log(interestsData);
 
   const handleClose = () => {
     setOpen(false);
@@ -273,7 +277,7 @@ export default function BasicModal(props) {
               limitTags={2}
               name='interests'
               id='multiple-interests'
-              options={top100Films}
+              options={interestsData}
               getOptionLabel={(option) => option.hobby}
               value={interests}
               onChange={(event, newValue) => {
