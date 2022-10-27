@@ -26,6 +26,9 @@ const CreateUser = async (req, res) => {
 
 const LoginUser = async (req, res) => {
 	try {
+		// need to talk redirect or not
+		const cookie =await res.session.user_id
+		if(cookie)return res.redirect("/home")
 		const user = await User.findOne({ email: req.body.email });
 		if (!user) return res.status(404).send("We can not find the user");
 		const isUserMatch = await bcrypt.compare(req.body.password, user.password);
