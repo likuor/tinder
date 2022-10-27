@@ -84,6 +84,10 @@ const sexualOrientations = [
     value: 3,
     label: 'X',
   },
+  {
+    value: 4,
+    label: 'Everyone',
+  },
 ];
 ////////////////////////// dummy //////////////////////////
 
@@ -155,14 +159,16 @@ export default function BasicModal(props) {
   const handleClose = () => {
     setOpen(false);
     setAbout(aboutRef.current.value);
+    const sexualOriResult = sexualOri.map((sexOri) => sexOri.value);
+    const interestsResult = interests.map((interest) => interest.hobby);
 
     const userInfo = {
       image: imageUrl,
       course: courseRef.current.value,
       about: aboutRef.current.value,
-      interests: interests,
+      interests: interestsResult,
       gender: genderRef.current.value,
-      sexualOrientation: sexualOri,
+      sexualOrientation: sexualOriResult,
     };
 
     console.log(userInfo);
