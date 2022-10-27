@@ -1,0 +1,30 @@
+[
+	{
+		"email": "atsu@gmail.com",
+		"password": "$2b$12$n1iggiz4B/xoEU.vuV08neaKGOFkcImFARYEoGxR4X.8rxEiEvS8e",
+		"username": "",
+		"job": "",
+		"sexual_orientation": "",
+		"age": "",
+		"about": "",
+		"gender": "",
+		"_id": "635188e34c95f206fa3a9174",
+		"createdAt": "2022-10-20T17:44:03.657Z",
+		"updatedAt": "2022-10-20T17:44:03.657Z",
+		"__v": 0
+	},
+	{
+		"email": "Rachel@gmail.com",
+		"password": "$2b$12$5CyNHS/kdKLHGXfvPAqkD.vfTIudLmsg3z8g9Px.7ApS.BQCQfLzK",
+		"username": "",
+		"job": "",
+		"sexual_orientation": "",
+		"age": "",
+		"about": "",
+		"gender": "",
+		"_id": "63519089683a26128113843b",
+		"createdAt": "2022-10-20T18:16:41.681Z",
+		"updatedAt": "2022-10-20T18:16:41.681Z",
+		"__v": 0
+	}
+]

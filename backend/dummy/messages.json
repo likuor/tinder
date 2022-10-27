@@ -1,0 +1,13 @@
+[{
+    "user_id_from" :"635188e34c95f206fa3a9174",
+    "user_id_to":"63519089683a26128113843b",
+    "message" :"yo",
+    "createdAt": "2022-10-20T18:16:41.681Z"
+  },
+{
+    "user_id_from" :"63519089683a26128113843b",
+    "user_id_to":"635188e34c95f206fa3a9174",
+    "message" :"hey",
+    "createdAt": "2022-10-20T18:20:41.681Z"
+  }
+]

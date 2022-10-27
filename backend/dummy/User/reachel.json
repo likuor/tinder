@@ -1,0 +1,15 @@
+	{
+		"email": "Rachel@gmail.com",
+		"user_id": "63519089683a26128113843b",
+		"password": "$2b$12$5CyNHS/kdKLHGXfvPAqkD.vfTIudLmsg3z8g9Px.7ApS.BQCQfLzK",
+		"username": "Rachel",
+		"job": "model",
+		"sexual_orientation": 2,
+		"age": 27,
+		"about": "Hi I like wine",
+		"gender": 1,
+		"_id": "63519089683a26128113843b",
+		"createdAt": "2022-10-20T18:16:41.681Z",
+		"updatedAt": "2022-10-20T18:16:41.681Z",
+		"__v": 0
+	}

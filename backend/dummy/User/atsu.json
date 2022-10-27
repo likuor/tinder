@@ -1,0 +1,15 @@
+{
+		"email": "atsu@gmail.com",
+		"user_id":"635188e34c95f206fa3a9174",
+		"password": "$2b$12$n1iggiz4B/xoEU.vuV08neaKGOFkcImFARYEoGxR4X.8rxEiEvS8e",
+		"username": "atsu",
+		"job": "engineer",
+		"sexual_orientation": 1,
+		"age": 23,
+		"about": "Hi i like sushi",
+		"gender": 2,
+		"_id": "635188e34c95f206fa3a9174",
+		"createdAt": "2022-10-20T17:44:03.657Z",
+		"updatedAt": "2022-10-20T17:44:03.657Z",
+		"__v": 0
+	}
