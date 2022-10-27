@@ -34,7 +34,8 @@ const getLike = async (req, res) => {
 const getUsers = async (req, res) => {
 	try {
 		const List = await User.find();
-		console.log("List", List);
+		if (req.body.sexual_orientation.includes(4))return res.status(200).json(List)
+			console.log("List", List);
 		const whoLike = await List.filter((item) => {
 			for (const element of req.body.sexual_orientation) {
 				console.log("ele",element);
