@@ -21,8 +21,8 @@ const UserSchema = new mongoose.Schema(
 			default: "",
 		},
 		sexual_orientation: {
-			type: Number,
-			default: 0,
+			type: Array,
+			default: [],
 		},
 		age: {
 			type: Number,
