@@ -164,7 +164,6 @@ export default function BasicModal(props) {
       setImageUrl(URL.createObjectURL(selectedImage));
     }
   }, [selectedImage]);
-  console.log(interestsData);
 
   const handleClose = () => {
     setOpen(false);
@@ -334,6 +333,7 @@ export default function BasicModal(props) {
             </TextField>
           </BoxLayout>
 
+          {/* sexual orieantation */}
           <BoxLayout>
             <Autocomplete
               multiple
