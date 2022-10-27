@@ -12,20 +12,16 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
 import Autocomplete from '@mui/material/Autocomplete';
+import BoxLayout from '../Layout/BoxLayout';
 
 ////////////////////////// dummy //////////////////////////
 const top100Films = [{ hobby: 'coffee' }, { hobby: 'The Godfather' }];
 
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  '& .MuiDialogContent-root': {
-    padding: theme.spacing(2),
-  },
-  '& .MuiDialogActions-root': {
-    padding: theme.spacing(1),
-  },
-}));
-
 const courses = [
+  {
+    value: 'NONE',
+    label: 'Not chosen',
+  },
   {
     value: 'CRS',
     label: 'Customer Relations Specialist',
@@ -58,6 +54,10 @@ const courses = [
 
 const genders = [
   {
+    value: 0,
+    label: 'Not chosen',
+  },
+  {
     value: 1,
     label: 'Male',
   },
@@ -86,6 +86,15 @@ const sexualOrientations = [
   },
 ];
 ////////////////////////// dummy //////////////////////////
+
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  '& .MuiDialogContent-root': {
+    padding: theme.spacing(2),
+  },
+  '& .MuiDialogActions-root': {
+    padding: theme.spacing(1),
+  },
+}));
 
 function BootstrapDialogTitle(props) {
   const { children, onClose, ...other } = props;
@@ -118,8 +127,8 @@ BootstrapDialogTitle.propTypes = {
 
 export default function BasicModal(props) {
   const { open, setOpen } = props;
-  const [course, setCourse] = useState('CRS');
-  const [gender, setGender] = useState(1);
+  const [course, setCourse] = useState('NONE');
+  const [gender, setGender] = useState(0);
   const [about, setAbout] = useState('');
 
   const [selectedImage, setSelectedImage] = useState(null);
@@ -181,14 +190,7 @@ export default function BasicModal(props) {
         </BootstrapDialogTitle>
         <DialogContent dividers>
           {/* image */}
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              mx: 'auto',
-              my: 1,
-            }}
-          >
+          <BoxLayout>
             <Button variant='contained' component='label'>
               Upload image
               <input
@@ -202,17 +204,10 @@ export default function BasicModal(props) {
                 <img src={imageUrl} alt={selectedImage.name} height='100px' />
               </Box>
             )}
-          </Box>
+          </BoxLayout>
 
           {/* about */}
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              mx: 'auto',
-              my: 3,
-            }}
-          >
+          <BoxLayout>
             <TextField
               id='standard-multiline-static'
               inputRef={aboutRef}
@@ -223,23 +218,16 @@ export default function BasicModal(props) {
               placeholder='Tell us about yourself'
               variant='standard'
             />
-          </Box>
+          </BoxLayout>
 
           {/* Interests  */}
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              mx: 'auto',
-              my: 3,
-            }}
-          >
+          <BoxLayout>
             <Autocomplete
               multiple
               sx={{ width: 260 }}
               limitTags={2}
-              name='movies'
-              id='multiple-limit-tags'
+              name='interests'
+              id='multiple-interests'
               options={top100Films}
               getOptionLabel={(option) => option.hobby}
               value={interests}
@@ -259,17 +247,10 @@ export default function BasicModal(props) {
                 />
               )}
             />
-          </Box>
+          </BoxLayout>
 
           {/* courses */}
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              mx: 'auto',
-              my: 3,
-            }}
-          >
+          <BoxLayout>
             <TextField
               id='outlined-select-currency'
               select
@@ -284,17 +265,10 @@ export default function BasicModal(props) {
                 </MenuItem>
               ))}
             </TextField>
-          </Box>
+          </BoxLayout>
 
           {/* gendr */}
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              mx: 'auto',
-              my: 3,
-            }}
-          >
+          <BoxLayout>
             <TextField
               id='outlined-select-currency'
               select
@@ -309,22 +283,15 @@ export default function BasicModal(props) {
                 </MenuItem>
               ))}
             </TextField>
-          </Box>
+          </BoxLayout>
 
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              mx: 'auto',
-              my: 3,
-            }}
-          >
+          <BoxLayout>
             <Autocomplete
               multiple
               sx={{ width: 260 }}
               limitTags={2}
-              name='sexual'
-              id='multiple-limit-tags'
+              name='sexualOrientation'
+              id='multiple-sexualOrientation'
               options={sexualOrientations}
               getOptionLabel={(option) => option.label}
               value={sexualOri}
@@ -340,11 +307,11 @@ export default function BasicModal(props) {
                   name='auto-input'
                   {...params}
                   label='Select your Sexual Orientation'
-                  placeholder='SexualOrientation'
+                  placeholder='Sexual Orientation'
                 />
               )}
             />
-          </Box>
+          </BoxLayout>
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>
