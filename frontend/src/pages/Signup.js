@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
@@ -7,8 +7,11 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import axios from 'axios';
+import { AuthContext } from '../AuthContext';
 
 const Auth = () => {
+  const { setUser } = useContext(AuthContext);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -37,14 +40,25 @@ const Auth = () => {
 
     const baseURL = 'http://localhost:8000/signup';
     const newUser = {
-      username: 'koki test',
       email: inputEmail,
       password: inputPassword,
     };
 
     console.log(newUser);
 
-    axios.post(baseURL, newUser);
+    axios.post(baseURL, newUser).then((res) => {
+      const userData = res.data;
+      setUser({
+        email: userData.email,
+        username: userData.username,
+        about: userData.about,
+        age: userData.age,
+        course: userData.course,
+        gender: userData.gender,
+        interests: userData.interests,
+        sexual_orientation: userData.sexual_orientation,
+      });
+    });
   };
 
   return (
