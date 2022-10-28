@@ -6,26 +6,35 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import axios from 'axios';
 
-const Auth = () => {
+const Login = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    const inputEmail = data.get('email');
+    const inputPassword = data.get('password');
 
-    if (data.get('password') !== data.get('confirmPassword'))
-      return console.log('Password wrong');
+    if (inputEmail === '' || inputPassword === '') {
+      return console.log('Something is missing');
+    }
 
-    if (data.get('password') !== data.get('confirmPassword'))
-      return console.log('Password wrong');
+    // must be 8chracters and included 1 number, 1 uppsercase
+    if (
+      !/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[a-zA-Z\d]{8,20}$/.test(inputPassword)
+    )
+      return console.log(
+        'Password must be 8chracters and included 1 number, 1 uppsercase'
+      );
 
-    const string = data.get('password');
-    console.log(
-      string.match(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[a-zA-Z\d]{8,100}$/)
-    );
-    console.log(data.get('password') === data.get('confirmPassword'));
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+    const baseURL = 'http://localhost:8000/login';
+    const newUser = {
+      email: inputEmail,
+      password: inputPassword,
+    };
+
+    axios.post(baseURL, newUser).then((res) => {
+      console.log(res.data);
     });
   };
 
@@ -42,7 +51,7 @@ const Auth = () => {
         }}
       >
         <Typography component='h1' variant='h5'>
-          Sign in
+          Login
         </Typography>
         <Box component='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
@@ -65,16 +74,6 @@ const Auth = () => {
             id='password'
             autoComplete='current-password'
           />
-          <TextField
-            margin='normal'
-            required
-            fullWidth
-            name='confirmPassword'
-            label='Confirm Password'
-            type='password'
-            id='confirmPassword'
-            autoComplete='current-password'
-          />
 
           <Button
             type='submit'
@@ -82,17 +81,16 @@ const Auth = () => {
             variant='contained'
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign In
+            Login
           </Button>
           <Grid container>
-            <Grid item xs>
+            <Grid
+              item
+              xs={12}
+              sx={{ display: 'flex', justifyContent: 'center' }}
+            >
               <Link href='#' variant='body2'>
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item xs>
-              <Link href='#' variant='body2'>
-                {'Login'}
+                {'Signup'}
               </Link>
             </Grid>
           </Grid>
@@ -102,4 +100,4 @@ const Auth = () => {
   );
 };
 
-export default Auth;
+export default Login;

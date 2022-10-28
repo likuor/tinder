@@ -1,11 +1,13 @@
 // import Home from './pages/Home';
-import Auth from './pages/Auth';
+import Signup from './pages/Signup';
+// import Login from './pages/Login';
 // import Profile from './pages/Profile';
 
 function App() {
   return (
     <div className='App'>
-      <Auth />
+      <Signup />
+      {/* <Login /> */}
       {/* <Home /> */}
       {/* <Profile /> */}
     </div>
