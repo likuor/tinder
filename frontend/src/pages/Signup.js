@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import axios from 'axios';
 import { AuthContext } from '../AuthContext';
+import { Link as RouterLink } from 'react-router-dom';
 
 const Auth = () => {
   const { setUser } = useContext(AuthContext);
@@ -112,7 +113,7 @@ const Auth = () => {
             variant='contained'
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign In
+            Sign up
           </Button>
           <Grid container>
             <Grid item xs>
@@ -121,8 +122,8 @@ const Auth = () => {
               </Link>
             </Grid>
             <Grid item xs sx={{ display: 'flex', justifyContent: 'center' }}>
-              <Link href='#' variant='body2'>
-                {'Login'}
+              <Link component={RouterLink} to='/login' variant='body2'>
+                Login
               </Link>
             </Grid>
           </Grid>

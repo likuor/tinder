@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import ItmeCard from '../components/ItmeCard';
 import MainLayout from '../Layout/MainLayout';
 import { pickRandomUser } from '../helper/helper';
 import userImageAtsu from '../image/userImages/test.jpg';
 import userImageRachel from '../image/userImages/rachel.jpg';
+import { AuthContext } from '../AuthContext';
 
 const users = [
   {
@@ -33,6 +34,9 @@ const users = [
 const randomUser = pickRandomUser(users);
 
 const Home = () => {
+  const { user } = useContext(AuthContext);
+  // console.log(user);
+
   return (
     <>
       <MainLayout>

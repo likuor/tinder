@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import axios from 'axios';
 import { AuthContext } from '../AuthContext';
+import { Link as RouterLink } from 'react-router-dom';
 
 const Login = () => {
   const { setUser } = useContext(AuthContext);
@@ -31,12 +32,12 @@ const Login = () => {
       );
 
     const baseURL = 'http://localhost:8000/login';
-    const newUser = {
+    const loginUser = {
       email: inputEmail,
       password: inputPassword,
     };
 
-    axios.post(baseURL, newUser).then((res) => {
+    axios.post(baseURL, loginUser).then((res) => {
       const userData = res.data;
       setUser({
         email: userData.email,
@@ -102,8 +103,8 @@ const Login = () => {
               xs={12}
               sx={{ display: 'flex', justifyContent: 'center' }}
             >
-              <Link href='#' variant='body2'>
-                {'Signup'}
+              <Link component={RouterLink} to='/signup' variant='body2'>
+                Signup
               </Link>
             </Grid>
           </Grid>
