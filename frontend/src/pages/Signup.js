@@ -44,8 +44,6 @@ const Auth = () => {
       password: inputPassword,
     };
 
-    console.log(newUser);
-
     axios.post(baseURL, newUser).then((res) => {
       const userData = res.data;
       setUser({
