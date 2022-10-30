@@ -1,10 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import ItmeCard from '../components/ItmeCard';
 import MainLayout from '../Layout/MainLayout';
 import { pickRandomUser } from '../helper/helper';
 import userImageAtsu from '../image/userImages/test.jpg';
 import userImageRachel from '../image/userImages/rachel.jpg';
 import { AuthContext } from '../AuthContext';
+import axios from 'axios';
 
 const users = [
   {
@@ -34,8 +35,29 @@ const users = [
 const randomUser = pickRandomUser(users);
 
 const Home = () => {
-  const { user } = useContext(AuthContext);
+  // const { user } = useContext(AuthContext);
+  const [usersData, setUsersData] = useState([]);
+
   // console.log(user);
+
+  useEffect(() => {
+    const baseURL = 'http://localhost:8000/user';
+    const loginUserInfo = {
+      user_id: '635c1acb1b5bf56ef76010ba',
+      sexual_orientation: [1],
+      gender: 2,
+    };
+
+    // const loginUserInfo = {
+    //   user_id: '635c1acb1b5bf56ef76010ba',
+    //   sexual_orientation: user.sexual_orientation,
+    //   gender: user.gender,
+    // };
+    axios.post(baseURL, loginUserInfo).then((res) => {
+      setUsersData(res.data);
+    });
+  }, []);
+  console.log('usersData', usersData);
 
   return (
     <>
