@@ -1,6 +1,4 @@
 const User = require("../models/Users");
-const UserInterests = require("../models/Interests");
-const MongoClient = require("mongodb").MongoClient;
 const updateInfo = async (req, res) => {
 	try {
 		const user = await User.findById(req.body.user_id);
@@ -16,7 +14,6 @@ const updateInfo = async (req, res) => {
 			},
 		});
 			const updateUser = await User.findById(req.body.user_id);
-			console.log(updateUser);
 			res.status(200).json({
 				username: updateUser.username,
 				course: updateUser.course,

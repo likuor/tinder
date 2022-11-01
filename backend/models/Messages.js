@@ -1,9 +1,6 @@
 const mongoose = require("mongoose");
 const MessagesSchmea = new mongoose.Schema(
 	{
-		message_id: {
-			type: String,
-		},
 		user_id_from: {
 			type: String,
 		},
@@ -17,4 +14,4 @@ const MessagesSchmea = new mongoose.Schema(
 	},
 	{ timestamps: true }
 );
-module.exports = mongoose.modelNames("Messages", MessagesSchmea);
+module.exports = mongoose.model("Messages", MessagesSchmea);
