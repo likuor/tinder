@@ -11,7 +11,7 @@ import { AuthContext } from '../AuthContext';
 import { Link as RouterLink } from 'react-router-dom';
 
 const Login = () => {
-  const { setUser } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
   const [email, setEmail] = useState({ input: undefined, errMessage: '' });
   const [password, setPassword] = useState({
     input: undefined,

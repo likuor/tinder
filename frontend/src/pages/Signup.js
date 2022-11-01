@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
@@ -9,55 +9,66 @@ import Container from '@mui/material/Container';
 import axios from 'axios';
 import { AuthContext } from '../AuthContext';
 import { Link as RouterLink } from 'react-router-dom';
+import {
+  checkEmail,
+  checkPassword,
+  checkConfirmPassword,
+} from '../helper/validation';
 
 const Auth = () => {
   const { setUser } = useContext(AuthContext);
+  const [email, setEmail] = useState({ input: undefined, errMessage: '' });
+  const [password, setPassword] = useState({
+    input: undefined,
+    errMessage: '',
+  });
+  const [confirmPassword, setConfirmPassword] = useState({
+    input: undefined,
+    errMessage: '',
+  });
+  const refEmail = useRef();
+  const refPassword = useRef();
+  const refConfrimPassword = useRef();
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const inputEmail = data.get('email');
-    const inputPassword = data.get('password');
-    const inputConfirmPassword = data.get('confirmPassword');
 
     if (
-      inputEmail === '' ||
-      inputPassword === '' ||
-      inputConfirmPassword === ''
+      checkEmail(refEmail.current.value, email, setEmail) &&
+      checkPassword(refPassword.current.value, password, setPassword) &&
+      checkConfirmPassword(
+        refPassword.current.value,
+        refConfrimPassword.current.value,
+        confirmPassword,
+        setConfirmPassword
+      ) === true
     ) {
-      return console.log('Something is missing');
+      const baseURL = 'http://localhost:8000/signup';
+      const newUser = {
+        email: refEmail.current.value,
+        password: refPassword.current.value,
+      };
+      console.log('newUser', newUser);
+
+      axios
+        .post(baseURL, newUser)
+        .then((res) => {
+          const userData = res.data;
+          setUser({
+            email: userData.email,
+            username: userData.username,
+            about: userData.about,
+            age: userData.age,
+            course: userData.course,
+            gender: userData.gender,
+            interests: userData.interests,
+            sexual_orientation: userData.sexual_orientation,
+          });
+        })
+        .catch((err) => {
+          console.log('ERR', err);
+        });
     }
-
-    // must be 8chracters and included 1 number, 1 uppsercase
-    if (
-      !/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[a-zA-Z\d]{8,20}$/.test(inputPassword)
-    )
-      return console.log(
-        'Password must be 8chracters and included 1 number, 1 uppsercase'
-      );
-
-    if (inputPassword !== inputConfirmPassword)
-      return console.log('Password are not matched');
-
-    const baseURL = 'http://localhost:8000/signup';
-    const newUser = {
-      email: inputEmail,
-      password: inputPassword,
-    };
-
-    axios.post(baseURL, newUser).then((res) => {
-      const userData = res.data;
-      setUser({
-        email: userData.email,
-        username: userData.username,
-        about: userData.about,
-        age: userData.age,
-        course: userData.course,
-        gender: userData.gender,
-        interests: userData.interests,
-        sexual_orientation: userData.sexual_orientation,
-      });
-    });
   };
 
   return (
@@ -85,6 +96,9 @@ const Auth = () => {
             name='email'
             autoComplete='email'
             autoFocus
+            error={email.input === ''}
+            helperText={email.input === '' ? email.errMessage : ''}
+            inputRef={refEmail}
           />
           <TextField
             margin='normal'
@@ -95,6 +109,9 @@ const Auth = () => {
             type='password'
             id='password'
             autoComplete='current-password'
+            error={password.input === ''}
+            helperText={password.input === '' ? password.errMessage : ''}
+            inputRef={refPassword}
           />
           <TextField
             margin='normal'
@@ -105,6 +122,11 @@ const Auth = () => {
             type='password'
             id='confirmPassword'
             autoComplete='current-password'
+            error={confirmPassword.input === ''}
+            helperText={
+              confirmPassword.input === '' ? confirmPassword.errMessage : ''
+            }
+            inputRef={refConfrimPassword}
           />
 
           <Button
