@@ -13,10 +13,9 @@ import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
 import Autocomplete from '@mui/material/Autocomplete';
 import BoxLayout from '../Layout/BoxLayout';
+import axios from 'axios';
 
 ////////////////////////// dummy //////////////////////////
-const top100Films = [{ hobby: 'coffee' }, { hobby: 'The Godfather' }];
-
 const courses = [
   {
     value: 'NONE',
@@ -84,6 +83,10 @@ const sexualOrientations = [
     value: 3,
     label: 'X',
   },
+  {
+    value: 4,
+    label: 'Everyone',
+  },
 ];
 ////////////////////////// dummy //////////////////////////
 
@@ -130,23 +133,32 @@ export default function BasicModal(props) {
   const [course, setCourse] = useState('NONE');
   const [gender, setGender] = useState(0);
   const [about, setAbout] = useState('');
+  const [name, setName] = useState('');
+  const [age, setAge] = useState();
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
 
-  const [interests, setInterests] = React.useState([]);
-  const [inputInterestsVal, setInputInterestsVal] = React.useState('');
+  const [interests, setInterests] = useState([]);
+  const [inputInterestsVal, setInputInterestsVal] = useState('');
 
-  const [sexualOri, setSexualOri] = React.useState([]);
-  const [inputSexualOriVal, setInputSexualOriVal] = React.useState('');
+  const [sexualOri, setSexualOri] = useState([]);
+  const [inputSexualOriVal, setInputSexualOriVal] = useState('');
 
+  const nameRef = useRef(null);
   const aboutRef = useRef(null);
   const courseRef = useRef(null);
   const genderRef = useRef(null);
+  const ageRef = useRef(null);
   // const interestsRef = useRef(null);
   // const sexualOrientationRef = useRef(null);
+  const [interestsData, setInterestsData] = useState([]);
 
   useEffect(() => {
+    axios.get('http://localhost:8000/interests').then((response) => {
+      setInterestsData(response.data);
+    });
+
     if (selectedImage) {
       setImageUrl(URL.createObjectURL(selectedImage));
     }
@@ -155,17 +167,26 @@ export default function BasicModal(props) {
   const handleClose = () => {
     setOpen(false);
     setAbout(aboutRef.current.value);
+    setName(nameRef.current.value);
+    setAge(ageRef.current.value);
+    const sexualOriResult = sexualOri.map((sexOri) => sexOri.value);
+    const interestsResult = interests.map((interest) => interest.hobby);
+    const ageNum = Number(ageRef.current.value);
 
     const userInfo = {
-      image: imageUrl,
+      user_id: '6358716edc1edc7c8a8e7457',
+      username: nameRef.current.value,
+      // image: imageUrl,
       course: courseRef.current.value,
       about: aboutRef.current.value,
-      interests: interests,
+      interests: interestsResult,
       gender: genderRef.current.value,
-      sexualOrientation: sexualOri,
+      sexual_orientation: sexualOriResult,
+      age: ageNum,
     };
 
-    console.log(userInfo);
+    const baseURL = 'http://localhost:8000/setting';
+    axios.post(baseURL, userInfo);
   };
 
   const handleState = (event, setState) => {
@@ -206,6 +227,32 @@ export default function BasicModal(props) {
             )}
           </BoxLayout>
 
+          {/* username */}
+          <BoxLayout>
+            <TextField
+              id='standard-multiline-static'
+              inputRef={nameRef}
+              label='Name'
+              defaultValue={name}
+              placeholder='Your name'
+              variant='standard'
+            />
+          </BoxLayout>
+
+          {/* age */}
+          <BoxLayout>
+            <TextField
+              id='standard-multiline-static'
+              type='number'
+              inputRef={ageRef}
+              InputProps={{ inputProps: { min: 1, max: 2 } }}
+              label='Age'
+              defaultValue={age}
+              placeholder='Your age'
+              variant='standard'
+            />
+          </BoxLayout>
+
           {/* about */}
           <BoxLayout>
             <TextField
@@ -228,7 +275,7 @@ export default function BasicModal(props) {
               limitTags={2}
               name='interests'
               id='multiple-interests'
-              options={top100Films}
+              options={interestsData}
               getOptionLabel={(option) => option.hobby}
               value={interests}
               onChange={(event, newValue) => {
@@ -285,6 +332,7 @@ export default function BasicModal(props) {
             </TextField>
           </BoxLayout>
 
+          {/* sexual orieantation */}
           <BoxLayout>
             <Autocomplete
               multiple
