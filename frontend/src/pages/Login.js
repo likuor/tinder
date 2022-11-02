@@ -9,91 +9,50 @@ import Container from '@mui/material/Container';
 import axios from 'axios';
 import { AuthContext } from '../AuthContext';
 import { Link as RouterLink } from 'react-router-dom';
+import { checkEmail, checkPassword } from '../helper/AuthValidation';
 
 const Login = () => {
-  const { user, setUser } = useContext(AuthContext);
+  const { setUser } = useContext(AuthContext);
   const [email, setEmail] = useState({ input: undefined, errMessage: '' });
   const [password, setPassword] = useState({
     input: undefined,
     errMessage: '',
   });
-  const formEmail = useRef();
-  const formPassword = useRef();
+  const refEmail = useRef();
+  const refPassword = useRef();
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const messageEmpty = 'Empty is not valid!';
-    const messageNotEnough =
-      'Password must be more than 8 chracters with at least 1 uppercase and 1 number';
 
-    // validate email
-    if (!formEmail.current.value) {
-      setEmail((prevState) => ({
-        ...prevState,
-        input: '',
-        errMessage: messageEmpty,
-      }));
-      return email;
-    } else if (formEmail.current.value) {
-      setEmail((prevState) => ({
-        ...prevState,
-        input: data.get('email'),
-        errMessage: '',
-      }));
-    }
-
-    // validate password
-    if (!formPassword.current.value) {
-      setPassword((prevState) => ({
-        ...prevState,
-        input: '',
-        errMessage: messageEmpty,
-      }));
-      return email;
-    } else if (
-      !/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[a-zA-Z\d]{8,20}$/.test(
-        formPassword.current.value
-      )
+    if (
+      checkEmail(refEmail.current.value, email, setEmail) &&
+      checkPassword(refPassword.current.value, password, setPassword) === true
     ) {
-      setPassword((prevState) => ({
-        ...prevState,
-        input: '',
-        errMessage: messageNotEnough,
-      }));
-      return password;
-    } else if (formPassword.current.value) {
-      setPassword((prevState) => ({
-        ...prevState,
-        input: data.get('password'),
-        errMessage: '',
-      }));
-    }
+      const baseURL = 'http://localhost:8000/login';
+      const loginUser = {
+        email: refEmail.current.value,
+        password: refPassword.current.value,
+      };
 
-    const baseURL = 'http://localhost:8000/login';
-    const loginUser = {
-      email: formEmail.current.value,
-      password: formPassword.current.value,
-    };
-
-    axios
-      .post(baseURL, loginUser)
-      .then((res) => {
-        const userData = res.data;
-        setUser({
-          email: userData.email,
-          username: userData.username,
-          about: userData.about,
-          age: userData.age,
-          course: userData.course,
-          gender: userData.gender,
-          interests: userData.interests,
-          sexual_orientation: userData.sexual_orientation,
+      axios
+        .post(baseURL, loginUser)
+        .then((res) => {
+          const userData = res.data;
+          setUser({
+            email: userData.email,
+            username: userData.username,
+            about: userData.about,
+            age: userData.age,
+            course: userData.course,
+            gender: userData.gender,
+            interests: userData.interests,
+            sexual_orientation: userData.sexual_orientation,
+          });
+        })
+        .catch((err) => {
+          console.log('ERR', err);
         });
-      })
-      .catch((err) => {
-        console.log('ERR', err);
-      });
+    }
   };
 
   return (
@@ -123,7 +82,7 @@ const Login = () => {
             name='email'
             autoComplete='email'
             autoFocus
-            inputRef={formEmail}
+            inputRef={refEmail}
           />
           <TextField
             error={password.input === ''}
@@ -136,7 +95,7 @@ const Login = () => {
             type='password'
             id='password'
             autoComplete='current-password'
-            inputRef={formPassword}
+            inputRef={refPassword}
           />
 
           <Button

@@ -13,7 +13,7 @@ import {
   checkEmail,
   checkPassword,
   checkConfirmPassword,
-} from '../helper/validation';
+} from '../helper/AuthValidation';
 
 const Auth = () => {
   const { setUser } = useContext(AuthContext);
@@ -48,7 +48,6 @@ const Auth = () => {
         email: refEmail.current.value,
         password: refPassword.current.value,
       };
-      console.log('newUser', newUser);
 
       axios
         .post(baseURL, newUser)
