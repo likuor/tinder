@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
@@ -14,6 +14,7 @@ import Box from '@mui/material/Box';
 import Autocomplete from '@mui/material/Autocomplete';
 import BoxLayout from '../Layout/BoxLayout';
 import axios from 'axios';
+import { AuthContext } from '../AuthContext';
 
 ////////////////////////// dummy //////////////////////////
 const courses = [
@@ -129,9 +130,11 @@ BootstrapDialogTitle.propTypes = {
 };
 
 export default function BasicModal(props) {
+  const { user, setUser } = useContext(AuthContext);
+
   const { open, setOpen } = props;
-  const [course, setCourse] = useState('NONE');
-  const [gender, setGender] = useState(0);
+  const [course, setCourse] = useState(user?.course);
+  const [gender, setGender] = useState(user?.gender);
   const [about, setAbout] = useState('');
   const [name, setName] = useState('');
   const [age, setAge] = useState();
@@ -162,7 +165,8 @@ export default function BasicModal(props) {
     if (selectedImage) {
       setImageUrl(URL.createObjectURL(selectedImage));
     }
-  }, [selectedImage]);
+    console.log('here', user);
+  }, [selectedImage, user]);
 
   const handleClose = () => {
     setOpen(false);
@@ -174,7 +178,8 @@ export default function BasicModal(props) {
     const ageNum = Number(ageRef.current.value);
 
     const userInfo = {
-      user_id: '6358716edc1edc7c8a8e7457',
+      user_id: user.user_id,
+      email: user.email,
       username: nameRef.current.value,
       // image: imageUrl,
       course: courseRef.current.value,
@@ -185,8 +190,12 @@ export default function BasicModal(props) {
       age: ageNum,
     };
 
+    console.log('userInfo', userInfo);
+
     const baseURL = 'http://localhost:8000/setting';
-    axios.post(baseURL, userInfo);
+    axios.post(baseURL, userInfo).then((res) => {
+      setUser(userInfo);
+    });
   };
 
   const handleState = (event, setState) => {
@@ -233,7 +242,8 @@ export default function BasicModal(props) {
               id='standard-multiline-static'
               inputRef={nameRef}
               label='Name'
-              defaultValue={name}
+              // value={user?.username}
+              defaultValue={user?.username}
               placeholder='Your name'
               variant='standard'
             />
@@ -247,7 +257,7 @@ export default function BasicModal(props) {
               inputRef={ageRef}
               InputProps={{ inputProps: { min: 1, max: 2 } }}
               label='Age'
-              defaultValue={age}
+              defaultValue={user?.age}
               placeholder='Your age'
               variant='standard'
             />
@@ -261,7 +271,7 @@ export default function BasicModal(props) {
               label='About me'
               multiline
               rows={10}
-              defaultValue={about}
+              defaultValue={user?.about}
               placeholder='Tell us about yourself'
               variant='standard'
             />
@@ -278,6 +288,7 @@ export default function BasicModal(props) {
               options={interestsData}
               getOptionLabel={(option) => option.hobby}
               value={interests}
+              defaultValue={user?.interests}
               onChange={(event, newValue) => {
                 setInterests(newValue);
               }}
@@ -303,6 +314,7 @@ export default function BasicModal(props) {
               select
               label='Course'
               value={course}
+              defaultValue={user?.course}
               inputRef={courseRef}
               onChange={(e) => handleState(e, setCourse)}
             >
@@ -322,6 +334,7 @@ export default function BasicModal(props) {
               inputRef={genderRef}
               label='Gender'
               value={gender}
+              defaultValue={user?.gender}
               onChange={(e) => handleState(e, setGender)}
             >
               {genders.map((option) => (
@@ -342,7 +355,8 @@ export default function BasicModal(props) {
               id='multiple-sexualOrientation'
               options={sexualOrientations}
               getOptionLabel={(option) => option.label}
-              value={sexualOri}
+              // value={sexualOri}
+              // defaultValue={user?.sexualOri}
               onChange={(event, newValue) => {
                 setSexualOri(newValue);
               }}
