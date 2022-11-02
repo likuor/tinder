@@ -33,7 +33,7 @@ const LoginUser = async (req, res) => {
 			return res.status(400).json("password is wrong");
 		} else {
 			req.session.user_id = user._id.toString();
-			return res.status(200).json({...user._doc, user_id:user._id});
+			return res.status(200).json(user);
 		}
 	} catch (err) {
 		res.status(500).json(err);
@@ -61,7 +61,7 @@ const AllSet = async (req, res) => {
 			interests: req.body.interests,
 		});
 		const user = await newUser.save();
-		res.status(200).json({ ...user._doc, user_id: user._id });
+		res.status(200).json(user);
 	} catch (err) {
 		console.log(err);
 	}
