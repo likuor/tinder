@@ -39,7 +39,7 @@ const Home = () => {
   const [usersData, setUsersData] = useState([]);
 
   useEffect(() => {
-    console.log('loggedinUser', user);
+    // console.log('loggedinUser', user);
 
     const baseURL = 'http://localhost:8000/user';
     const loginUserInfo = {
@@ -49,7 +49,7 @@ const Home = () => {
     };
 
     // const loginUserInfo = {
-    //   user_id: '635c1acb1b5bf56ef76010ba',
+    //   user_id: user.user_id,
     //   sexual_orientation: user.sexual_orientation,
     //   gender: user.gender,
     // };
@@ -57,7 +57,7 @@ const Home = () => {
       setUsersData(res.data);
     });
   }, []);
-  console.log('usersData', usersData);
+  // console.log('usersData', usersData);
 
   return (
     <>

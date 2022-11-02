@@ -282,12 +282,13 @@ export default function BasicModal(props) {
             <Autocomplete
               multiple
               sx={{ width: 260 }}
-              limitTags={2}
+              limitTags={5}
               name='interests'
               id='multiple-interests'
               options={interestsData}
               getOptionLabel={(option) => option.hobby}
               value={interests}
+              isOptionEqualToValue={(option, value) => option.id === value.id}
               defaultValue={user?.interests}
               onChange={(event, newValue) => {
                 setInterests(newValue);
@@ -350,13 +351,14 @@ export default function BasicModal(props) {
             <Autocomplete
               multiple
               sx={{ width: 260 }}
-              limitTags={2}
+              limitTags={5}
               name='sexualOrientation'
               id='multiple-sexualOrientation'
               options={sexualOrientations}
               getOptionLabel={(option) => option.label}
-              // value={sexualOri}
-              // defaultValue={user?.sexualOri}
+              // isOptionEqualToValue={(option, value) => option.id === value.id}
+              value={sexualOri}
+              defaultValue={user?.sexualOri}
               onChange={(event, newValue) => {
                 setSexualOri(newValue);
               }}

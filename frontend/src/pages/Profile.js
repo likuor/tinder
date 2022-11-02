@@ -18,36 +18,40 @@ const Profile = () => {
   };
 
   return (
-    <MainLayout>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          maxWidth: 345,
-          mx: 'auto',
-          my: '1.3rem',
-        }}
-      >
-        <Avatar src={userImageAtsu} sx={{ m: 1, width: 56, height: 56 }} />
-        <Typography variant='h1'>{user ? user.username : 'Noname'}</Typography>
-        <Box>
-          <Grid>
-            <IconButton
-              aria-label='edit'
-              color={'primary'}
-              size='large'
-              onClick={handleClickOpen}
-            >
-              <EditIcon />
-            </IconButton>
-          </Grid>
-          <Grid>
-            <BasicModal open={open} setOpen={setOpen} />
-          </Grid>
+    <>
+      <MainLayout>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            maxWidth: 345,
+            mx: 'auto',
+            my: '1.3rem',
+          }}
+        >
+          <Avatar src={userImageAtsu} sx={{ m: 1, width: 56, height: 56 }} />
+          <Typography variant='h1'>
+            {user ? user.username : 'Noname'}
+          </Typography>
+          <Box>
+            <Grid>
+              <IconButton
+                aria-label='edit'
+                color={'primary'}
+                size='large'
+                onClick={handleClickOpen}
+              >
+                <EditIcon />
+              </IconButton>
+            </Grid>
+            <Grid>
+              <BasicModal open={open} setOpen={setOpen} />
+            </Grid>
+          </Box>
         </Box>
-      </Box>
-    </MainLayout>
+      </MainLayout>
+    </>
   );
 };
 
