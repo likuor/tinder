@@ -9,8 +9,10 @@ import Container from '@mui/material/Container';
 import axios from 'axios';
 import { AuthContext } from '../AuthContext';
 import { Link as RouterLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+	const navigate = useNavigate();
   const { user, setUser } = useContext(AuthContext);
   const [email, setEmail] = useState({ input: undefined, errMessage: '' });
   const [password, setPassword] = useState({
@@ -90,78 +92,82 @@ const Login = () => {
           interests: userData.interests,
           sexual_orientation: userData.sexual_orientation,
         });
+        navigate("/chat")
       })
       .catch((err) => {
         console.log('ERR', err);
       });
   };
+  console.log(user);
 
   return (
-    <Container component='main' maxWidth='sm' sx={{ height: '100vh' }}>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          maxWidth: 345,
-          mx: 'auto',
-          py: '1.3rem',
-        }}
-      >
-        <Typography component='h1' variant='h5'>
-          Login
-        </Typography>
-        <Box component='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <TextField
-            error={email.input === ''}
-            helperText={email.input === '' ? email.errMessage : ''}
-            margin='normal'
-            required
-            fullWidth
-            id='email'
-            label='Email Address'
-            name='email'
-            autoComplete='email'
-            autoFocus
-            inputRef={formEmail}
-          />
-          <TextField
-            error={password.input === ''}
-            helperText={password.input === '' ? password.errMessage : ''}
-            margin='normal'
-            required
-            fullWidth
-            name='password'
-            label='Password'
-            type='password'
-            id='password'
-            autoComplete='current-password'
-            inputRef={formPassword}
-          />
+		<Container component='main' maxWidth='sm' sx={{ height: "100vh" }}>
+			<Box
+				sx={{
+					display: "flex",
+					flexDirection: "column",
+					alignItems: "center",
+					maxWidth: 345,
+					mx: "auto",
+					py: "1.3rem",
+				}}
+			>
+				<Typography component='h1' variant='h5'>
+					Login
+				</Typography>
+				<Box component='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+					<TextField
+						error={email.input === ""}
+						helperText={email.input === "" ? email.errMessage : ""}
+						margin='normal'
+						required
+						fullWidth
+						id='email'
+						label='Email Address'
+						name='email'
+						autoComplete='email'
+						autoFocus
+						inputRef={formEmail}
+						defaultValue={"Rachel@gmail.com"}
+					/>
+					<TextField
+						error={password.input === ""}
+						helperText={password.input === "" ? password.errMessage : ""}
+						margin='normal'
+						required
+						fullWidth
+						name='password'
+						label='Password'
+						type='password'
+						id='password'
+						autoComplete='current-password'
+						inputRef={formPassword}
+						defaultValue={"Rachel0000"}
+					/>
 
-          <Button
-            type='submit'
-            fullWidth
-            variant='contained'
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Login
-          </Button>
-          <Grid container>
-            <Grid
-              item
-              xs={12}
-              sx={{ display: 'flex', justifyContent: 'center' }}
-            >
-              <Link component={RouterLink} to='/signup' variant='body2'>
-                Signup
-              </Link>
-            </Grid>
-          </Grid>
-        </Box>
-      </Box>
-    </Container>
-  );
+					<Button
+						type='submit'
+						fullWidth
+						variant='contained'
+						sx={{ mt: 3, mb: 2 }}
+					>
+						Login
+					</Button>
+					<Grid container>
+						<Grid
+							item
+							xs={12}
+							sx={{ display: "flex", justifyContent: "center" }}
+						>
+							<Link component={RouterLink} to='/signup' variant='body2'>
+								Signup
+							</Link>
+						</Grid>
+					</Grid>
+				</Box>
+			</Box>
+		</Container>
+	);
 };
 
 export default Login;
