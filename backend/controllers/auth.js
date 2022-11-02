@@ -64,7 +64,7 @@ const AllSet = async (req, res) => {
 			interests: req.body.interests,
 		});
 		const user = await newUser.save();
-		res.status(200).json({ ...user._doc, user_id: user._id });
+		res.status(200).json(user);
 	} catch (err) {
 		console.log(err);
 	}

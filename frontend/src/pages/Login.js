@@ -1,106 +1,106 @@
-import React, { useState, useContext, useRef } from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import axios from 'axios';
-import { AuthContext } from '../AuthContext';
-import { Link as RouterLink } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useContext, useRef } from "react";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import axios from "axios";
+import { AuthContext } from "../AuthContext";
+import { Link as RouterLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
 	const navigate = useNavigate();
-  const { user, setUser } = useContext(AuthContext);
-  const [email, setEmail] = useState({ input: undefined, errMessage: '' });
-  const [password, setPassword] = useState({
-    input: undefined,
-    errMessage: '',
-  });
-  const formEmail = useRef();
-  const formPassword = useRef();
+	const { user, setUser } = useContext(AuthContext);
+	const [email, setEmail] = useState({ input: undefined, errMessage: "" });
+	const [password, setPassword] = useState({
+		input: undefined,
+		errMessage: "",
+	});
+	const formEmail = useRef();
+	const formPassword = useRef();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const messageEmpty = 'Empty is not valid!';
-    const messageNotEnough =
-      'Password must be more than 8 chracters with at least 1 uppercase and 1 number';
+	const handleSubmit = (event) => {
+		event.preventDefault();
+		const data = new FormData(event.currentTarget);
+		const messageEmpty = "Empty is not valid!";
+		const messageNotEnough =
+			"Password must be more than 8 chracters with at least 1 uppercase and 1 number";
 
-    // validate email
-    if (!formEmail.current.value) {
-      setEmail((prevState) => ({
-        ...prevState,
-        input: '',
-        errMessage: messageEmpty,
-      }));
-      return email;
-    } else if (formEmail.current.value) {
-      setEmail((prevState) => ({
-        ...prevState,
-        input: data.get('email'),
-        errMessage: '',
-      }));
-    }
+		// validate email
+		if (!formEmail.current.value) {
+			setEmail((prevState) => ({
+				...prevState,
+				input: "",
+				errMessage: messageEmpty,
+			}));
+			return email;
+		} else if (formEmail.current.value) {
+			setEmail((prevState) => ({
+				...prevState,
+				input: data.get("email"),
+				errMessage: "",
+			}));
+		}
 
-    // validate password
-    if (!formPassword.current.value) {
-      setPassword((prevState) => ({
-        ...prevState,
-        input: '',
-        errMessage: messageEmpty,
-      }));
-      return email;
-    } else if (
-      !/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[a-zA-Z\d]{8,20}$/.test(
-        formPassword.current.value
-      )
-    ) {
-      setPassword((prevState) => ({
-        ...prevState,
-        input: '',
-        errMessage: messageNotEnough,
-      }));
-      return password;
-    } else if (formPassword.current.value) {
-      setPassword((prevState) => ({
-        ...prevState,
-        input: data.get('password'),
-        errMessage: '',
-      }));
-    }
+		// validate password
+		if (!formPassword.current.value) {
+			setPassword((prevState) => ({
+				...prevState,
+				input: "",
+				errMessage: messageEmpty,
+			}));
+			return email;
+		} else if (
+			!/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[a-zA-Z\d]{8,20}$/.test(
+				formPassword.current.value
+			)
+		) {
+			setPassword((prevState) => ({
+				...prevState,
+				input: "",
+				errMessage: messageNotEnough,
+			}));
+			return password;
+		} else if (formPassword.current.value) {
+			setPassword((prevState) => ({
+				...prevState,
+				input: data.get("password"),
+				errMessage: "",
+			}));
+		}
 
-    const baseURL = 'http://localhost:8000/login';
-    const loginUser = {
-      email: formEmail.current.value,
-      password: formPassword.current.value,
-    };
+		const baseURL = "http://localhost:8000/login";
+		const loginUser = {
+			email: formEmail.current.value,
+			password: formPassword.current.value,
+		};
 
-    axios
-      .post(baseURL, loginUser)
-      .then((res) => {
-        const userData = res.data;
-        setUser({
-          email: userData.email,
-          username: userData.username,
-          about: userData.about,
-          age: userData.age,
-          course: userData.course,
-          gender: userData.gender,
-          interests: userData.interests,
-          sexual_orientation: userData.sexual_orientation,
-        });
-        navigate("/chat")
-      })
-      .catch((err) => {
-        console.log('ERR', err);
-      });
-  };
-  console.log(user);
+		axios
+			.post(baseURL, loginUser)
+			.then((res) => {
+				const userData = res.data;
+				setUser({
+					email: userData.email,
+					username: userData.username,
+					about: userData.about,
+					age: userData.age,
+					course: userData.course,
+					gender: userData.gender,
+					interests: userData.interests,
+					sexual_orientation: userData.sexual_orientation,
+				});
+				navigate("/chat");
+			})
+			.catch((err) => {
+				console.log("ERR", err);
+			});
+	};
+	console.log(user);
 
-  return (
+	return (
 		<Container component='main' maxWidth='sm' sx={{ height: "100vh" }}>
 			<Box
 				sx={{

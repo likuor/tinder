@@ -12,7 +12,6 @@ const checkEmail = (refValue, state, setState) => {
     }));
     return state;
   }
-  // console.log('here',state);
   setState((prevState) => ({
     ...prevState,
     input: refValue,
