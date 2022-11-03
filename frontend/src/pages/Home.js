@@ -39,8 +39,6 @@ const Home = () => {
   const [usersData, setUsersData] = useState([]);
 
   useEffect(() => {
-    // console.log('loggedinUser', user);
-
     const baseURL = 'http://localhost:8000/user';
     const loginUserInfo = {
       user_id: '635c1acb1b5bf56ef76010ba',
@@ -57,7 +55,6 @@ const Home = () => {
       setUsersData(res.data);
     });
   }, []);
-  // console.log('usersData', usersData);
 
   return (
     <>

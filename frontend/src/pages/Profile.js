@@ -31,9 +31,7 @@ const Profile = () => {
           }}
         >
           <Avatar src={userImageAtsu} sx={{ m: 1, width: 56, height: 56 }} />
-          <Typography variant='h1'>
-            {user ? user.username : 'Noname'}
-          </Typography>
+          <Typography variant='h1'>{user?.username}</Typography>
           <Box>
             <Grid>
               <IconButton

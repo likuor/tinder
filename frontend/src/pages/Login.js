@@ -24,7 +24,6 @@ const Login = () => {
 
   useEffect(() => {
     if (user) {
-      console.log(user.sexual_orientation.length);
       if (!user.sexual_orientation.length === 0 || !user.gender) {
         return navigate('/profile');
       } else {
