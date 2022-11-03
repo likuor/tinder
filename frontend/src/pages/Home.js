@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import ItmeCard from '../components/ItmeCard';
 import MainLayout from '../Layout/MainLayout';
-import { pickRandomUser } from '../helper/Helper';
+import { pickRandomUser } from '../helper/helper';
 import userImageAtsu from '../image/userImages/test.jpg';
 import userImageRachel from '../image/userImages/rachel.jpg';
 import { AuthContext } from '../AuthContext';

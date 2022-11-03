@@ -34,13 +34,17 @@ const getLike = async (req, res) => {
 const getUsers = async (req, res) => {
 	try {
 		const List = await User.find();
-		if (req.body.sexual_orientation.includes(4))return res.status(200).json(List)
-			console.log("List", List);
+		for (const element of req.body.sexual_orientation) {
+			if (element.id === 4) {
+				return res.status(200).json(List);
+			}
+		}
+			// console.log("List", List);
 		const whoLike = await List.filter((item) => {
 			for (const element of req.body.sexual_orientation) {
-				console.log("ele",element);
-				if (item.gender === element) {
-					console.log("FOR item", item);
+				// console.log("ele",element);
+				if (item.gender === element.id) {
+					// console.log("FOR item", item);
 					return item;
 				}
 			}
@@ -48,7 +52,7 @@ const getUsers = async (req, res) => {
 		if (req.body.sexual_orientation.length > 1) {
 			const filterdLike = await whoLike.filter((item) => {
 				for (const element of item.sexual_orientation) {
-					if (element === req.body.gender) {
+					if (element.id === req.body.gender) {
 						return item;
 					}
 				}
