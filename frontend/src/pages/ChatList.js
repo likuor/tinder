@@ -5,18 +5,24 @@ import axios from "axios";
 import { AuthContext } from "../AuthContext";
 
 const socket = io("http://localhost:8000", { query: { id: "1234" } });
-const Chat = () => {
+const ChatList = () => {
 	const { user, setUser } = useContext(AuthContext);
-	console.log("user",user);
+	console.log("user", user);
+  const [chat, setChat] = useState([]);
 	useEffect(() => {
-		const roomId = "assjkdfw3u4ifiale";
-		socket.emit("join_room", roomId);
-	}, []);
-	
+		axios
+			.post("http://localhost:8000/getchatlist", {
+				user_id: user.user_id,
+			})
+			.then((res) => {
+        console.log("chekLike", res.data);
+        setChat(res.data)
+			});
+	}, [user.user_id]);
+
 	const [currentUser, setCurrentUser] = useState({});
-	console.log("now",currentUser);
+	console.log("now", currentUser);
 	// const [user, setUser] = useState("");
-	const [match, setMatched] = useState({ interests: [] });
 	// const handleLeave = () => {
 	// 	setUser("");
 	// 	socket.emit("disconnect");
@@ -29,7 +35,6 @@ const Chat = () => {
 			})
 			.then((res) => {
 				console.log("like", res);
-				if (res.data.userInfo !== undefined) return setMatched(res.data.userInfo);
 			});
 	};
 	return (
@@ -37,18 +42,20 @@ const Chat = () => {
 			<button onClick={handlelike}>LIKE</button>
 			{/* <button onClick={handleLeave}>leave</button> */}
 			<p> user {currentUser.username}</p>
-			<div>
-				{" "}
-				matched User
-				<p>name : {match.username}</p>
-				<ul>
-					{match.interests.map((item, index) => {
-						return <li key={index}>{item}</li>;
-					})}
-				</ul>
-			</div>
+      {chat.map((value,index) => {
+        return (
+					<div key={index} style={{ display: "flex" }}>
+						<p style={{ padding: "0 10px 0 10px" }}>
+							{value.userInfo.username}
+						</p>
+						<p>{value.createdChat.text}</p>
+					</div>
+				);
+      })
+    }
 		</section>
 	);
 };
 
-export default Chat;
+export default ChatList;
+

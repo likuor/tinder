@@ -82,7 +82,8 @@ const Login = () => {
 			.post(baseURL, loginUser)
 			.then((res) => {
 				const userData = res.data;
-				setUser({
+        setUser({
+          user_id: userData._id,
 					email: userData.email,
 					username: userData.username,
 					about: userData.about,
@@ -92,7 +93,7 @@ const Login = () => {
 					interests: userData.interests,
 					sexual_orientation: userData.sexual_orientation,
 				});
-				navigate("/chat");
+				navigate("/chatlist");
 			})
 			.catch((err) => {
 				console.log("ERR", err);

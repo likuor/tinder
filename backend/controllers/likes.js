@@ -8,7 +8,7 @@ const sendLike = async (req, res) => {
 			from: req.body.from,
 			to: req.body.to,
 		});
-		if(exsitLike.length > 0)return res.status(406).json("you alredy liked");
+		// if(exsitLike.length > 0)return res.status(406).json("you alredy liked");
 		const newLike = await new Like({
 			from: req.body.from,
 			to: req.body.to,
@@ -26,7 +26,7 @@ const sendLike = async (req, res) => {
 			});
 			console.log(newChat);
 			const createdChat = await newChat.save()
-			res.status(200).json({userInfo:{...userInfo._doc,user_id:userInfo._id.toString()},chat:{...createdChat._doc,room_id: createdChat.id.toString()},});
+			res.status(200).json({ userInfo, createdChat });
 		}
 	} catch (err) {
 		res.status(500).json(err);
@@ -45,6 +45,26 @@ const getLike = async (req, res) => {
 		res.status(500).json(err);
 	}
 };
+const checkLike = async (req, res) => {
+	console.log("req",req.body);
+	try {
+		const createdChat = await Chat.find({ user2: req.body.user_id });
+		const list = []
+		if (createdChat.length > 0) {
+			for (const item of createdChat) {
+				const userInfo = await User.findById(item.user1.toString());
+				// if()
+				list.push({ userInfo, createdChat : item});
+			}
+			console.log("test", list);
+			return res.status(200).json(list);
+		} else {
+			return res.status(200).json([]);
+		}
+	} catch (err) {
+		res.status(500).json(err);
+	}
+}
 const getUsers = async (req, res) => {
 	try {
 		const List = await User.find();
@@ -76,4 +96,4 @@ const getUsers = async (req, res) => {
 		res.status(500).json(err);
 	}
 };
-module.exports = { sendLike, getLike, getUsers };
+module.exports = { sendLike, getLike, getUsers, checkLike };

@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Profile from './pages/Profile';
 import AuthContextProvider from './AuthContext';
 import { Routes, Route } from 'react-router-dom';
+import ChatList from './pages/ChatList';
 
 function App() {
   return (
@@ -14,7 +15,8 @@ function App() {
 			<AuthContextProvider>
 				<Routes>
 					<Route path='/' element={<Home />} />
-					<Route path='/chat' element={<Chat />} />
+					<Route path='/chat/:id' element={<Chat />} />
+					<Route path='/chatlist' element={<ChatList/>} />
 					<Route path='/profile' element={<Profile />} />
 					<Route path='/login' element={<Login />} />
 					<Route path='/signup' element={<Signup />} />
