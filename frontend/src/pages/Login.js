@@ -143,7 +143,7 @@ const Login = () => {
 						id='password'
 						autoComplete='current-password'
 						inputRef={formPassword}
-						defaultValue={"Rachel0000"}
+						defaultValue={"Rachel1234"}
 					/>
 
 					<Button

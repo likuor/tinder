@@ -3,10 +3,16 @@ import React, { useEffect, useRef, useState, useContext } from "react";
 import io from "socket.io-client";
 import axios from "axios";
 import { AuthContext } from "../AuthContext";
+import { Link, useLocation, useParams } from "react-router-dom";
 
 const socket = io("http://localhost:8000", { query: { id: "1234" } });
 const Chat = () => {
 	const { user, setUser } = useContext(AuthContext);
+	const search = useLocation().search;
+	const name = new URLSearchParams(search).get("room");
+	const params = useParams();
+	console.log("par", );
+	console.log("room",name);
 	// useEffect(() => {
 	// 	const roomId = "assjkdfw3u4ifiale";
 	// 	socket.emit("join_room", roomId);
@@ -23,21 +29,11 @@ const Chat = () => {
 	console.log(match);
 	const messageRef = useRef();
 	useEffect(() => {
-		axios
-			.post("http://localhost:8000/checklike", {
-				user_id: currentUser.user_id,
-			})
-			.then((res) => {
-				console.log("chekLike", res.data);
-				if (res.data.length > 0) {
-					setMatched(res.data[0].userInfo);
-					setRoom(res.data[0].createdChat._id);
-					socket.emit("join_room", res.data[0].createdChat._id);
-				}
-			});
-	},[currentUser.user_id]);
-	useEffect(() => {
 		setCurrentUser(user);
+		if (params.id !== undefined || null) {
+			setRoom(params.id);
+			socket.emit("join_room", params.id);
+		}
 		socket.on("recived_msg", (data) => {
 			console.log("data", data);
 			// setMsg([..., data.msg]);
@@ -48,7 +44,22 @@ const Chat = () => {
 			// setUser(socket.id);
 		});
 	}, []);
+	// useEffect(() => {
+	// 	axios
+	// 		.post("http://localhost:8000/checklike", {
+	// 			user_id: currentUser.user_id,
+	// 		})
+	// 		.then((res) => {
+	// 			console.log("chekLike", res.data);
+	// 			if (res.data.length > 0) {
+	// 				setMatched(res.data[0].userInfo);
+	// 				setRoom(res.data[0].createdChat._id);
+	// 				socket.emit("join_room", res.data[0].createdChat._id);
+	// 			}
+	// 		});
+	// },[currentUser.user_id]);
 	const handleSend = (e) => {
+		console.log("yes");
 		e.preventDefault();
 		socket.emit("send_msg", {
 			msg: messageRef.current.value,
@@ -65,7 +76,7 @@ const Chat = () => {
 			axios
 				.post("http://localhost:8000/sendlike", {
 					from: currentUser.user_id,
-					to: "635c1acb1b5bf56ef76010ba",
+					to: "6364005204c4d5b81220fe46",
 				})
 				.then((res) => {
 					console.log("like", res);
@@ -79,7 +90,7 @@ const Chat = () => {
 			axios
 				.post("http://localhost:8000/sendlike", {
 					from: currentUser.user_id,
-					to: "635c1b0f1b5bf56ef76010c0",
+					to: "636400eec63b9ee5b88a1a87",
 				})
 				.then((res) => {
 					console.log("like", res);

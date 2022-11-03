@@ -15,7 +15,7 @@ function App() {
 			<AuthContextProvider>
 				<Routes>
 					<Route path='/' element={<Home />} />
-					<Route path='/chat/:id' element={<Chat />} />
+					<Route path='/chat/room=:id' element={<Chat />} />
 					<Route path='/chatlist' element={<ChatList/>} />
 					<Route path='/profile' element={<Profile />} />
 					<Route path='/login' element={<Login />} />
