@@ -142,10 +142,10 @@ export default function BasicModal(props) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
 
-  const [interests, setInterests] = useState([]);
+  const [interests, setInterests] = useState(user?.interests);
   const [inputInterestsVal, setInputInterestsVal] = useState('');
 
-  const [sexualOri, setSexualOri] = useState([]);
+  const [sexualOri, setSexualOri] = useState(user?.sexual_orientation);
   const [inputSexualOriVal, setInputSexualOriVal] = useState('');
 
   const nameRef = useRef(null);
@@ -174,7 +174,7 @@ export default function BasicModal(props) {
     setName(nameRef.current.value);
     setAge(ageRef.current.value);
     const sexualOriResult = sexualOri.map((sexOri) => sexOri.value);
-    const interestsResult = interests.map((interest) => interest.hobby);
+    const interestsResult = interests.map((interest) => interest);
     const ageNum = Number(ageRef.current.value);
 
     const userInfo = {
