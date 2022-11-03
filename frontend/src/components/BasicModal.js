@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
@@ -14,81 +14,8 @@ import Box from '@mui/material/Box';
 import Autocomplete from '@mui/material/Autocomplete';
 import BoxLayout from '../Layout/BoxLayout';
 import axios from 'axios';
-
-////////////////////////// dummy //////////////////////////
-const courses = [
-  {
-    value: 'NONE',
-    label: 'Not chosen',
-  },
-  {
-    value: 'CRS',
-    label: 'Customer Relations Specialist',
-  },
-  {
-    value: 'HM',
-    label: 'Hospitality Management',
-  },
-  {
-    value: 'IBM',
-    label: 'International Business Management',
-  },
-  {
-    value: 'UI/UX',
-    label: 'UI/UX Design',
-  },
-  {
-    value: 'NSSS',
-    label: 'Network and System Solutions Specialist',
-  },
-  {
-    value: 'DMS',
-    label: 'Digital Marketing Specialit',
-  },
-  {
-    value: 'WMAD',
-    label: 'Web and Mobile App Development',
-  },
-];
-
-const genders = [
-  {
-    value: 0,
-    label: 'Not chosen',
-  },
-  {
-    value: 1,
-    label: 'Male',
-  },
-  {
-    value: 2,
-    label: 'Female',
-  },
-  {
-    value: 3,
-    label: 'X',
-  },
-];
-
-const sexualOrientations = [
-  {
-    value: 1,
-    label: 'Male',
-  },
-  {
-    value: 2,
-    label: 'Female',
-  },
-  {
-    value: 3,
-    label: 'X',
-  },
-  {
-    value: 4,
-    label: 'Everyone',
-  },
-];
-////////////////////////// dummy //////////////////////////
+import { AuthContext } from '../AuthContext';
+import { courses, genders, sexualOrientations } from '../Data/SelectBoxOptions';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -98,7 +25,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     padding: theme.spacing(1),
   },
 }));
-
 function BootstrapDialogTitle(props) {
   const { children, onClose, ...other } = props;
 
@@ -122,36 +48,33 @@ function BootstrapDialogTitle(props) {
     </DialogTitle>
   );
 }
-
 BootstrapDialogTitle.propTypes = {
   children: PropTypes.node,
   onClose: PropTypes.func.isRequired,
 };
 
 export default function BasicModal(props) {
+  const { user, setUser } = useContext(AuthContext);
   const { open, setOpen } = props;
-  const [course, setCourse] = useState('NONE');
-  const [gender, setGender] = useState(0);
-  const [about, setAbout] = useState('');
-  const [name, setName] = useState('');
-  const [age, setAge] = useState();
-
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [imageUrl, setImageUrl] = useState(null);
-
-  const [interests, setInterests] = useState([]);
-  const [inputInterestsVal, setInputInterestsVal] = useState('');
-
-  const [sexualOri, setSexualOri] = useState([]);
-  const [inputSexualOriVal, setInputSexualOriVal] = useState('');
-
   const nameRef = useRef(null);
   const aboutRef = useRef(null);
   const courseRef = useRef(null);
   const genderRef = useRef(null);
   const ageRef = useRef(null);
-  // const interestsRef = useRef(null);
-  // const sexualOrientationRef = useRef(null);
+
+  // image
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
+
+  // the data are from file and set user's info
+  const [course, setCourse] = useState(user?.course);
+  const [gender, setGender] = useState(user?.gender);
+  const [interests, setInterests] = useState(user?.interests);
+  const [inputInterestsVal, setInputInterestsVal] = useState('');
+  const [sexualOri, setSexualOri] = useState(user?.sexual_orientation);
+  const [inputSexualOriVal, setInputSexualOriVal] = useState('');
+
+  // set interests data from db
   const [interestsData, setInterestsData] = useState([]);
 
   useEffect(() => {
@@ -162,31 +85,35 @@ export default function BasicModal(props) {
     if (selectedImage) {
       setImageUrl(URL.createObjectURL(selectedImage));
     }
-  }, [selectedImage]);
+  }, [selectedImage, user]);
 
-  const handleClose = () => {
+  const handleCloseModal = () => {
     setOpen(false);
-    setAbout(aboutRef.current.value);
-    setName(nameRef.current.value);
-    setAge(ageRef.current.value);
-    const sexualOriResult = sexualOri.map((sexOri) => sexOri.value);
-    const interestsResult = interests.map((interest) => interest.hobby);
-    const ageNum = Number(ageRef.current.value);
+
+    const sexualOriResult = sexualOri.map((sexOri) => sexOri);
+    const interestsResult = interests.map((interest) => interest);
 
     const userInfo = {
-      user_id: '6358716edc1edc7c8a8e7457',
+      user_id: user.user_id,
+      email: user.email,
       username: nameRef.current.value,
       // image: imageUrl,
-      course: courseRef.current.value,
       about: aboutRef.current.value,
-      interests: interestsResult,
+      age: Number(ageRef.current.value),
+      course: courseRef.current.value,
       gender: genderRef.current.value,
+      interests: interestsResult,
       sexual_orientation: sexualOriResult,
-      age: ageNum,
     };
 
-    const baseURL = 'http://localhost:8000/setting';
-    axios.post(baseURL, userInfo);
+    const placedUserInfo = JSON.stringify(user);
+    const updatedUserInfo = JSON.stringify(userInfo);
+    if (placedUserInfo !== updatedUserInfo) {
+      const baseURL = 'http://localhost:8000/setting';
+      axios.post(baseURL, userInfo).then((res) => {
+        setUser(userInfo);
+      });
+    }
   };
 
   const handleState = (event, setState) => {
@@ -196,13 +123,13 @@ export default function BasicModal(props) {
   return (
     <>
       <BootstrapDialog
-        onClose={handleClose}
+        onClose={handleCloseModal}
         aria-labelledby='customized-dialog-hobby'
         open={open}
       >
         <BootstrapDialogTitle
           id='customized-dialog-hobby'
-          onClose={handleClose}
+          onClose={handleCloseModal}
           sx={{
             width: 310,
           }}
@@ -233,7 +160,8 @@ export default function BasicModal(props) {
               id='standard-multiline-static'
               inputRef={nameRef}
               label='Name'
-              defaultValue={name}
+              // value={user?.username}
+              defaultValue={user?.username}
               placeholder='Your name'
               variant='standard'
             />
@@ -247,7 +175,7 @@ export default function BasicModal(props) {
               inputRef={ageRef}
               InputProps={{ inputProps: { min: 1, max: 2 } }}
               label='Age'
-              defaultValue={age}
+              defaultValue={user?.age}
               placeholder='Your age'
               variant='standard'
             />
@@ -261,7 +189,7 @@ export default function BasicModal(props) {
               label='About me'
               multiline
               rows={10}
-              defaultValue={about}
+              defaultValue={user?.about}
               placeholder='Tell us about yourself'
               variant='standard'
             />
@@ -272,12 +200,14 @@ export default function BasicModal(props) {
             <Autocomplete
               multiple
               sx={{ width: 260 }}
-              limitTags={2}
+              limitTags={5}
               name='interests'
               id='multiple-interests'
               options={interestsData}
               getOptionLabel={(option) => option.hobby}
               value={interests}
+              isOptionEqualToValue={(option, value) => option.id === value.id}
+              defaultValue={user?.interests}
               onChange={(event, newValue) => {
                 setInterests(newValue);
               }}
@@ -303,6 +233,7 @@ export default function BasicModal(props) {
               select
               label='Course'
               value={course}
+              defaultValue={user?.course}
               inputRef={courseRef}
               onChange={(e) => handleState(e, setCourse)}
             >
@@ -322,6 +253,7 @@ export default function BasicModal(props) {
               inputRef={genderRef}
               label='Gender'
               value={gender}
+              defaultValue={user?.gender}
               onChange={(e) => handleState(e, setGender)}
             >
               {genders.map((option) => (
@@ -337,12 +269,14 @@ export default function BasicModal(props) {
             <Autocomplete
               multiple
               sx={{ width: 260 }}
-              limitTags={2}
+              limitTags={5}
               name='sexualOrientation'
               id='multiple-sexualOrientation'
               options={sexualOrientations}
               getOptionLabel={(option) => option.label}
+              isOptionEqualToValue={(option, value) => option.id === value.id}
               value={sexualOri}
+              defaultValue={user?.sexualOri}
               onChange={(event, newValue) => {
                 setSexualOri(newValue);
               }}
@@ -362,7 +296,7 @@ export default function BasicModal(props) {
           </BoxLayout>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleClose}>
+          <Button autoFocus onClick={handleCloseModal}>
             Save changes
           </Button>
         </DialogActions>

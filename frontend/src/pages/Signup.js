@@ -54,6 +54,7 @@ const Auth = () => {
         .then((res) => {
           const userData = res.data;
           setUser({
+            user_id: userData.user_id,
             email: userData.email,
             username: userData.username,
             about: userData.about,

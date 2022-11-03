@@ -9,7 +9,7 @@ import axios from 'axios';
 
 const users = [
   {
-    id: '635188e34c95f206fa3a9174',
+    user_id: '635188e34c95f206fa3a9174',
     username: 'Atsu',
     job: 'WMAD',
     sexual_orientation: 1,
@@ -20,7 +20,7 @@ const users = [
     interests: ['cafe', 'cook', 'soccer'],
   },
   {
-    id: '63519089683a26128113843b',
+    user_id: '63519089683a26128113843b',
     username: 'Rachel',
     job: 'DM',
     sexual_orientation: 2,
@@ -35,29 +35,25 @@ const users = [
 const randomUser = pickRandomUser(users);
 
 const Home = () => {
-  // const { user } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [usersData, setUsersData] = useState([]);
-
-  // console.log(user);
 
   useEffect(() => {
     const baseURL = 'http://localhost:8000/user';
+
     const loginUserInfo = {
-      user_id: '635c1acb1b5bf56ef76010ba',
-      sexual_orientation: [1],
-      gender: 2,
+      user_id: user.user_id,
+      sexual_orientation: user.sexual_orientation,
+      gender: user.gender,
     };
 
-    // const loginUserInfo = {
-    //   user_id: '635c1acb1b5bf56ef76010ba',
-    //   sexual_orientation: user.sexual_orientation,
-    //   gender: user.gender,
-    // };
     axios.post(baseURL, loginUserInfo).then((res) => {
       setUsersData(res.data);
     });
-  }, []);
-  console.log('usersData', usersData);
+  }, [user]);
+  console.log('showing usersData', usersData);
+
+  console.log('loggedinUser', user);
 
   return (
     <>

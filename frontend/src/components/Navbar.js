@@ -7,6 +7,7 @@ import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import PersonIcon from '@mui/icons-material/Person';
 import SearchIcon from '@mui/icons-material/Search';
 import Paper from '@mui/material/Paper';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [value, setValue] = React.useState(0);
@@ -27,9 +28,24 @@ const Navbar = () => {
             setValue(newValue);
           }}
         >
-          <BottomNavigationAction label='Search' icon={<SearchIcon />} />
-          <BottomNavigationAction label='Chat' icon={<QuestionAnswerIcon />} />
-          <BottomNavigationAction label='Profile' icon={<PersonIcon />} />
+          <BottomNavigationAction
+            label='Search'
+            icon={<SearchIcon />}
+            component={Link}
+            to='/'
+          />
+          <BottomNavigationAction
+            label='Chat'
+            icon={<QuestionAnswerIcon />}
+            component={Link}
+            to='/chat'
+          />
+          <BottomNavigationAction
+            label='Profile'
+            icon={<PersonIcon />}
+            component={Link}
+            to='/profile'
+          />
         </BottomNavigation>
       </Paper>
     </Box>
