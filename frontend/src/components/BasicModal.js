@@ -92,6 +92,7 @@ export default function BasicModal(props) {
 
     const sexualOriResult = sexualOri.map((sexOri) => sexOri);
     const interestsResult = interests.map((interest) => interest);
+
     const userInfo = {
       user_id: user.user_id,
       email: user.email,
@@ -107,7 +108,6 @@ export default function BasicModal(props) {
 
     const placedUserInfo = JSON.stringify(user);
     const updatedUserInfo = JSON.stringify(userInfo);
-
     if (placedUserInfo !== updatedUserInfo) {
       const baseURL = 'http://localhost:8000/setting';
       axios.post(baseURL, userInfo).then((res) => {

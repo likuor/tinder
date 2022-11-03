@@ -55,11 +55,11 @@ const genders = [
 const sexualOrientations = [
   {
     id: 1,
-    label: 'Male',
+    label: 'Female',
   },
   {
     id: 2,
-    label: 'Female',
+    label: 'Male',
   },
   {
     id: 3,

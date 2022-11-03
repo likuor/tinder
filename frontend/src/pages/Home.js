@@ -40,21 +40,20 @@ const Home = () => {
 
   useEffect(() => {
     const baseURL = 'http://localhost:8000/user';
+
     const loginUserInfo = {
-      user_id: '635c1acb1b5bf56ef76010ba',
-      sexual_orientation: [1],
-      gender: 2,
+      user_id: user.user_id,
+      sexual_orientation: user.sexual_orientation,
+      gender: user.gender,
     };
 
-    // const loginUserInfo = {
-    //   user_id: user.user_id,
-    //   sexual_orientation: user.sexual_orientation,
-    //   gender: user.gender,
-    // };
     axios.post(baseURL, loginUserInfo).then((res) => {
       setUsersData(res.data);
     });
-  }, []);
+  }, [user]);
+  console.log('showing usersData', usersData);
+
+  console.log('loggedinUser', user);
 
   return (
     <>
