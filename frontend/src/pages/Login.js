@@ -126,7 +126,6 @@ const Login = () => {
 						autoComplete='email'
 						autoFocus
 						inputRef={formEmail}
-						defaultValue={"Rachel@gmail.com"}
 					/>
 					<TextField
 						error={password.input === ""}
