@@ -9,10 +9,8 @@ import Container from "@mui/material/Container";
 import axios from "axios";
 import { AuthContext } from "../AuthContext";
 import { Link as RouterLink } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-	const navigate = useNavigate();
 	const { user, setUser } = useContext(AuthContext);
 	const [email, setEmail] = useState({ input: undefined, errMessage: "" });
 	const [password, setPassword] = useState({
@@ -93,7 +91,6 @@ const Login = () => {
 					interests: userData.interests,
 					sexual_orientation: userData.sexual_orientation,
 				});
-				navigate("/chatlist");
 			})
 			.catch((err) => {
 				console.log("ERR", err);
@@ -143,7 +140,6 @@ const Login = () => {
 						id='password'
 						autoComplete='current-password'
 						inputRef={formPassword}
-						defaultValue={"Rachel1234"}
 					/>
 
 					<Button

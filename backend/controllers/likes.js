@@ -17,7 +17,6 @@ const sendLike = async (req, res) => {
 		const like = await newLike.save();
 		const checkLike = await Like.find({ from: req.body.to,to:req.body.from });
 		if (checkLike.length === 0) {
-			console.log("here",checkLike);
 			return res.status(200).json(like);
 		} else {
 			const userInfo = await User.findById(checkLike[0].from);
@@ -47,17 +46,14 @@ const getLike = async (req, res) => {
 	}
 };
 const checkLike = async (req, res) => {
-	console.log("req",req.body);
 	try {
 		const createdChat = await Chat.find({ user2: req.body.user_id });
 		const list = []
 		if (createdChat.length > 0) {
 			for (const item of createdChat) {
 				const userInfo = await User.findById(item.user1.toString());
-				// if()
 				list.push({ userInfo, createdChat : item});
 			}
-			// console.log("test", list);
 			return res.status(200).json(list);
 		} else {
 			return res.status(200).json([]);
@@ -74,12 +70,9 @@ const getUsers = async (req, res) => {
 				return res.status(200).json(List);
 			}
 		}
-			// console.log("List", List);
 		const whoLike = await List.filter((item) => {
 			for (const element of req.body.sexual_orientation) {
-				// console.log("ele",element);
 				if (item.gender === element.id) {
-					// console.log("FOR item", item);
 					return item;
 				}
 			}
@@ -92,7 +85,6 @@ const getUsers = async (req, res) => {
 					}
 				}
 			});
-			// console.log("filter", filterdLike);
 			const delCurrentUser =filterdLike.filter((item)=>item._id.toString() !== req.body.uesr_id)
 			res.status(200).json(delCurrentUser);
 		} else {

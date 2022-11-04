@@ -22,10 +22,10 @@ io.on("connection", async (socket) => {
 	socket.on("join_room", (roomId) => {
 		socket.join(roomId);
 		io.to(roomId).emit("joined_room", roomId, user);
-		socket.on("send_msg", (data) => {
-			console.log("msg", data);
-			io.to(roomId).emit("recived_msg", data);
-		});
+	});
+	socket.on("send_msg", (data) => {
+		console.log("msg", data);
+		io.to(data.roomId).emit("recived_msg", data.data);
 	});
 	socket.on("disconnect", () => {
 		// console.log("disconnect");
