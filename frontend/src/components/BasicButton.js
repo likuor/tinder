@@ -5,7 +5,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import CloseIcon from '@mui/icons-material/Close';
 
 const BasicButton = (props) => {
-  const { text } = props;
+  const { text, onClick } = props;
 
   const switchButton = (text) => {
     switch (text) {
@@ -19,6 +19,7 @@ const BasicButton = (props) => {
                 background: '#b676cc',
               },
             }}
+            onClick={onClick}
           >
             <FavoriteIcon />
           </Button>
@@ -34,6 +35,7 @@ const BasicButton = (props) => {
                 background: '#768dcc',
               },
             }}
+            onClick={onClick}
           >
             <CloseIcon />
           </Button>

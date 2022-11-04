@@ -9,21 +9,19 @@ import ChatList from './pages/ChatList';
 
 function App() {
   return (
-		<div className='App'>
-			{/* <Home /> */}
-			{/* <Profile /> */}
-			<AuthContextProvider>
-				<Routes>
-					<Route path='/' element={<Home />} />
-					<Route path='/chat/room=:id' element={<Chat />} />
-					<Route path='/chatlist' element={<ChatList/>} />
-					<Route path='/profile' element={<Profile />} />
-					<Route path='/login' element={<Login />} />
-					<Route path='/signup' element={<Signup />} />
-				</Routes>
-			</AuthContextProvider>
-		</div>
-	);
+    <div className='App'>
+      <AuthContextProvider>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/chat/room=:id' element={<Chat />} />
+          <Route path='/chat' element={<ChatList />} />
+          <Route path='/profile' element={<Profile />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/signup' element={<Signup />} />
+        </Routes>
+      </AuthContextProvider>
+    </div>
+  );
 }
 
 export default App;

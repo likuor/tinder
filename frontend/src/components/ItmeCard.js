@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import IconButton from '@mui/material/IconButton';
@@ -12,6 +12,9 @@ import Pill from './Pill';
 import Stack from '@mui/material/Stack';
 import CardActions from '@mui/material/CardActions';
 import BasicButton from './BasicButton';
+import userImageAtsu from '../image/userImages/test.jpg';
+import { AuthContext } from '../AuthContext';
+import axios from 'axios';
 
 const ExpandInfo = styled((props) => {
   const { expand, ...other } = props;
@@ -24,25 +27,44 @@ const ExpandInfo = styled((props) => {
   }),
 }));
 
-const ItmeCard = ({ user }) => {
+const ItmeCard = ({ usersLength, userData, usersIndex, setusersIndex }) => {
+  const { user } = useContext(AuthContext);
+
   const [expanded, setExpanded] = useState(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
+  const showNextUser = () => {
+    if (usersIndex < usersLength) {
+      const baseURL = 'http://localhost:8000/sendlike';
+      const sendInfo = { from: user.user_id, to: userData._id };
+      axios.post(baseURL, sendInfo);
+      return setusersIndex(usersIndex + 1);
+    } else {
+      return alert('No more users!');
+    }
+  };
+
+  console.log(user.user_id);
+  console.log(userData?._id);
+
   return (
     <>
-      <Card sx={{ maxWidth: 345, mx: 'auto', my: '1.3rem' }} key={user.id}>
+      <Card
+        sx={{ maxWidth: 345, mx: 'auto', my: '1.3rem' }}
+        key={userData?._id}
+      >
         <ImageListItem>
           <img
-            src={user.image}
-            srcSet={user.image}
-            alt={`${user.username} pic`}
+            src={userImageAtsu}
+            srcSet={userImageAtsu}
+            alt={`${userData?.username} pic`}
             loading='lazy'
           />
           <ImageListItemBar
-            title={`${user.username} ${user.age} `}
-            subtitle={user.job}
+            title={`${userData?.username} ${userData?.age} `}
+            subtitle={userData?.course}
             actionIcon={
               <ExpandInfo
                 sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
@@ -69,15 +91,15 @@ const ItmeCard = ({ user }) => {
             }}
           >
             <BasicButton text='no' />
-            <BasicButton text='like' />
+            <BasicButton text='like' onClick={() => showNextUser()} />
           </CardActions>
           <Collapse in={expanded} timeout='auto' unmountOnExit>
             <Typography variant='h1'>About me</Typography>
-            <Typography variant='body1'>{user.about}</Typography>
+            <Typography variant='body1'>{userData?.about}</Typography>
             <Typography variant='h1'>My Interests</Typography>
             <Stack direction='row' spacing={1} sx={{ mr: 0.3 }}>
-              {user.interests?.map((interest, index) => {
-                return <Pill text={interest} key={index} />;
+              {userData?.interests?.map((interest, index) => {
+                return <Pill text={interest.hobby} key={interest.id} />;
               })}
             </Stack>
           </Collapse>
