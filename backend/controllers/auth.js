@@ -6,7 +6,10 @@ const router = require("../routes/auth");
 const CreateUser = async (req, res) => {
 	try {
 		const checkEmail = await User.findOne({ email: req.body.email });
-		if (checkEmail) return res.json("exsist");
+		if (checkEmail)
+			return res.status(200).json({
+				errMessage: "",
+			});
 		const hashPsw = await bcrypt
 			.hash(req.body.password, 12)
 			.then((hashedPassword) => {
