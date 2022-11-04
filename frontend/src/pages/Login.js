@@ -9,9 +9,10 @@ import Container from "@mui/material/Container";
 import axios from "axios";
 import { AuthContext } from "../AuthContext";
 import { Link as RouterLink } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 const Login = () => {
 	const { user, setUser } = useContext(AuthContext);
+	const navigate = useNavigate()
 	const [email, setEmail] = useState({ input: undefined, errMessage: "" });
 	const [password, setPassword] = useState({
 		input: undefined,
@@ -91,6 +92,7 @@ const Login = () => {
 					interests: userData.interests,
 					sexual_orientation: userData.sexual_orientation,
 				});
+				navigate("/chatlist")
 			})
 			.catch((err) => {
 				console.log("ERR", err);
@@ -126,7 +128,6 @@ const Login = () => {
 						autoComplete='email'
 						autoFocus
 						inputRef={formEmail}
-						defaultValue={"Rachel@gmail.com"}
 					/>
 					<TextField
 						error={password.input === ""}
