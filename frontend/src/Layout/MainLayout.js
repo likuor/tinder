@@ -7,7 +7,7 @@ const Layout = ({ children }) => {
   return (
     <>
       <CssBaseline />
-      <Container maxWidth='sm' sx={{ height: '100vh' }}>
+      <Container maxWidth='sm' sx={{ height: '80vh' }}>
         {children}
         <Navbar />
       </Container>
