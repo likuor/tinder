@@ -46,9 +46,6 @@ const ItmeCard = ({ usersLength, userData, usersIndex, setusersIndex }) => {
     }
   };
 
-  console.log(user.user_id);
-  console.log(userData?._id);
-
   return (
     <>
       <Card
