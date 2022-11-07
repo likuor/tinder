@@ -10,6 +10,26 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
+import { styled } from '@mui/material/styles';
+import Badge from '@mui/material/Badge';
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  '& .MuiBadge-badge': {
+    backgroundColor: '#4e5afc',
+    color: '#4e5afc',
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+  },
+  '@keyframes ripple': {
+    '0%': {
+      transform: 'scale(.8)',
+      opacity: 1,
+    },
+    '100%': {
+      transform: 'scale(2.4)',
+      opacity: 0,
+    },
+  },
+}));
 
 const ChatList = () => {
   const { user } = useContext(AuthContext);
@@ -36,33 +56,38 @@ const ChatList = () => {
       >
         {chat.map((value) => {
           return (
-            <>
-              <Divider variant='inset' component='li' key={value.id} />
-              <ListItem key={value.id} disablePadding>
+            <div key={value.createdChat._id}>
+              <Divider variant='inset' component='li' />
+              <ListItem disablePadding>
                 <ListItemButton
                   component={Link}
                   to={`/chat/room=${value.createdChat._id}`}
                 >
                   <ListItemAvatar>
-                    <Avatar
-                      alt={`Avatar n°${1}`}
-                      src={`/static/images/avatar/${1}.jpg`}
-                    />
+                    <StyledBadge
+                      overlap='circular'
+                      anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                      variant={`${!value.createdChat.text.length ? 'dot' : ''}`}
+                    >
+                      <Avatar
+                        alt={`Avatar n°${1}`}
+                        src='/static/images/avatar/1.jpg'
+                      />
+                    </StyledBadge>
                   </ListItemAvatar>
                   <ListItemText
-                    id={value.id}
                     primary={value.userInfo.username}
                     secondary={
                       value.createdChat.text.length > 0
                         ? value.createdChat.text[
                             value.createdChat.text.length - 1
                           ].msg
-                        : 'Have a first move!'
+                        : 'Make a first move!'
                     }
                   />
                 </ListItemButton>
               </ListItem>
-            </>
+            </div>
           );
         })}
       </List>
