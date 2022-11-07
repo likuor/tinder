@@ -3,12 +3,18 @@ import axios from 'axios';
 import { AuthContext } from '../AuthContext';
 import { Link } from 'react-router-dom';
 import MainLayout from '../Layout/MainLayout';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Avatar from '@mui/material/Avatar';
+import Divider from '@mui/material/Divider';
 
 const ChatList = () => {
   const { user } = useContext(AuthContext);
   const [chat, setChat] = useState([]);
   useEffect(() => {
-    setCurrentUser(user);
     axios
       .post('http://localhost:8000/getchatlist', {
         user_id: user.user_id,
@@ -18,31 +24,48 @@ const ChatList = () => {
       });
   }, [user]);
 
-  const [currentUser, setCurrentUser] = useState({});
-
   return (
     <MainLayout>
-      <section>
-        <Link to={'/login'}>login</Link>
-        <p> user {currentUser.username}</p>
-        {chat.map((value, index) => {
+      <List
+        dense
+        sx={{
+          width: '100%',
+          maxWidth: 360,
+          bgcolor: 'background.paper',
+        }}
+      >
+        {chat.map((value) => {
           return (
-            <div key={index} style={{ display: 'flex' }}>
-              <Link to={`/chat/room=${value.createdChat._id}`}>
-                <p style={{ padding: '0 10px 0 10px' }}>
-                  {value.userInfo.username}
-                </p>
-              </Link>
-              <p>
-                {value.createdChat.text.length > 0
-                  ? value.createdChat.text[value.createdChat.text.length - 1]
-                      .msg
-                  : "Let's chat"}
-              </p>
-            </div>
+            <>
+              <Divider variant='inset' component='li' key={value.id} />
+              <ListItem key={value.id} disablePadding>
+                <ListItemButton
+                  component={Link}
+                  to={`/chat/room=${value.createdChat._id}`}
+                >
+                  <ListItemAvatar>
+                    <Avatar
+                      alt={`Avatar n°${1}`}
+                      src={`/static/images/avatar/${1}.jpg`}
+                    />
+                  </ListItemAvatar>
+                  <ListItemText
+                    id={value.id}
+                    primary={value.userInfo.username}
+                    secondary={
+                      value.createdChat.text.length > 0
+                        ? value.createdChat.text[
+                            value.createdChat.text.length - 1
+                          ].msg
+                        : 'Have a first move!'
+                    }
+                  />
+                </ListItemButton>
+              </ListItem>
+            </>
           );
         })}
-      </section>
+      </List>
     </MainLayout>
   );
 };

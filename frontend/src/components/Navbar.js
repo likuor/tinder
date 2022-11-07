@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import BottomNavigation from '@mui/material/BottomNavigation';
@@ -10,11 +10,10 @@ import Paper from '@mui/material/Paper';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
-  const [value, setValue] = React.useState(0);
-  const ref = React.useRef(null);
+  const [value, setValue] = useState(0);
 
   return (
-    <Box sx={{ pb: 7 }} ref={ref}>
+    <Box sx={{ pb: 7 }}>
       <CssBaseline />
 
       <Paper
