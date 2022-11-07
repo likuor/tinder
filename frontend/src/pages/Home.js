@@ -4,6 +4,7 @@ import MainLayout from '../Layout/MainLayout';
 // import { pickRandomUser } from '../helper/Helper';
 import { AuthContext } from '../AuthContext';
 import axios from 'axios';
+import NomoreUser from './NomoreUser';
 // const randomUser = pickRandomUser(users);
 
 const Home = () => {
@@ -25,16 +26,22 @@ const Home = () => {
     });
   }, [user]);
 
+  console.log(usersData.length);
+  console.log(usersIndex);
+
   return (
     <>
       <MainLayout>
-        <ItmeCard
-          usersLength={usersData.length}
-          userData={usersData[usersIndex]}
-          usersIndex={usersIndex}
-          setusersIndex={setusersIndex}
-        />
-        {/* <ItmeCard user={randomUser} /> */}
+        {usersIndex < usersData.length ? (
+          <ItmeCard
+            usersLength={usersData.length}
+            userData={usersData[usersIndex]}
+            usersIndex={usersIndex}
+            setusersIndex={setusersIndex}
+          />
+        ) : (
+          <NomoreUser />
+        )}
       </MainLayout>
     </>
   );

@@ -27,7 +27,7 @@ const Profile = () => {
             alignItems: 'center',
             maxWidth: 345,
             mx: 'auto',
-            my: '1.3rem',
+            py: '1.3rem',
           }}
         >
           <Avatar src={userImageAtsu} sx={{ m: 1, width: 56, height: 56 }} />
