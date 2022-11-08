@@ -46,7 +46,7 @@ const ChatList = () => {
         });
     };
     fetchData().catch(console.error);
-  }, [user]);
+  }, [user, chat]);
 
   return (
     <MainLayout>
