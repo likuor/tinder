@@ -12,6 +12,7 @@ import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
 import { styled } from '@mui/material/styles';
 import Badge from '@mui/material/Badge';
+import userImageAtsu from '../image/userImages/rachel.jpg';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
@@ -35,13 +36,16 @@ const ChatList = () => {
   const { user } = useContext(AuthContext);
   const [chat, setChat] = useState([]);
   useEffect(() => {
-    axios
-      .post('http://localhost:8000/getchatlist', {
-        user_id: user.user_id,
-      })
-      .then((res) => {
-        setChat(res.data);
-      });
+    const fetchData = async () => {
+      await axios
+        .post('http://localhost:8000/getchatlist', {
+          user_id: user?._id,
+        })
+        .then((res) => {
+          setChat(res.data);
+        });
+    };
+    fetchData().catch(console.error);
   }, [user]);
 
   return (
@@ -54,7 +58,7 @@ const ChatList = () => {
           bgcolor: 'background.paper',
         }}
       >
-        {chat.map((value) => {
+        {chat?.map((value) => {
           return (
             <div key={value.createdChat._id}>
               <Divider variant='inset' component='li' />
@@ -69,10 +73,7 @@ const ChatList = () => {
                       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                       variant={`${!value.createdChat.text.length ? 'dot' : ''}`}
                     >
-                      <Avatar
-                        alt={`Avatar n°${1}`}
-                        src='/static/images/avatar/1.jpg'
-                      />
+                      <Avatar alt={`Avatar n°${1}`} src={userImageAtsu} />
                     </StyledBadge>
                   </ListItemAvatar>
                   <ListItemText
