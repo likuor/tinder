@@ -26,9 +26,6 @@ const Home = () => {
     });
   }, [user]);
 
-  console.log(usersData.length);
-  console.log(usersIndex);
-
   return (
     <>
       <MainLayout>
