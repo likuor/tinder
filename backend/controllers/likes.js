@@ -1,7 +1,8 @@
 const Like = require("../models/Likes");
 const User = require("../models/Users");
 const Chat = require("../models/Chat");
-
+const Likes = require("../models/Likes");
+const { delAlredyLiked } = require("../helper/delAlreadyLiked")
 const sendLike = async (req, res) => {
 	try {
 		const exsitLike = await Like.find({
@@ -15,17 +16,17 @@ const sendLike = async (req, res) => {
 		});
 
 		const like = await newLike.save();
-		const checkLike = await Like.find({ from: req.body.to,to:req.body.from });
+		const checkLike = await Like.find({ from: req.body.to, to: req.body.from });
 		if (checkLike.length === 0) {
 			return res.status(200).json(like);
 		} else {
 			const userInfo = await User.findById(checkLike[0].from);
 			const newChat = await new Chat({
 				user1: req.body.from,
-				user2: req.body.to
+				user2: req.body.to,
 			});
 			console.log(newChat);
-			const createdChat = await newChat.save()
+			const createdChat = await newChat.save();
 			res.status(200).json({ userInfo, createdChat });
 		}
 	} catch (err) {
@@ -48,11 +49,11 @@ const getLike = async (req, res) => {
 const checkLike = async (req, res) => {
 	try {
 		const createdChat = await Chat.find({ user2: req.body.user_id });
-		const list = []
+		const list = [];
 		if (createdChat.length > 0) {
 			for (const item of createdChat) {
 				const userInfo = await User.findById(item.user1.toString());
-				list.push({ userInfo, createdChat : item});
+				list.push({ userInfo, createdChat: item });
 			}
 			return res.status(200).json(list);
 		} else {
@@ -61,34 +62,43 @@ const checkLike = async (req, res) => {
 	} catch (err) {
 		res.status(500).json(err);
 	}
-}
+};
 const getUsers = async (req, res) => {
+	// console.log(req.body.user_id);
 	try {
+		const currentUser = await User.findById(req.body.user_id);
+		// console.log("user",currentUser);
 		const List = await User.find();
-		for (const element of req.body.sexual_orientation) {
+		for (const element of currentUser.sexual_orientation) {
 			if (element.id === 4) {
 				return res.status(200).json(List);
 			}
 		}
 		const whoLike = await List.filter((item) => {
-			for (const element of req.body.sexual_orientation) {
+			for (const element of currentUser.sexual_orientation) {
 				if (item.gender === element.id) {
 					return item;
 				}
 			}
 		});
-		if (req.body.sexual_orientation.length > 1) {
+		if (currentUser.sexual_orientation.length > 1) {
 			const filterdLike = await whoLike.filter((item) => {
 				for (const element of item.sexual_orientation) {
-					if (element.id === req.body.gender) {
+					if (element.id === currentUser.gender) {
 						return item;
 					}
 				}
 			});
-			const delCurrentUser =filterdLike.filter((item)=>item._id.toString() !== req.body.uesr_id)
-			res.status(200).json(delCurrentUser);
+			const delCurrentUser = filterdLike.filter(
+				(item) => item._id.toString() !== req.body.uesr_id
+			);
+			const likedList = await Likes.find({ from: req.body.user_id });
+			const userList = await delAlredyLiked(likedList, delCurrentUser);
+			res.status(200).json(userList);
 		} else {
-			res.status(200).json(whoLike);
+			const likedList = await Likes.find({ from: req.body.user_id });
+			const userList = await delAlredyLiked(likedList, whoLike);
+			res.status(200).json(userList);
 		}
 	} catch (err) {
 		res.status(500).json(err);
