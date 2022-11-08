@@ -1,12 +1,9 @@
 import axios from "axios";
 import React, { useState, createContext, useEffect } from "react";
-import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
 
 const AuthContextProvider = (props) => {
-	const navigate = useNavigate();
 	const [user, setUser] = useState(null);
 
 	useEffect(() => {
@@ -19,7 +16,6 @@ const AuthContextProvider = (props) => {
         )
         .then((res) => {
           setUser(res.data);
-          // navigate("/profile")
         });
 	}, []);
 	return (
