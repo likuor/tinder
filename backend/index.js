@@ -7,15 +7,32 @@ app.use(express.urlencoded({ extended: true }));
 const port = 8000;
 require("dotenv").config();
 const http = require("http");
-app.use(cors());
+app.use(
+	cors({
+		origin: "http://localhost:3000",
+		credentials: true,
+	})
+);
 const server = http.createServer(app);
-const { Server, Socket } = require("socket.io");
+const { Server} = require("socket.io");
 const io = new Server(server, {
 	cors: {
 		origin: "http://localhost:3000",
 		methods: ["GET", "POST", "DELETE"],
 	},
 });
+app.use(
+	cookieSession({
+		name: "id",
+		secret: "key",
+		resave: true,
+		saveUninitialized: false,
+		cookie: {
+			maxAge: 10000 * 60 * 60,
+			secure: false,
+		},
+	})
+);
 
 io.on("connection", async (socket) => {
 	const user = socket.id;
@@ -28,7 +45,6 @@ io.on("connection", async (socket) => {
 		io.to(data.roomId).emit("recived_msg", data.data);
 	});
 	socket.on("disconnect", () => {
-		// console.log("disconnect");
 	});
 });
 const mongoose = require("mongoose");
@@ -36,7 +52,7 @@ const authRoute = require("./routes/auth");
 const settingRoute = require("./routes/setting");
 const interestsRoute = require("./routes/interests");
 const likesRoute = require("./routes/likes");
-const chatRoute = require("./routes/chat")
+const chatRoute = require("./routes/chat");;
 mongoose
 	.connect(process.env.APP_MONGO_URL)
 	.then(() => {
@@ -45,16 +61,9 @@ mongoose
 	.catch((err) => {
 		console.log(err);
 	});
-app.use(
-	cookieSession({
-		name: "seetion",
-		keys: ["key1"],
-	})
-);
-// app.get("/", (req, res) => {
-// 	res.send("hello express");
-// });
+
 app.use("/", authRoute);
+
 app.use("/", settingRoute);
 app.use("/", interestsRoute);
 app.use("/", likesRoute);
@@ -62,6 +71,3 @@ app.use("/", chatRoute);
 server.listen(port, () => {
 	console.log(`listening on port ${port}`);
 });
-// server.listen(3000, () => {
-// 	console.log(`[server] server is running on port 3000`);
-// });
