@@ -2,7 +2,7 @@ const Like = require("../models/Likes");
 const User = require("../models/Users");
 const Chat = require("../models/Chat");
 const Likes = require("../models/Likes");
-
+const { delAlredyLiked } = require("../helper/delAlreadyLiked")
 const sendLike = async (req, res) => {
 	try {
 		const exsitLike = await Like.find({
@@ -92,29 +92,13 @@ const getUsers = async (req, res) => {
 			const delCurrentUser = filterdLike.filter(
 				(item) => item._id.toString() !== req.body.uesr_id
 			);
-			const delAlredyLiked = delCurrentUser.filter(async (item) => {
-				const likedList = await Likes.find({ from: req.body.user_id });
-				for (const element of likedList) {
-					if (element.to !== item._id.toString()) {
-						return item;
-					}
-				}
-			});
-			res.status(200).json(delAlredyLiked);
+			const likedList = await Likes.find({ from: req.body.user_id });
+			const userList = await delAlredyLiked(likedList, delCurrentUser);
+			res.status(200).json(userList);
 		} else {
 			const likedList = await Likes.find({ from: req.body.user_id });
-			const delAlredyLiked = whoLike.filter(async (item, index) => {
-				console.log("item", item._id.toString());
-				for (const i of likedList) {
-					console.log('i',i.to);
-					if (i.to !== item._id.toString()) {
-						console.log("result", item._id.toString());
-					}
-				}
-				return item
-			});
-			// console.log(delAlredyLiked);
-			res.status(200).json(delAlredyLiked);
+			const userList = await delAlredyLiked(likedList, whoLike);
+			res.status(200).json(userList);
 		}
 	} catch (err) {
 		res.status(500).json(err);
