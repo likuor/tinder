@@ -1,7 +1,5 @@
 const User = require("../models/Users");
 const bcrypt = require("bcrypt");
-const cookieSession = require("cookie-session");
-const router = require("../routes/auth");
 
 const CreateUser = async (req, res) => {
 	try {
@@ -20,7 +18,7 @@ const CreateUser = async (req, res) => {
 			password: hashPsw,
 		});
 		const user = await newUser.save();
-		res.cookie("user_id", user._id.toString());
+		const id = await user.id.toString();
 		res.status(200).json({ ...user._doc, user_id: user._id });
 	} catch (err) {
 		res.status(500).json(err);
@@ -35,7 +33,8 @@ const LoginUser = async (req, res) => {
 		if (!isUserMatch) {
 			return res.status(400).json("password is wrong");
 		} else {
-			req.session.user_id = user._id.toString();
+			req.session.id = user._id.toString();
+			res.cookie("id", req.session.id);
 			return res.status(200).json(user);
 		}
 	} catch (err) {
@@ -66,7 +65,15 @@ const AllSet = async (req, res) => {
 		const user = await newUser.save();
 		res.status(200).json(user);
 	} catch (err) {
-		console.log(err);
+		res.status(500).json(err);
 	}
 };
-module.exports = { CreateUser, LoginUser, AllSet };
+const GetUser = async (req, res) => {
+	try {
+		const user = await User.findById(req.session.id);
+		res.status(200).json(user);
+	} catch (err) {
+		res.status(500).json(err);
+	}
+};
+module.exports = { CreateUser, LoginUser, AllSet, GetUser };
