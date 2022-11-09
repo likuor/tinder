@@ -6,9 +6,8 @@ const Layout = ({ children }) => {
   return (
     <>
       <CssBaseline />
-      <Container maxWidth='sm' sx={{ height: '80vh' }}>
-        {children}
-      </Container>
+      {/* <Container maxWidth='sm' sx={{ height: '80vh' }}> */}
+      <Container maxWidth='sm'>{children}</Container>
     </>
   );
 };

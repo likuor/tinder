@@ -4,17 +4,14 @@ import axios from 'axios';
 import { AuthContext } from '../AuthContext';
 import { useParams } from 'react-router-dom';
 import MainLayout from '../Layout/MainLayout';
-
-import withStyles from '@material-ui/core/styles/withStyles';
-import defaultChatMsgStyles from './defaultCss';
 import { Container } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import userImageAtsu from '../image/userImages/rachel.jpg';
-
-import PropTypes from 'prop-types';
-import cx from 'clsx';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Button from '@material-ui/core/Button';
 
 const socket = io('http://localhost:8000', { query: { id: '1234' } });
 
@@ -25,10 +22,7 @@ const Chatroom = () => {
   const [room, setRoom] = useState('');
   const [list, setList] = useState([]);
   const [match] = useState({});
-  const messageRef = useRef();
-
-  console.log(user.username);
-  console.log(list);
+  const messageRef = useRef(null);
 
   useEffect(() => {
     setCurrentUser(user);
@@ -50,7 +44,6 @@ const Chatroom = () => {
   }, []);
 
   const handleSend = (e) => {
-    console.log('yes');
     e.preventDefault();
     socket.emit('send_msg', {
       data: {
@@ -74,8 +67,6 @@ const Chatroom = () => {
 
   return (
     <MainLayout>
-      {/* <Link to={'/login'}>login</Link>
-      <Link to={'/chatlist'}>list</Link> */}
       <Container
         sx={{
           display: 'flex',
@@ -85,52 +76,83 @@ const Chatroom = () => {
           py: '1.3rem',
         }}
       >
-        <Avatar alt={`Avatar n°${1}`} src={userImageAtsu} />
+        <Avatar
+          alt={`Avatar n°${1}`}
+          src={userImageAtsu}
+          sx={{ m: 1, width: 56, height: 56 }}
+        />
       </Container>
-      {/* <p> room {room}</p> */}
-      {/* <p> user {currentUser.username}</p> */}
-      <div>
-        matched User
-        <p>name : {match.username}</p>
-      </div>
-      {list.map((value, index) => {
-        return (
-          <div key={index}>
-            <p style={{ color: 'orange' }}>{value.username}</p>
-            <p>{value.msg}</p>
-          </div>
-        );
-      })}
-      <form onSubmit={handleSend}>
-        <input type='text' placeholder='chat' ref={messageRef} />
-        <button>send</button>
-      </form>
 
-      <Grid container spacing={2}>
+      <Box>
         {list.map((message, index) => {
           return (
-            <>
+            <Grid container spacing={2} key={index}>
               {message.username === user.username ? (
-                <Grid item xs={12}>
-                  <div key={index}>
-                    <Typography align={'right'}>{message.msg}</Typography>
-                  </div>
+                <Grid item xs={12} key={index}>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'flex-end',
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        wordBreak: 'break-word',
+                        fontSize: '14px',
+                        padding: '0.5rem',
+                        borderTopLeftRadius: 50,
+                        borderTopRightRadius: 50,
+                        borderBottomLeftRadius: 50,
+                        backgroundColor: '#273885',
+                        color: 'white',
+                      }}
+                    >
+                      <Typography align={'right'}>{message.msg}</Typography>
+                    </Box>
+                  </Box>
                 </Grid>
               ) : (
                 <>
-                  <Grid item>
-                    <Avatar />
+                  <Grid item xs={2}>
+                    {message.username !== user.username ? <Avatar /> : ''}
                   </Grid>
                   <Grid item xs={10}>
-                    <div key={index}>
+                    <Box
+                      key={index}
+                      sx={{
+                        display: 'inline-block',
+                        wordBreak: 'break-word',
+                        fontSize: '14px',
+                        padding: '0.5rem',
+                        borderTopRightRadius: 50,
+                        borderTopLeftRadius: 50,
+                        borderBottomRightRadius: 50,
+                        backgroundColor: '#F5F5F5',
+                      }}
+                    >
                       <Typography align={'left'}>{message.msg}</Typography>
-                    </div>
+                    </Box>
                   </Grid>
                 </>
               )}
-            </>
+            </Grid>
           );
         })}
+      </Box>
+      <Grid
+        container
+        direction='row'
+        justifyContent='space-around'
+        alignItems='center'
+      >
+        <Grid item xs={9}>
+          <TextField fullWidth type='text' size='small' inputRef={messageRef} />
+        </Grid>
+        <Grid item xs={2}>
+          <Button variant='contained' color='primary' onClick={handleSend}>
+            Send
+          </Button>
+        </Grid>
       </Grid>
     </MainLayout>
   );
