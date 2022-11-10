@@ -2,7 +2,7 @@ const Like = require("../models/Likes");
 const User = require("../models/Users");
 const Chat = require("../models/Chat");
 const Likes = require("../models/Likes");
-const { delAlredyLiked } = require("../helper/delAlreadyLiked")
+const { delAlredyLiked } = require("../helper/delAlreadyLiked");
 const sendLike = async (req, res) => {
 	try {
 		const exsitLike = await Like.find({
@@ -64,7 +64,7 @@ const checkLike = async (req, res) => {
 	}
 };
 const getUsers = async (req, res) => {
-	// console.log(req.body.user_id);
+	// console.log(req.body.);
 	try {
 		const currentUser = await User.findById(req.body._id);
 		// console.log("user",currentUser);
