@@ -39,7 +39,7 @@ const ChatList = () => {
     const fetchData = async () => {
       await axios
         .post('http://localhost:8000/getchatlist', {
-          user_id: user?._id,
+          _id: user?._id,
         })
         .then((res) => {
           setChat(res.data);

@@ -10,8 +10,6 @@ import Typography from '@mui/material/Typography';
 import BoxLayout from '../Layout/BoxLayout';
 
 const NomoreUser = () => {
-  const { user } = useContext(AuthContext);
-
   return (
     <div>
       <MainLayout>

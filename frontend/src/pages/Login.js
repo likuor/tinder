@@ -45,26 +45,26 @@ const Login = () => {
       };
 
       axios
-				.post(baseURL, loginUser, {
-					withCredentials: true,
-				})
-				.then((res) => {
-					const userData = res.data;
-					setUser({
-						user_id: userData._id,
-						email: userData.email,
-						username: userData.username,
-						about: userData.about,
-						age: userData.age,
-						course: userData.course,
-						gender: userData.gender,
-						interests: userData.interests,
-						sexual_orientation: userData.sexual_orientation,
-					});
-				})
-				.catch((err) => {
-					console.log("ERR", err);
-				});
+        .post(baseURL, loginUser, {
+          withCredentials: true,
+        })
+        .then((res) => {
+          const userData = res.data;
+          setUser({
+            _id: userData._id,
+            email: userData.email,
+            username: userData.username,
+            about: userData.about,
+            age: userData.age,
+            course: userData.course,
+            gender: userData.gender,
+            interests: userData.interests,
+            sexual_orientation: userData.sexual_orientation,
+          });
+        })
+        .catch((err) => {
+          console.log('ERR', err);
+        });
     }
   };
 

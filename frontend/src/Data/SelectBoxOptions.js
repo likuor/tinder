@@ -40,11 +40,11 @@ const genders = [
   },
   {
     value: 1,
-    label: 'Male',
+    label: 'Female',
   },
   {
     value: 2,
-    label: 'Female',
+    label: 'Male',
   },
   {
     value: 3,
