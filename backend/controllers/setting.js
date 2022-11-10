@@ -21,7 +21,7 @@ const upload = multer({ storage: storage });
 const updateInfo = async (req, res) => {
 	try {
 		const update = await JSON.parse(req.body.userInfo);
-		const user = await User.findById(update.user_id);
+		const user = await User.findById(update._id);
 		const ImageName = await randomImageName();
 		const newImage = new Images({
 			user_id: update.user_id,

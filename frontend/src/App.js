@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import Chat from './pages/Chat';
+import Chatroom from './pages/Chatroom';
 import Home from './pages/Home';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
@@ -17,8 +17,12 @@ function App() {
     <div className='App'>
       <Routes>
         <Route path='/' element={<Home />} />
+<<<<<<< HEAD
         <Route path='/image' element={<Image />} />
         <Route path='/chat/room=:id' element={<Chat />} />
+=======
+        <Route path='/chat/room=:id' element={<Chatroom />} />
+>>>>>>> 9ce7232deadf488ad67d7d53b1240f49ececb83f
         <Route path='/chat' element={<ChatList />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/login' element={<Login />} />

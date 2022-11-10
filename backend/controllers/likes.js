@@ -35,7 +35,7 @@ const sendLike = async (req, res) => {
 };
 const getLike = async (req, res) => {
 	try {
-		const likeList = await Like.find({ to: req.body.uesr_id });
+		const likeList = await Like.find({ to: req.body._id });
 		const likedUser = [];
 		for (const item of likeList) {
 			const userSendLike = await User.findById(item.from);
