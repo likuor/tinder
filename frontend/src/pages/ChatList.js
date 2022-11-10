@@ -54,6 +54,7 @@ const ChatList = () => {
         dense
         sx={{
           width: '100%',
+          marginX: 'auto',
           maxWidth: 360,
           bgcolor: 'background.paper',
         }}
@@ -66,6 +67,7 @@ const ChatList = () => {
                 <ListItemButton
                   component={Link}
                   to={`/chat/room=${value.createdChat._id}`}
+                  state={{ matchedUserName: value.userInfo.username }}
                 >
                   <ListItemAvatar>
                     <StyledBadge
