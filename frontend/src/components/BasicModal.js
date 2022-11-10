@@ -66,35 +66,45 @@ export default function BasicModal(props) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
 
-  // the data are from file and set user's info
-  const [course, setCourse] = useState(user?.course);
-  const [gender, setGender] = useState(user?.gender);
-  const [interests, setInterests] = useState(user?.interests);
-  const [inputInterestsVal, setInputInterestsVal] = useState('');
-  const [sexualOri, setSexualOri] = useState(user?.sexual_orientation);
-  const [inputSexualOriVal, setInputSexualOriVal] = useState('');
-
   // set interests data from db
   const [interestsData, setInterestsData] = useState([]);
 
-  useEffect(() => {
-    axios.get('http://localhost:8000/interests').then((response) => {
-      setInterestsData(response.data);
-    });
+  // these data are from file
+  const [course, setCourse] = useState('NONE');
+  const [gender, setGender] = useState(0);
+  const [interests, setInterests] = useState([]);
+  const [inputInterestsVal, setInputInterestsVal] = useState('');
+  const [sexualOri, setSexualOri] = useState([]);
+  const [inputSexualOriVal, setInputSexualOriVal] = useState('');
 
-    if (selectedImage) {
-      setImageUrl(URL.createObjectURL(selectedImage));
-    }
+  useEffect(() => {
+    const fetchData = async () => {
+      await axios.get('http://localhost:8000/interests').then((response) => {
+        setInterestsData(response.data);
+        setCourse(user?.course);
+        setGender(user?.gender);
+        setSexualOri(user?.sexual_orientation);
+        setInterests(user?.interests);
+      });
+
+      if (selectedImage) {
+        setImageUrl(URL.createObjectURL(selectedImage));
+      }
+    };
+
+    fetchData();
   }, [selectedImage, user]);
 
   const handleCloseModal = () => {
     setOpen(false);
 
-    const sexualOriResult = sexualOri.map((sexOri) => sexOri);
-    const interestsResult = interests.map((interest) => interest);
+    const updatedSexualOri = sexualOri?.map((chosenSex) => chosenSex);
+    const UpdatedInterests = interests?.map(
+      (chosenInterests) => chosenInterests
+    );
 
     const userInfo = {
-      user_id: user.user_id,
+      _id: user._id,
       email: user.email,
       username: nameRef.current.value,
       // image: imageUrl,
@@ -102,8 +112,8 @@ export default function BasicModal(props) {
       age: Number(ageRef.current.value),
       course: courseRef.current.value,
       gender: genderRef.current.value,
-      interests: interestsResult,
-      sexual_orientation: sexualOriResult,
+      interests: UpdatedInterests,
+      sexual_orientation: updatedSexualOri,
     };
 
     const placedUserInfo = JSON.stringify(user);
@@ -245,7 +255,7 @@ export default function BasicModal(props) {
             </TextField>
           </BoxLayout>
 
-          {/* gendr */}
+          {/* gender */}
           <BoxLayout>
             <TextField
               id='outlined-select-currency'
@@ -276,7 +286,7 @@ export default function BasicModal(props) {
               getOptionLabel={(option) => option.label}
               isOptionEqualToValue={(option, value) => option.id === value.id}
               value={sexualOri}
-              defaultValue={user?.sexualOri}
+              defaultValue={user?.sexual_orientation}
               onChange={(event, newValue) => {
                 setSexualOri(newValue);
               }}
