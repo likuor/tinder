@@ -35,7 +35,7 @@ const sendLike = async (req, res) => {
 };
 const getLike = async (req, res) => {
 	try {
-		const likeList = await Like.find({ to: req.body.uesr_id });
+		const likeList = await Like.find({ to: req.body._id });
 		const likedUser = [];
 		for (const item of likeList) {
 			const userSendLike = await User.findById(item.from);
@@ -48,7 +48,7 @@ const getLike = async (req, res) => {
 };
 const checkLike = async (req, res) => {
 	try {
-		const createdChat = await Chat.find({ user2: req.body.user_id });
+		const createdChat = await Chat.find({ user2: req.body._id });
 		const list = [];
 		if (createdChat.length > 0) {
 			for (const item of createdChat) {
@@ -66,7 +66,7 @@ const checkLike = async (req, res) => {
 const getUsers = async (req, res) => {
 	// console.log(req.body.user_id);
 	try {
-		const currentUser = await User.findById(req.body.user_id);
+		const currentUser = await User.findById(req.body._id);
 		// console.log("user",currentUser);
 		const List = await User.find();
 		for (const element of currentUser.sexual_orientation) {
@@ -90,13 +90,13 @@ const getUsers = async (req, res) => {
 				}
 			});
 			const delCurrentUser = filterdLike.filter(
-				(item) => item._id.toString() !== req.body.uesr_id
+				(item) => item._id.toString() !== req.body._id
 			);
-			const likedList = await Likes.find({ from: req.body.user_id });
+			const likedList = await Likes.find({ from: req.body._id });
 			const userList = await delAlredyLiked(likedList, delCurrentUser);
 			res.status(200).json(userList);
 		} else {
-			const likedList = await Likes.find({ from: req.body.user_id });
+			const likedList = await Likes.find({ from: req.body._id });
 			const userList = await delAlredyLiked(likedList, whoLike);
 			res.status(200).json(userList);
 		}

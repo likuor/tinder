@@ -8,13 +8,13 @@ const createChat = (req, res) => {
 };
 const getChatList = async (req, res) => {
 	try {
-		const chatList1 = await Chat.find({ user1: req.body.user_id });
-    const chatList2 = await Chat.find({ user2: req.body.user_id });
+		const chatList1 = await Chat.find({ user1: req.body._id });
+    const chatList2 = await Chat.find({ user2: req.body._id });
     const list = [...chatList1, ...chatList2];
 		const userAndRoomInfo = [];
 		if (list.length > 0) {
 			for (const item of list) {
-				if (item.user1 === req.body.user_id) {
+				if (item.user1 === req.body._id) {
 					const userInfo = await User.findById(item.user2.toString());
 					userAndRoomInfo.push({ userInfo, createdChat: item });
 				} else {

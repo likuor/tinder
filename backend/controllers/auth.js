@@ -19,7 +19,7 @@ const CreateUser = async (req, res) => {
     });
     const user = await newUser.save();
     const id = await user.id.toString();
-    res.status(200).json({ ...user._doc, user_id: user._id });
+    res.status(200).json({ ...user._doc });
   } catch (err) {
     res.status(500).json(err);
   }
