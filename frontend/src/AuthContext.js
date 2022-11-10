@@ -7,13 +7,17 @@ const AuthContextProvider = (props) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    axios
-      .get('http://localhost:8000/getuserinfo', {
-        withCredentials: true,
-      })
-      .then((res) => {
-        setUser(res.data);
-      });
+    const fetchLoggedinUser = async () => {
+      await axios
+        .get('http://localhost:8000/getuserinfo', {
+          withCredentials: true,
+        })
+        .then((res) => {
+          return setUser(res.data);
+        });
+    };
+
+    fetchLoggedinUser();
   }, []);
 
   return (

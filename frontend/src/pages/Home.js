@@ -13,17 +13,17 @@ const Home = () => {
   const [usersIndex, setusersIndex] = useState(0);
 
   useEffect(() => {
-    const baseURL = 'http://localhost:8000/user';
+    const fetchMatchableUsers = async () => {
+      const baseURL = 'http://localhost:8000/user';
+      const loginUserInfo = {
+        _id: user?._id,
+      };
 
-    const loginUserInfo = {
-      user_id: user.user_id,
-      sexual_orientation: user.sexual_orientation,
-      gender: user.gender,
+      await axios.post(baseURL, loginUserInfo).then((res) => {
+        setUsersData(res.data);
+      });
     };
-
-    axios.post(baseURL, loginUserInfo).then((res) => {
-      setUsersData(res.data);
-    });
+    fetchMatchableUsers();
   }, [user]);
 
   return (
