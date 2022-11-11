@@ -1,6 +1,11 @@
 const User = require("../models/Users");
 const Images = require("../models/Images");
-const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
+const {
+	S3Client,
+	PutObjectCommand,
+	GetObjectCommand,
+	DeleteBucketCommand,
+} = require("@aws-sdk/client-s3");
 const crypto = require("crypto");
 const randomImageName = (bytes = 32) =>
 	crypto.randomBytes(bytes).toString("hex");
@@ -21,16 +26,21 @@ const upload = multer({ storage: storage });
 const updateInfo = async (req, res) => {
 	try {
 		const update = await JSON.parse(req.body.userInfo);
+		const checkImage = await Images.findOne({ user_id: update._id });
+		console.log(checkImage);
+		if (checkImage === null) {
+			const ImageName = await randomImageName();
+			const newImage = new Images({
+				user_id: update._id,
+				path: update._id,
+			});
+			const image = await newImage.save();
+		}
+
 		const user = await User.findById(update._id);
-		const ImageName = await randomImageName();
-		const newImage = new Images({
-			user_id: update.user_id,
-			path: ImageName,
-		});
-		const image = await newImage.save();
 		const params = {
 			Bucket: bucketName,
-			Key: ImageName,
+			Key: update._id,
 			Body: req.file.buffer,
 			ContentType: req.file.mimetype,
 		};
@@ -42,21 +52,16 @@ const updateInfo = async (req, res) => {
 				course: update.course,
 				sexual_orientation: update.sexual_orientation,
 				age: update.age,
-				about: ImageName,
+				about: update.about,
 				gender: update.gender,
 				interests: update.interests,
+				image: update._id,
 			},
 		});
-		const updateUser = await User.findById(update.user_id);
-		res.status(200).json({
-			username: updateUser.username,
-			course: updateUser.course,
-			sexual_orientation: updateUser.sexual_orientation,
-			age: updateUser.age,
-			about: updateUser.about,
-			gender: updateUser.gender,
-			interests: updateUser.interests,
-		});
+		console.log(newInfo);
+		const updateUser = await User.findById(update._id);
+		// console.log("update", updateUser);
+		res.status(200).json(updateUser);
 	} catch (err) {
 		res.status(500).json(err);
 	}

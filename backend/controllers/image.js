@@ -16,14 +16,15 @@ const s3 = new S3Client({
 const getImage = async (req, res) => {
 	try {
 		const image = await Images.findOne({
-			usr_id: req.body.usre_id,
+			user_id: req.body._id,
 		});
+		if(image === null)return res.status(200).json("nothing")
 		const getObjectParams = {
 			Bucket: bucketName,
 			Key: image.path,
 		};
 		const command = new GetObjectCommand(getObjectParams);
-		const url = await getSignedUrl(s3, command, { expiresIn: 36000 });
+		const url = await getSignedUrl(s3, command, { expiresIn: 360000 });
 		res.status(200).json(url);
 	} catch (err) {
 		res.status(200).json(err);

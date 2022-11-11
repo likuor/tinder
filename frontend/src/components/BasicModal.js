@@ -115,50 +115,22 @@ export default function BasicModal(props) {
       interests: UpdatedInterests,
       sexual_orientation: updatedSexualOri,
     };
-		// const placedUserInfo = JSON.stringify(user);
-		// const updatedUserInfo = JSON.stringify(userInfo);
+		const placedUserInfo = JSON.stringify(user);
+		const updatedUserInfo = JSON.stringify(userInfo);
 		const formData = new FormData();
-		const duumyInfo = {
-			user_id: "636c4c81b3fc816043cbb5ec",
-			username: nameRef.current.value,
-			about: aboutRef.current.value,
-			age: 23,
-			course: "IBM",
-			gender: 1,
-			interests: [
-				{
-					id: "5",
-					hobby: "Cafe",
-				},
-			],
-			sexual_orientation: [{ id: 2, label: "Male" }],
-		};
-		const updatedUserInfo = JSON.stringify(duumyInfo);
 		formData.append("image", selectedImage);
 		formData.append("userInfo", updatedUserInfo);
 
-		console.log("image",selectedImage);
-		const baseURL = "http://localhost:8000/setting";
-		console.log("dummy");
-		if (duumyInfo) {
-			console.log(formData);
+		if (placedUserInfo !== updatedUserInfo) {
+			const baseURL = "http://localhost:8000/setting";
 			axios
 				.post(baseURL, formData, {
 					headers: { "Content-Type": "multipart/form-data" },
 				})
 				.then((res) => {
-					console.log("res", res);
-					// setUser(userInfo);
+					setUser(userInfo);
 				});
-				
 		}
-		// if (placedUserInfo !== updatedUserInfo) {
-		// 	const baseURL = "http://localhost:8000/setting";
-		// 	axios.post(baseURL, userInfo).then((res) => {
-		// 		console.log("res", res);
-		// 		setUser(userInfo);
-		// 	});
-		// }
 	};
 
 	const handleState = (event, setState) => {
@@ -308,26 +280,6 @@ export default function BasicModal(props) {
 							))}
 						</TextField>
 					</BoxLayout>
-
-          {/* gender */}
-          <BoxLayout>
-            <TextField
-              id='outlined-select-currency'
-              select
-              inputRef={genderRef}
-              label='Gender'
-              value={gender}
-              defaultValue={user?.gender}
-              onChange={(e) => handleState(e, setGender)}
-            >
-              {genders.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-          </BoxLayout>
-
           {/* sexual orieantation */}
           <BoxLayout>
             <Autocomplete
