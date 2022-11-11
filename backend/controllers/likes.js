@@ -71,6 +71,7 @@ const getUsers = async (req, res) => {
 		const List = await User.find();
 		for (const element of currentUser.sexual_orientation) {
 			if (element.id === 4) {
+				console.log("every");
 				return res.status(200).json(List);
 			}
 		}
@@ -94,6 +95,7 @@ const getUsers = async (req, res) => {
 			);
 			const likedList = await Likes.find({ from: req.body._id });
 			const userList = await delAlredyLiked(likedList, delCurrentUser);
+			console.log(userList);
 			res.status(200).json(userList);
 		} else {
 			const likedList = await Likes.find({ from: req.body._id });

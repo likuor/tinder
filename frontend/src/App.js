@@ -8,6 +8,7 @@ import { Routes, Route } from 'react-router-dom';
 import ChatList from './pages/ChatList';
 import Navbar from './components/Navbar';
 import { AuthContext } from './AuthContext';
+import Image from './pages/Image';
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -16,6 +17,7 @@ function App() {
     <div className='App'>
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/image' element={<Image />} />
         <Route path='/chat/room=:id' element={<Chatroom />} />
         <Route path='/chat' element={<ChatList />} />
         <Route path='/profile' element={<Profile />} />
