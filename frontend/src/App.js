@@ -12,13 +12,20 @@ import { AuthContext } from './AuthContext';
 function App() {
   const { user } = useContext(AuthContext);
 
+  console.log(user);
+
   return (
     <div className='App'>
       <Routes>
-        <Route path='/' element={<Home />} />
+        {/* <Route path='/' element={<Home />} />
         <Route path='/chat/room=:id' element={<Chatroom />} />
-        <Route path='/chat' element={<ChatList />} />
-        <Route path='/profile' element={<Profile />} />
+        <Route path='/chat' element={<ChatList />} /> */}
+
+        {user ? (
+          <Route path='/profile' element={<Profile />} />
+        ) : (
+          <Route path='/login' element={<Login />} />
+        )}
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
       </Routes>
