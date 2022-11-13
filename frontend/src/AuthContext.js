@@ -4,7 +4,7 @@ import React, { useState, createContext, useEffect } from 'react';
 export const AuthContext = createContext();
 
 const AuthContextProvider = (props) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(undefined);
 
   useEffect(() => {
     const fetchLoggedinUser = async () => {
@@ -19,6 +19,7 @@ const AuthContextProvider = (props) => {
 
     fetchLoggedinUser();
   }, []);
+  console.log('user', user);
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>

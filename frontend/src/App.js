@@ -15,12 +15,15 @@ function App() {
   return (
     <div className='App'>
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/chat/room=:id' element={<Chatroom />} />
-        <Route path='/chat' element={<ChatList />} />
-        <Route path='/profile' element={<Profile />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/signup' element={<Signup />} />
+        <Route path='/' element={user ? <Home /> : <Login />} />
+        <Route
+          path='/chat/room=:id'
+          element={user ? <Chatroom /> : <Login />}
+        />
+        <Route path='/chat' element={user ? <ChatList /> : <Login />} />
+        <Route path='/profile' element={user ? <Profile /> : <Login />} />
+        <Route path='/login' element={user ? <Home /> : <Login />} />
+        <Route path='/signup' element={user ? <Home /> : <Signup />} />
       </Routes>
       {user ? <Navbar /> : ''}
     </div>
