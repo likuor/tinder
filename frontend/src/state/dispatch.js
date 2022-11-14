@@ -5,16 +5,25 @@ export const loginCall = async (user, dispatch) => {
   const baseURL = 'http://localhost:8000/login';
 
   try {
-    const res = await axios.post(baseURL, user);
+    const res = await axios.post(baseURL, user, { withCredentials: true });
     dispatch({ type: 'LOGIN_SUCCESS', payload: res.data });
   } catch (err) {
     dispatch({ type: 'LOGIN_ERROR', payload: err });
   }
 };
 
-export const logoutCall = async (dispatch) => {
-  dispatch({ type: 'LOGIN_START' });
+export const getUser = async () => {
+  const res = await axios.get('http://localhost:8000/getuserinfo', {
+    withCredentials: true,
+  });
+  console.log('getUser', res.data);
+
+  // dispatch({ type: 'LOGIN_SUCCESS', payload: res.data });
 };
+
+// export const logoutCall = async (dispatch) => {
+//   dispatch({ type: 'LOGIN_START' });
+// };
 
 export const updateCall = async (updateUser, dispatch) => {
   try {

@@ -34,9 +34,20 @@ const LoginUser = async (req, res) => {
       return res.status(400).json('password is wrong');
     } else {
       req.session.id = user._id.toString();
+      console.log('set cookies');
       res.cookie('id', req.session.id);
       return res.status(200).json(user);
     }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+const cookieCheck = async (req, res) => {
+  try {
+    const loggeinSession = req.session.id;
+
+    return res.status(200).json(loggeinSession);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -76,4 +87,4 @@ const GetUser = async (req, res) => {
     res.status(500).json(err);
   }
 };
-module.exports = { CreateUser, LoginUser, AllSet, GetUser };
+module.exports = { CreateUser, LoginUser, AllSet, GetUser, cookieCheck };

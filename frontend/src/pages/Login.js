@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import axios from 'axios';
 import { AuthContext } from '../AuthContext';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { checkEmail, checkPassword } from '../helper/AuthValidation';
 import { loginCall } from '../state/dispatch';
 
@@ -21,18 +21,7 @@ const Login = () => {
   });
   const refEmail = useRef();
   const refPassword = useRef();
-  const navigate = useNavigate();
   const { dispatch } = useContext(AuthContext);
-
-  // useEffect(() => {
-  //   if (user) {
-  //     if (!user.sexual_orientation.length === 0 || !user.gender) {
-  //       return navigate('/profile');
-  //     } else {
-  //       return navigate('/');
-  //     }
-  //   }
-  // }, [user, navigate]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
