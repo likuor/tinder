@@ -19,11 +19,17 @@ const Profile = () => {
     setOpen(true);
   };
   useEffect(() => {
-    axios.post("http://localhost:8000/image", { _id: user?._id }).then(res => {
-      if (res.data !== "nothing") {
-        setImage(res.data)
-      }
-    })
+    axios
+			.post(
+				"http://localhost:8000/image",
+				{ _id: user?._id },
+				{ withCredentials: true }
+			)
+			.then((res) => {
+				if (res.data !== "nothing") {
+					setImage(res.data);
+				}
+			});
   },[user])
   return (
 		<>
