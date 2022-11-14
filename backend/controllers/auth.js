@@ -1,5 +1,6 @@
 const User = require('../models/Users');
 const bcrypt = require('bcrypt');
+const { getImageFromS3 } = require('../helper/getImageFromS3');
 
 const CreateUser = async (req, res) => {
   try {

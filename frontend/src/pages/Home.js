@@ -11,7 +11,6 @@ const Home = () => {
   const { user } = useContext(AuthContext);
   const [usersData, setUsersData] = useState([]);
   const [usersIndex, setusersIndex] = useState(0);
-
   useEffect(() => {
     const fetchMatchableUsers = async () => {
       const baseURL = 'http://localhost:8000/user';
@@ -19,9 +18,11 @@ const Home = () => {
         _id: user?._id,
       };
 
-      await axios.post(baseURL, loginUserInfo).then((res) => {
-        setUsersData(res.data);
-      });
+      await axios
+				.post(baseURL, loginUserInfo, { withCredentials: true })
+				.then((res) => {
+					setUsersData(res.data);
+				});
     };
     fetchMatchableUsers();
   }, [user]);

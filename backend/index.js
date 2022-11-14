@@ -35,10 +35,9 @@ app.use(
 );
 
 io.on("connection", async (socket) => {
-	const user = socket.id;
 	socket.on("join_room", (roomId) => {
 		socket.join(roomId);
-		io.to(roomId).emit("joined_room", roomId, user);
+		io.to(roomId).emit("joined_room", roomId);
 	});
 	socket.on("send_msg", (data) => {
 		console.log("msg", data);
@@ -59,7 +58,7 @@ const upload = multer({ storage: storage });
 const crypto = require("crypto")
 const sharp = require("sharp")
 const { S3Client, PutObjectCommand, GetObjectCommand, DeleteBucketCommand } = require("@aws-sdk/client-s3");
-const  { getSignedUrl } = require("@aws-sdk/s3-request-presigner"); 
+// const  { getSignedUrl } = require("@aws-sdk/s3-request-presigner"); 
 const Images = require("./models/Images");
 const randomImageName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex')
 const bucketName = process.env.BUCKET_NAME
@@ -91,16 +90,16 @@ app.use("/", likesRoute);
 app.use("/", chatRoute);
 app.use("/", imageRoute);
 
-app.get("/image", async (req, res) => {
-	const image = await Pictuers.findOne({ usr_id: "6364005204c4d5b81220fe46" });
-	const getObjectParams = {
-		Bucket: bucketName,
-		Key: image.path
-	}
-	const command = new GetObjectCommand(getObjectParams);
-	const url = await getSignedUrl(s3, command, { expiresIn: 36000 });
-	res.status(200).json(url);
-})
+// app.get("/image", async (req, res) => {
+// 	const image = await Pictuers.findOne({ usr_id: "6364005204c4d5b81220fe46" });
+// 	const getObjectParams = {
+// 		Bucket: bucketName,
+// 		Key: image.path
+// 	}
+// 	const command = new GetObjectCommand(getObjectParams);
+// 	const url = await getSignedUrl(s3, command, { expiresIn: 36000 });
+// 	res.status(200).json(url);
+// })
 
 app.post("/deleteimage", async(req, res) => {
 	const image = await Images.findOne({ usr_id: "6364005204c4d5b81220fe46" });
