@@ -29,7 +29,7 @@ const Home = () => {
     fetchMatchableUsers();
   }, [isLogin]);
 
-  console.log('home', user);
+  // console.log('home', user);
 
   return (
     <>
