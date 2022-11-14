@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { useState, createContext, useEffect, useReducer } from 'react';
 import AuthReducer from './state/AuthReducer';
-import { getUser, logoutCall } from './state/dispatch';
 
 const initialState = {
   user: null,
@@ -20,7 +19,6 @@ const AuthContextProvider = (props) => {
       await axios
         .get('http://localhost:8000/cookie', { withCredentials: true })
         .then((res) => {
-          getUser(res.data);
           return setIsLogin(res.data);
         });
     };

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import MainLayout from '../Layout/MainLayout';
 import userImageAtsu from '../image/userImages/test.jpg';
 import Avatar from '@mui/material/Avatar';
@@ -8,14 +8,26 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import EditIcon from '@mui/icons-material/Edit';
 import BasicModal from '../components/BasicModal';
-import { AuthContext } from '../AuthContext';
+import axios from 'axios';
 
 const Profile = () => {
-  const { user } = useContext(AuthContext);
+  const [user, setUser] = useState();
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await axios
+        .get('http://localhost:8000/getuserinfo', { withCredentials: true })
+        .then((response) => {
+          setUser(response.data);
+        });
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -44,7 +56,12 @@ const Profile = () => {
               </IconButton>
             </Grid>
             <Grid>
-              <BasicModal open={open} setOpen={setOpen} />
+              <BasicModal
+                open={open}
+                setOpen={setOpen}
+                user={user}
+                setUser={setUser}
+              />
             </Grid>
           </Box>
         </Box>

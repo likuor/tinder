@@ -12,17 +12,9 @@ export const loginCall = async (user, dispatch) => {
   }
 };
 
-export const getUser = async () => {
-  const res = await axios.get('http://localhost:8000/getuserinfo', {
-    withCredentials: true,
-  });
-
-  // dispatch({ type: 'LOGIN_SUCCESS', payload: res.data });
+export const logoutCall = async (dispatch) => {
+  dispatch({ type: 'LOGIN_START' });
 };
-
-// export const logoutCall = async (dispatch) => {
-//   dispatch({ type: 'LOGIN_START' });
-// };
 
 export const updateCall = async (updateUser, dispatch) => {
   try {

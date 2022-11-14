@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
@@ -14,7 +14,6 @@ import Box from '@mui/material/Box';
 import Autocomplete from '@mui/material/Autocomplete';
 import BoxLayout from '../Layout/BoxLayout';
 import axios from 'axios';
-import { AuthContext } from '../AuthContext';
 import { courses, genders, sexualOrientations } from '../Data/SelectBoxOptions';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -54,8 +53,7 @@ BootstrapDialogTitle.propTypes = {
 };
 
 export default function BasicModal(props) {
-  const { user, setUser } = useContext(AuthContext);
-  const { open, setOpen } = props;
+  const { open, setOpen, user, setUser } = props;
   const nameRef = useRef(null);
   const aboutRef = useRef(null);
   const courseRef = useRef(null);
@@ -80,11 +78,15 @@ export default function BasicModal(props) {
   useEffect(() => {
     const fetchData = async () => {
       await axios.get('http://localhost:8000/interests').then((response) => {
-        setInterestsData(response.data);
-        setCourse(user?.course);
-        setGender(user?.gender);
-        setSexualOri(user?.sexual_orientation);
-        setInterests(user?.interests);
+        axios
+          .get('http://localhost:8000/getuserinfo', { withCredentials: true })
+          .then((res) => {
+            setInterestsData(response.data);
+            setCourse(res.data?.course);
+            setGender(res.data?.gender);
+            setSexualOri(res.data?.sexual_orientation);
+            setInterests(res.data?.interests);
+          });
       });
 
       if (selectedImage) {
