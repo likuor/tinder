@@ -21,15 +21,14 @@ const Home = () => {
         // _id: '636e74cca29b95c422f345e2',
       };
 
-      await axios.post(baseURL, loginUserInfo).then((res) => {
-        console.log(res.data);
-        setUsersData(res.data);
-      });
+      await axios
+				.get(baseURL,{ withCredentials: true })
+				.then((res) => {
+					setUsersData(res.data);
+				});
     };
     fetchMatchableUsers();
   }, [isLogin]);
-
-  console.log('home', user);
 
   return (
     <>

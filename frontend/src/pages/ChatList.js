@@ -38,12 +38,13 @@ const ChatList = () => {
   useEffect(() => {
     const fetchData = async () => {
       await axios
-        .post('http://localhost:8000/getchatlist', {
-          _id: user?._id,
-        })
-        .then((res) => {
-          setChat(res.data);
-        });
+				.get(
+					"http://localhost:8000/getchatlist",
+					{ withCredentials: true }
+				)
+				.then((res) => {
+					setChat(res.data);
+				});
     };
     fetchData().catch(console.error);
   }, [user]);

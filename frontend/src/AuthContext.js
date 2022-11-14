@@ -26,7 +26,6 @@ const AuthContextProvider = (props) => {
     };
     fetchLoggedinUser();
   }, [state]);
-  console.log('context');
 
   return (
     <AuthContext.Provider

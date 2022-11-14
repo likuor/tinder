@@ -16,7 +16,6 @@ export const getUser = async () => {
   const res = await axios.get('http://localhost:8000/getuserinfo', {
     withCredentials: true,
   });
-  console.log('getUser', res.data);
 
   // dispatch({ type: 'LOGIN_SUCCESS', payload: res.data });
 };
