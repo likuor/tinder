@@ -53,32 +53,14 @@ const cookieCheck = async (req, res) => {
   }
 };
 
-const AllSet = async (req, res) => {
+const Logout = async(req,res) => {
   try {
-    const checkEmail = await User.findOne({ email: req.body.email });
-    if (checkEmail) return res.json('exsist');
-    const hashPsw = await bcrypt
-      .hash(req.body.password, 12)
-      .then((hashedPassword) => {
-        return hashedPassword;
-      });
-    const newUser = await new User({
-      email: req.body.email,
-      password: hashPsw,
-      username: req.body.username,
-      course: req.body.course,
-      sexual_orientation: req.body.sexual_orientation,
-      age: req.body.age,
-      about: req.body.about,
-      gender: req.body.gender,
-      interests: req.body.interests,
-    });
-    const user = await newUser.save();
-    res.status(200).json(user);
+    req.session.id = null
+    res.status(200).json("logout")
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500),json(err)
   }
-};
+}
 const GetUser = async (req, res) => {
   try {
     const user = await User.findById(req.session.id);
@@ -87,4 +69,10 @@ const GetUser = async (req, res) => {
     res.status(500).json(err);
   }
 };
-module.exports = { CreateUser, LoginUser, AllSet, GetUser, cookieCheck };
+module.exports = {
+	CreateUser,
+	LoginUser,
+	GetUser,
+	cookieCheck,
+	Logout,
+};
