@@ -14,9 +14,10 @@ import {
   checkPassword,
   checkConfirmPassword,
 } from '../helper/AuthValidation';
+import { signupCall } from '../state/dispatch';
 
 const Auth = () => {
-  const { user } = useContext(AuthContext);
+  const { isLogin } = useContext(AuthContext);
   const [email, setEmail] = useState({ input: undefined, errMessage: '' });
   const [password, setPassword] = useState({
     input: undefined,
@@ -29,18 +30,8 @@ const Auth = () => {
   const refEmail = useRef();
   const refPassword = useRef();
   const refConfrimPassword = useRef();
-
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (user) {
-      if (!user.sexual_orientation.length === 0 || !user.gender) {
-        return navigate('/login');
-      } else {
-        return navigate('/');
-      }
-    }
-  }, [user, navigate]);
+  const { state, dispatch } = useContext(AuthContext);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -55,20 +46,18 @@ const Auth = () => {
         setConfirmPassword
       ) === true
     ) {
-      const baseURL = 'http://localhost:8000/signup';
       const newUser = {
         email: refEmail.current.value,
         password: refPassword.current.value,
       };
 
-      axios
-        .post(baseURL, newUser)
-        .then(() => {
-          return navigate('/login');
-        })
-        .catch((err) => {
-          console.log('ERR', err);
-        });
+      signupCall(
+        {
+          newUser,
+        }
+        // dispatch
+      );
+      // return navigate('/login');
     }
   };
 

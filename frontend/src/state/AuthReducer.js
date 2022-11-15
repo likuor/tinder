@@ -1,11 +1,24 @@
 const AuthReducer = (state, action) => {
   switch (action.type) {
+    // case 'SIGNUP_START':
+    //   return {
+    //     user: null,
+    //     isFetching: true,
+    //     error: false,
+    //   };
+
+    // case 'SIGNUP_SUCCESS':
+    //   return {
+    //     user: action.payload,
+    //     isFetching: false,
+    //     error: false,
+    //   };
+
     case 'LOGIN_START':
       return {
         user: null,
         isFetching: true,
         error: false,
-        // isLogin: false,
       };
 
     case 'LOGIN_SUCCESS':
@@ -13,7 +26,20 @@ const AuthReducer = (state, action) => {
         user: action.payload,
         isFetching: false,
         error: false,
-        // isLogin: true,
+      };
+
+    case 'LOGOUT_START':
+      return {
+        user: null,
+        isFetching: true,
+        error: false,
+      };
+
+    case 'LOGOUT_SUCCESS':
+      return {
+        user: null,
+        isFetching: false,
+        error: false,
       };
 
     case 'LOGIN_ERROR':
@@ -21,7 +47,6 @@ const AuthReducer = (state, action) => {
         user: null,
         isFetching: false,
         error: action.payload,
-        // isLogin: false,
       };
 
     default:
