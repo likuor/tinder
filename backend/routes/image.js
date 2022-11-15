@@ -1,5 +1,11 @@
 const router = require("express").Router();
-const { getImage } = require("../controllers/image");
+const {
+	getImageForProfile,
+	getImageForHome,
+	getImageForChat,
+} = require("../controllers/image");
 
-router.post("/image", getImage);
+router.post("/profileimage", getImageForProfile);
+router.post("/chatlistimage", getImageForHome);
+router.post("/userimage", getImageForChat);
 module.exports = router;

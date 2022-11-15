@@ -46,7 +46,7 @@ const ItmeCard = ({ usersLength, userData, usersIndex, setusersIndex }) => {
   };
   const [image, setImage]=useState("")
 	useEffect(() => {
-		const baseURL = "http://localhost:8000/image";
+		const baseURL = "http://localhost:8000/userimage";
     axios
 			.post(baseURL, { user_id: userData?._id }, { withCredentials: true })
 			.then((res) => {

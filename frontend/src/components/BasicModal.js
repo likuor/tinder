@@ -81,7 +81,6 @@ export default function BasicModal(props) {
         axios
           .get('http://localhost:8000/getuserinfo', { withCredentials: true })
 					.then((res) => {
-						console.log("modal user", res.data);
             setInterestsData(response.data);
             setCourse(res.data?.course);
             setGender(res.data?.gender);

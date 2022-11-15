@@ -41,12 +41,12 @@ const Chatroom = () => {
 								setList(res.data.text);
 								if (res.data.user1 === response.data._id) {
 									axios
-									.post(`${baseURL}/image`, {
-										user_id: res.data.user2,
-									})
-									.then((res) => {
-										setImage(res.data);
-									});
+										.post(`${baseURL}/userimage`, {
+											user_id: res.data.user2,
+										})
+										.then((res) => {
+											setImage(res.data);
+										});
 								} else {
 									axios
 										.post(`${baseURL}/image`, {
