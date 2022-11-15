@@ -1,11 +1,6 @@
 const User = require("../models/Users");
 const Images = require("../models/Images");
-const {
-	S3Client,
-	PutObjectCommand,
-	GetObjectCommand,
-	DeleteBucketCommand,
-} = require("@aws-sdk/client-s3");
+const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 const crypto = require("crypto");
 const randomImageName = (bytes = 32) =>
 	crypto.randomBytes(bytes).toString("hex");
@@ -25,28 +20,35 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 const updateInfo = async (req, res) => {
 	try {
-    const update = req.body;
+		const update = await JSON.parse(req.body.userInfo);
 		const checkImage = await Images.findOne({ user_id: update._id });
-		console.log(checkImage);
+		const user = await User.findById(update._id);
 		if (checkImage === null) {
-			const ImageName = await randomImageName();
 			const newImage = new Images({
 				user_id: update._id,
 				path: update._id,
 			});
 			const image = await newImage.save();
+			const params = {
+				Bucket: bucketName,
+				Key: update._id,
+				Body: req.file.buffer,
+				ContentType: req.file.mimetype,
+			};
+			const command = new PutObjectCommand(params);
+			await s3.send(command);
 		}
-
-		const user = await User.findById(update._id);
-		const params = {
-			Bucket: bucketName,
-			Key: update._id,
-			Body: req.file.buffer,
-			ContentType: req.file.mimetype,
-		};
-		const command = new PutObjectCommand(params);
-		await s3.send(command);
-		const newInfo = await user.updateOne({
+		if (checkImage !== null && req.file !== null) {
+			const params = {
+				Bucket: bucketName,
+				Key: update._id,
+				Body: req.file.buffer,
+				ContentType: req.file.mimetype,
+			};
+			const command = new PutObjectCommand(params);
+			await s3.send(command);
+		}
+		await user.updateOne({
 			$set: {
 				username: update.username,
 				course: update.course,
@@ -58,9 +60,7 @@ const updateInfo = async (req, res) => {
 				image: update._id,
 			},
 		});
-		console.log(newInfo);
 		const updateUser = await User.findById(update._id);
-		// console.log("update", updateUser);
 		res.status(200).json(updateUser);
 	} catch (err) {
 		res.status(500).json(err);
