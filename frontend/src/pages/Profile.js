@@ -23,19 +23,18 @@ const Profile = () => {
       await axios
         .get(`${baseURL}/getuserinfo`, { withCredentials: true })
         .then((response) => {
-          console.log("current user", response.data);
           setUser(response.data);
           axios
-            .post(
-              `${baseURL}/image`,
-              { user_id: user?._id },
-              { withCredentials: true }
-            )
-            .then((res) => {
-              if (res.data !== 'nothing') {
-                setImage(res.data);
-              }
-            });
+						.post(
+							`${baseURL}/profileimage`,
+							{ user_id: user?._id },
+							{ withCredentials: true }
+						)
+						.then((res) => {
+							if (res.data !== "nothing") {
+								setImage(res.data);
+							}
+						});
         });
     };
 

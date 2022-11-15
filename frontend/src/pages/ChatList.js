@@ -42,9 +42,11 @@ const ChatList = () => {
         .get(`${baseURL}/getchatlist`, { withCredentials: true })
         .then((res) => {
           setChat(res.data);
-          axios.post(`${baseURL}/image`, { user_id: res.data }).then((res) => {
-            setImage(res.data);
-          });
+          axios
+						.post(`${baseURL}/chatlistimage`, { user_id: res.data })
+						.then((res) => {
+							setImage(res.data);
+						});
         });
     };
     fetchData().catch(console.error);
