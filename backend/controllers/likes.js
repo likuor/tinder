@@ -22,7 +22,7 @@ const s3 = new S3Client({
 const sendLike = async (req, res) => {
 	try {
 		const exsitLike = await Like.find({
-			from: req.body.from,
+			from: req.session.id,
 			to: req.body.to,
 		});
 		// if(exsitLike.length > 0)return res.status(406).json("you alredy liked");
@@ -44,7 +44,6 @@ const sendLike = async (req, res) => {
 				user1: req.session.id,
 				user2: req.body.to,
 			});
-			console.log(newChat);
 			const createdChat = await newChat.save();
 			res.status(200).json({ userInfo, createdChat });
 		}
@@ -83,7 +82,6 @@ const checkLike = async (req, res) => {
 	}
 };
 const getUsers = async (req, res) => {
-	// console.log(req.body.);
 	try {
 		const currentUser = await User.findById(req.session.id);
 		const List = await User.find();

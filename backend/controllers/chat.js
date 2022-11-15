@@ -1,11 +1,5 @@
 const Chat = require("../models/Chat");
 const User = require("../models/Users")
-const createChat = (req, res) => {
-	try {
-	} catch (err) {
-		res.status(500).json(err);
-	}
-};
 const getChatList = async (req, res) => {
 	try {
 		const chatList1 = await Chat.find({ user1: req.session.id });
@@ -56,4 +50,4 @@ const getChat = async (req, res) => {
 		res.status(500).json(err);
 	}
 }
-module.exports = { createChat, getChatList, saveChat, getChat };
+module.exports = {getChatList, saveChat, getChat };

@@ -39,13 +39,8 @@ const ChatList = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			const baseURL = "http://localhost:8000";
-
 			await axios
-				.post(
-					`${baseURL}/getchatlist`,
-					{ _id: user?._id },
-					{ withCredentials: true }
-				)
+				.get(`${baseURL}/getchatlist`, { withCredentials: true })
 				.then((res) => {
 					setChat(res.data);
 					axios.post(`${baseURL}/image`, { user_id: res.data }).then((res) => {
@@ -55,6 +50,7 @@ const ChatList = () => {
 		};
 		fetchData().catch(console.error);
 	}, [user]);
+
 
 	return (
 		<MainLayout>

@@ -37,7 +37,7 @@ const ItmeCard = ({ usersLength, userData, usersIndex, setusersIndex }) => {
 	const showNextUser = () => {
 		if (usersIndex < usersLength) {
 			const baseURL = "http://localhost:8000/sendlike";
-			const sendInfo = { from: user._id, to: userData._id };
+			const sendInfo = {to: userData._id };
 			axios.post(baseURL, sendInfo, { withCredentials: true });
 			return setusersIndex(usersIndex + 1);
 		} else {

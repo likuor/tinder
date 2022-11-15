@@ -15,6 +15,7 @@ const s3 = new S3Client({
 	region: bucketRegion,
 });
 const getImage = async (req, res) => {
+	console.log(req.body);
 	try {
 		if (Array.isArray(req.body.user_id)) {
 			const urlArray = [];

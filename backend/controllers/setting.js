@@ -25,7 +25,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 const updateInfo = async (req, res) => {
 	try {
-		const update = await JSON.parse(req.body.userInfo);
+    const update = req.body;
 		const checkImage = await Images.findOne({ user_id: update._id });
 		console.log(checkImage);
 		if (checkImage === null) {

@@ -11,20 +11,22 @@ import { AuthContext } from './AuthContext';
 import Image from './pages/Image';
 
 function App() {
-  const { user } = useContext(AuthContext);
+  const { isLogin } = useContext(AuthContext);
 
   return (
     <div className='App'>
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/image' element={<Image />} />
-        <Route path='/chat/room=:id' element={<Chatroom />} />
-        <Route path='/chat' element={<ChatList />} />
-        <Route path='/profile' element={<Profile />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/signup' element={<Signup />} />
+        <Route path='/' element={isLogin ? <Home /> : <Login />} />
+        <Route
+          path='/chat/room=:id'
+          element={isLogin ? <Chatroom /> : <Login />}
+        />
+        <Route path='/chat' element={isLogin ? <ChatList /> : <Login />} />
+        <Route path='/profile' element={isLogin ? <Profile /> : <Login />} />
+        <Route path='/login' element={isLogin ? <Profile /> : <Login />} />
+        <Route path='/signup' element={isLogin ? <Profile /> : <Signup />} />
       </Routes>
-      {user ? <Navbar /> : ''}
+      {isLogin ? <Navbar /> : ''}
     </div>
   );
 }

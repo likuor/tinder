@@ -21,7 +21,6 @@ io.on("connection", async (socket) => {
 		socket.join(roomId);
 		io.to(roomId).emit("joined_room", roomId, user);
 		socket.on("send_msg", (data) => {
-			console.log("msg", data);
 			io.to(roomId).emit("recived_msg", data);
 		});
 	});
