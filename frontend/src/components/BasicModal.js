@@ -80,7 +80,8 @@ export default function BasicModal(props) {
       await axios.get('http://localhost:8000/interests').then((response) => {
         axios
           .get('http://localhost:8000/getuserinfo', { withCredentials: true })
-          .then((res) => {
+					.then((res) => {
+						console.log("modal user", res.data);
             setInterestsData(response.data);
             setCourse(res.data?.course);
             setGender(res.data?.gender);

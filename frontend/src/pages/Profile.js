@@ -23,6 +23,7 @@ const Profile = () => {
       await axios
         .get(`${baseURL}/getuserinfo`, { withCredentials: true })
         .then((response) => {
+          console.log("current user", response.data);
           setUser(response.data);
           axios
             .post(
@@ -39,7 +40,7 @@ const Profile = () => {
     };
 
     fetchData();
-  }, []);
+  }, [user?._id]);
 
   return (
     <>
