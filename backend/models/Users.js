@@ -14,7 +14,7 @@ const UserSchema = new mongoose.Schema(
 		},
 		username: {
 			type: String,
-			default: "",
+			default: "NoName",
 		},
 		course: {
 			type: String,
@@ -26,7 +26,7 @@ const UserSchema = new mongoose.Schema(
 		},
 		age: {
 			type: Number,
-			default: 0,
+			default: null,
 		},
 		about: {
 			type: String,
@@ -40,6 +40,10 @@ const UserSchema = new mongoose.Schema(
 		interests: {
 			type: Array,
 			default:[]
+		},
+		image: {
+			type: String,
+			default:null
 		}
 	},
 	{ timestamps: true }

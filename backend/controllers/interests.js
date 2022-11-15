@@ -6,10 +6,9 @@ const Getinterests = (req, res) => {
 			const  collection = db.db("tinder").collection("interests")
       const result = collection.find().toArray((err, docs) => {
         if (err) {
-          console.log(err);
           res.status(500).json(err);
         } else {
-          console.log(docs);
+          // console.log(docs);
           res.status(200).json(docs);
           db.close();
         }

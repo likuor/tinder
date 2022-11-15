@@ -5,14 +5,15 @@ import App from './App';
 import Theme from './theme/Theme';
 import { ThemeProvider } from '@mui/material';
 import { BrowserRouter } from 'react-router-dom';
+import AuthContextProvider from './AuthContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
+  <BrowserRouter>
+    <AuthContextProvider>
       <ThemeProvider theme={Theme}>
         <App />
       </ThemeProvider>
-    </BrowserRouter>
-  </React.StrictMode>
+    </AuthContextProvider>
+  </BrowserRouter>
 );

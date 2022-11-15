@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef } from 'react';
+import React, { useState, useContext, useRef, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
@@ -8,15 +8,15 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import axios from 'axios';
 import { AuthContext } from '../AuthContext';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import {
   checkEmail,
   checkPassword,
   checkConfirmPassword,
-} from '../helper/validation';
+} from '../helper/AuthValidation';
 
 const Auth = () => {
-  const { setUser } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [email, setEmail] = useState({ input: undefined, errMessage: '' });
   const [password, setPassword] = useState({
     input: undefined,
@@ -29,6 +29,18 @@ const Auth = () => {
   const refEmail = useRef();
   const refPassword = useRef();
   const refConfrimPassword = useRef();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      if (!user.sexual_orientation.length === 0 || !user.gender) {
+        return navigate('/login');
+      } else {
+        return navigate('/');
+      }
+    }
+  }, [user, navigate]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -48,22 +60,11 @@ const Auth = () => {
         email: refEmail.current.value,
         password: refPassword.current.value,
       };
-      console.log('newUser', newUser);
 
       axios
         .post(baseURL, newUser)
-        .then((res) => {
-          const userData = res.data;
-          setUser({
-            email: userData.email,
-            username: userData.username,
-            about: userData.about,
-            age: userData.age,
-            course: userData.course,
-            gender: userData.gender,
-            interests: userData.interests,
-            sexual_orientation: userData.sexual_orientation,
-          });
+        .then(() => {
+          return navigate('/login');
         })
         .catch((err) => {
           console.log('ERR', err);

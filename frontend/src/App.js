@@ -1,21 +1,31 @@
+import React, { useContext } from 'react';
+import Chatroom from './pages/Chatroom';
 import Home from './pages/Home';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
-import AuthContextProvider from './AuthContext';
 import { Routes, Route } from 'react-router-dom';
+import ChatList from './pages/ChatList';
+import Navbar from './components/Navbar';
+import { AuthContext } from './AuthContext';
 
 function App() {
+  const { isLogin } = useContext(AuthContext);
+
   return (
     <div className='App'>
-      <AuthContextProvider>
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/profile' element={<Profile />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/signup' element={<Signup />} />
-        </Routes>
-      </AuthContextProvider>
+      <Routes>
+        <Route path='/' element={isLogin ? <Home /> : <Login />} />
+        <Route
+          path='/chat/room=:id'
+          element={isLogin ? <Chatroom /> : <Login />}
+        />
+        <Route path='/chat' element={isLogin ? <ChatList /> : <Login />} />
+        <Route path='/profile' element={isLogin ? <Profile /> : <Login />} />
+        <Route path='/login' element={isLogin ? <Profile /> : <Login />} />
+        <Route path='/signup' element={isLogin ? <Profile /> : <Signup />} />
+      </Routes>
+      {isLogin ? <Navbar /> : ''}
     </div>
   );
 }

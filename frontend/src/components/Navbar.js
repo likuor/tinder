@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import BottomNavigation from '@mui/material/BottomNavigation';
@@ -7,13 +7,13 @@ import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import PersonIcon from '@mui/icons-material/Person';
 import SearchIcon from '@mui/icons-material/Search';
 import Paper from '@mui/material/Paper';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
-  const [value, setValue] = React.useState(0);
-  const ref = React.useRef(null);
+  const [value, setValue] = useState(0);
 
   return (
-    <Box sx={{ pb: 7 }} ref={ref}>
+    <Box sx={{ pb: 7 }}>
       <CssBaseline />
 
       <Paper
@@ -27,9 +27,24 @@ const Navbar = () => {
             setValue(newValue);
           }}
         >
-          <BottomNavigationAction label='Search' icon={<SearchIcon />} />
-          <BottomNavigationAction label='Chat' icon={<QuestionAnswerIcon />} />
-          <BottomNavigationAction label='Profile' icon={<PersonIcon />} />
+          <BottomNavigationAction
+            label='Search'
+            icon={<SearchIcon />}
+            component={Link}
+            to='/'
+          />
+          <BottomNavigationAction
+            label='Chat'
+            icon={<QuestionAnswerIcon />}
+            component={Link}
+            to='/chat'
+          />
+          <BottomNavigationAction
+            label='Profile'
+            icon={<PersonIcon />}
+            component={Link}
+            to='/profile'
+          />
         </BottomNavigation>
       </Paper>
     </Box>
