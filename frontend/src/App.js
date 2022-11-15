@@ -8,7 +8,6 @@ import { Routes, Route } from 'react-router-dom';
 import ChatList from './pages/ChatList';
 import Navbar from './components/Navbar';
 import { AuthContext } from './AuthContext';
-import Image from './pages/Image';
 
 function App() {
   const { isLogin } = useContext(AuthContext);
