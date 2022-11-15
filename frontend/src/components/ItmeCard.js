@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import IconButton from '@mui/material/IconButton';
@@ -12,7 +12,6 @@ import Pill from './Pill';
 import Stack from '@mui/material/Stack';
 import CardActions from '@mui/material/CardActions';
 import BasicButton from './BasicButton';
-import userImageAtsu from '../image/userImages/test.jpg';
 import { AuthContext } from '../AuthContext';
 import axios from 'axios';
 
@@ -28,8 +27,6 @@ const ExpandInfo = styled((props) => {
 }));
 
 const ItmeCard = ({ usersLength, userData, usersIndex, setusersIndex }) => {
-  const { user } = useContext(AuthContext);
-
   const [expanded, setExpanded] = useState(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -38,14 +35,22 @@ const ItmeCard = ({ usersLength, userData, usersIndex, setusersIndex }) => {
   const showNextUser = () => {
     if (usersIndex < usersLength) {
       const baseURL = 'http://localhost:8000/sendlike';
-      const sendInfo = { from: user._id, to: userData._id };
-      axios.post(baseURL, sendInfo);
+      const sendInfo = { to: userData._id };
+      axios.post(baseURL, sendInfo, { withCredentials: true });
       return setusersIndex(usersIndex + 1);
     } else {
       return alert('No more users!');
     }
   };
-
+  const [image, setImage] = useState('');
+  useEffect(() => {
+    const baseURL = 'http://localhost:8000/userimage';
+    axios
+      .post(baseURL, { user_id: userData?._id }, { withCredentials: true })
+      .then((res) => {
+        setImage(res.data);
+      });
+  }, [usersIndex]);
   return (
     <>
       <Card
@@ -54,8 +59,8 @@ const ItmeCard = ({ usersLength, userData, usersIndex, setusersIndex }) => {
       >
         <ImageListItem>
           <img
-            src={userImageAtsu}
-            srcSet={userImageAtsu}
+            src={image}
+            srcSet={image}
             alt={`${userData?.username} pic`}
             loading='lazy'
           />

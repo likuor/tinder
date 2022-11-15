@@ -40,6 +40,10 @@ const UserSchema = new mongoose.Schema(
 		interests: {
 			type: Array,
 			default:[]
+		},
+		image: {
+			type: String,
+			default:null
 		}
 	},
 	{ timestamps: true }

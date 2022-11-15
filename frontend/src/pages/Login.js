@@ -6,7 +6,6 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import axios from 'axios';
 import { AuthContext } from '../AuthContext';
 import { Link as RouterLink } from 'react-router-dom';
 import { checkEmail, checkPassword } from '../helper/AuthValidation';
@@ -37,34 +36,6 @@ const Login = () => {
         },
         dispatch
       );
-
-      // const baseURL = 'http://localhost:8000/login';
-      // const loginUser = {
-      //   email: refEmail.current.value,
-      //   password: refPassword.current.value,
-      // };
-
-      // axios
-      //   .post(baseURL, loginUser, {
-      //     withCredentials: true,
-      //   })
-      //   .then((res) => {
-      // const userData = res.data;
-      // setUser({
-      //   _id: userData._id,
-      //   email: userData.email,
-      //   username: userData.username,
-      //   about: userData.about,
-      //   age: userData.age,
-      //   course: userData.course,
-      //   gender: userData.gender,
-      //   interests: userData.interests,
-      //   sexual_orientation: userData.sexual_orientation,
-      // });
-      // })
-      // .catch((err) => {
-      //   console.log('ERR', err);
-      // });
     }
   };
 

@@ -8,7 +8,7 @@ const {
 
 router.post("/sendlike", sendLike);
 router.get("/getlike", getLike)
-router.post("/user", getUsers)
+router.get("/user", getUsers)
 router.post("/checklike", checkLike);
 
 module.exports = router;
