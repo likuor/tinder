@@ -36,21 +36,21 @@ const ItmeCard = ({ usersLength, userData, usersIndex, setusersIndex }) => {
 
 	const showNextUser = () => {
 		if (usersIndex < usersLength) {
-			const baseURL = "http://localhost:8000/sendlike";
-			const sendInfo = {to: userData._id };
+			const baseURL = `${process.env.REACT_APP_SERVER_URL}/sendlike`;
+			const sendInfo = { to: userData._id };
 			axios.post(baseURL, sendInfo, { withCredentials: true });
 			return setusersIndex(usersIndex + 1);
 		} else {
 			return alert("No more users!");
 		}
-  };
-  const [image, setImage]=useState("")
+	};
+	const [image, setImage] = useState("");
 	useEffect(() => {
-		const baseURL = "http://localhost:8000/userimage";
-    axios
+		const baseURL = `${process.env.REACT_APP_SERVER_URL}/userimage`;
+		axios
 			.post(baseURL, { user_id: userData?._id }, { withCredentials: true })
 			.then((res) => {
-        setImage(res.data)
+				setImage(res.data);
 			});
 	}, [usersIndex]);
 	return (

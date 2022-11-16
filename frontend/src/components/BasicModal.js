@@ -1,20 +1,20 @@
-import React, { useState, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
-import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import Box from '@mui/material/Box';
-import Autocomplete from '@mui/material/Autocomplete';
-import BoxLayout from '../Layout/BoxLayout';
-import axios from 'axios';
-import { courses, genders, sexualOrientations } from '../Data/SelectBoxOptions';
+import React, { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
+import Button from "@mui/material/Button";
+import { styled } from "@mui/material/styles";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import TextField from "@mui/material/TextField";
+import MenuItem from "@mui/material/MenuItem";
+import Box from "@mui/material/Box";
+import Autocomplete from "@mui/material/Autocomplete";
+import BoxLayout from "../Layout/BoxLayout";
+import axios from "axios";
+import { courses, genders, sexualOrientations } from "../Data/SelectBoxOptions";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 	"& .MuiDialogContent-root": {
@@ -53,70 +53,74 @@ BootstrapDialogTitle.propTypes = {
 };
 
 export default function BasicModal(props) {
-  const { open, setOpen, user, setUser } = props;
-  const nameRef = useRef(null);
-  const aboutRef = useRef(null);
-  const courseRef = useRef(null);
-  const genderRef = useRef(null);
-  const ageRef = useRef(null);
+	const { open, setOpen, user, setUser } = props;
+	const nameRef = useRef(null);
+	const aboutRef = useRef(null);
+	const courseRef = useRef(null);
+	const genderRef = useRef(null);
+	const ageRef = useRef(null);
 
 	// image
 	const [selectedImage, setSelectedImage] = useState(null);
 	const [imageUrl, setImageUrl] = useState(null);
 
-  // set interests data from db
-  const [interestsData, setInterestsData] = useState([]);
+	// set interests data from db
+	const [interestsData, setInterestsData] = useState([]);
 
-  // these data are from file
-  const [course, setCourse] = useState('NONE');
-  const [gender, setGender] = useState(0);
-  const [interests, setInterests] = useState([]);
-  const [inputInterestsVal, setInputInterestsVal] = useState('');
-  const [sexualOri, setSexualOri] = useState([]);
-  const [inputSexualOriVal, setInputSexualOriVal] = useState('');
+	// these data are from file
+	const [course, setCourse] = useState("NONE");
+	const [gender, setGender] = useState(0);
+	const [interests, setInterests] = useState([]);
+	const [inputInterestsVal, setInputInterestsVal] = useState("");
+	const [sexualOri, setSexualOri] = useState([]);
+	const [inputSexualOriVal, setInputSexualOriVal] = useState("");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await axios.get('http://localhost:8000/interests').then((response) => {
-        axios
-          .get('http://localhost:8000/getuserinfo', { withCredentials: true })
-					.then((res) => {
-            setInterestsData(response.data);
-            setCourse(res.data?.course);
-            setGender(res.data?.gender);
-            setSexualOri(res.data?.sexual_orientation);
-            setInterests(res.data?.interests);
-          });
-      });
+	useEffect(() => {
+		const fetchData = async () => {
+			await axios
+				.get(`${process.env.REACT_APP_SERVER_URL}/interests`)
+				.then((response) => {
+					axios
+						.get(`${process.env.REACT_APP_SERVER_URL}/getuserinfo`, {
+							withCredentials: true,
+						})
+						.then((res) => {
+							setInterestsData(response.data);
+							setCourse(res.data?.course);
+							setGender(res.data?.gender);
+							setSexualOri(res.data?.sexual_orientation);
+							setInterests(res.data?.interests);
+						});
+				});
 
-      if (selectedImage) {
-        setImageUrl(URL.createObjectURL(selectedImage));
-      }
-    };
+			if (selectedImage) {
+				setImageUrl(URL.createObjectURL(selectedImage));
+			}
+		};
 
-    fetchData();
-  }, [selectedImage, user]);
+		fetchData();
+	}, [selectedImage, user]);
 
 	const handleCloseModal = () => {
 		setOpen(false);
 
-   const updatedSexualOri = sexualOri?.map((chosenSex) => chosenSex);
-    const UpdatedInterests = interests?.map(
-      (chosenInterests) => chosenInterests
-    );
+		const updatedSexualOri = sexualOri?.map((chosenSex) => chosenSex);
+		const UpdatedInterests = interests?.map(
+			(chosenInterests) => chosenInterests
+		);
 
-    const userInfo = {
-      _id: user._id,
-      email: user.email,
-      username: nameRef.current.value,
-      // image: imageUrl,
-      about: aboutRef.current.value,
-      age: Number(ageRef.current.value),
-      course: courseRef.current.value,
-      gender: genderRef.current.value,
-      interests: UpdatedInterests,
-      sexual_orientation: updatedSexualOri,
-    };
+		const userInfo = {
+			_id: user._id,
+			email: user.email,
+			username: nameRef.current.value,
+			// image: imageUrl,
+			about: aboutRef.current.value,
+			age: Number(ageRef.current.value),
+			course: courseRef.current.value,
+			gender: genderRef.current.value,
+			interests: UpdatedInterests,
+			sexual_orientation: updatedSexualOri,
+		};
 		const placedUserInfo = JSON.stringify(user);
 		const updatedUserInfo = JSON.stringify(userInfo);
 		const formData = new FormData();
@@ -282,43 +286,43 @@ export default function BasicModal(props) {
 							))}
 						</TextField>
 					</BoxLayout>
-          {/* sexual orieantation */}
-          <BoxLayout>
-            <Autocomplete
-              multiple
-              sx={{ width: 260 }}
-              limitTags={5}
-              name='sexualOrientation'
-              id='multiple-sexualOrientation'
-              options={sexualOrientations}
-              getOptionLabel={(option) => option.label}
-              isOptionEqualToValue={(option, value) => option.id === value.id}
-              value={sexualOri}
-              defaultValue={user?.sexual_orientation}
-              onChange={(event, newValue) => {
-                setSexualOri(newValue);
-              }}
-              inputValue={inputSexualOriVal}
-              onInputChange={(event, newInputValue) => {
-                setInputSexualOriVal(newInputValue);
-              }}
-              renderInput={(params) => (
-                <TextField
-                  name='auto-input'
-                  {...params}
-                  label='Select your Sexual Orientation'
-                  placeholder='Sexual Orientation'
-                />
-              )}
-            />
-          </BoxLayout>
-        </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleCloseModal}>
-            Save changes
-          </Button>
-        </DialogActions>
-      </BootstrapDialog>
-    </>
-  );
+					{/* sexual orieantation */}
+					<BoxLayout>
+						<Autocomplete
+							multiple
+							sx={{ width: 260 }}
+							limitTags={5}
+							name='sexualOrientation'
+							id='multiple-sexualOrientation'
+							options={sexualOrientations}
+							getOptionLabel={(option) => option.label}
+							isOptionEqualToValue={(option, value) => option.id === value.id}
+							value={sexualOri}
+							defaultValue={user?.sexual_orientation}
+							onChange={(event, newValue) => {
+								setSexualOri(newValue);
+							}}
+							inputValue={inputSexualOriVal}
+							onInputChange={(event, newInputValue) => {
+								setInputSexualOriVal(newInputValue);
+							}}
+							renderInput={(params) => (
+								<TextField
+									name='auto-input'
+									{...params}
+									label='Select your Sexual Orientation'
+									placeholder='Sexual Orientation'
+								/>
+							)}
+						/>
+					</BoxLayout>
+				</DialogContent>
+				<DialogActions>
+					<Button autoFocus onClick={handleCloseModal}>
+						Save changes
+					</Button>
+				</DialogActions>
+			</BootstrapDialog>
+		</>
+	);
 }

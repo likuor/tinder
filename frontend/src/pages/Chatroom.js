@@ -26,7 +26,7 @@ const Chatroom = () => {
 	const { matchedUserName } = location.state;
 
 	useEffect(() => {
-		const baseURL = "http://localhost:8000";
+		const baseURL = `${process.env.REACT_APP_SERVER_URL}`;
 		const fetchData = async () => {
 			await axios
 				.get(`${baseURL}/getuserinfo`, { withCredentials: true })
