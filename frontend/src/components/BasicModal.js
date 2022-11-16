@@ -128,7 +128,7 @@ export default function BasicModal(props) {
 		formData.append("userInfo", updatedUserInfo);
 
 		if (placedUserInfo !== updatedUserInfo) {
-			const baseURL = "http://localhost:8000/setting";
+			const baseURL = `${process.env.REACT_APP_SERVER_URL}/setting`;
 			axios
 				.post(baseURL, formData, {
 					headers: { "Content-Type": "multipart/form-data" },
