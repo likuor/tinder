@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import EditIcon from "@mui/icons-material/Edit";
 import BasicModal from "../components/BasicModal";
 import axios from "axios";
-
+import { baseURL } from "../helper/baseURL";
 const Profile = () => {
 	const [user, setUser] = useState();
 	const [open, setOpen] = useState(false);
@@ -19,7 +19,6 @@ const Profile = () => {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const baseURL = `${process.env.REACT_APP_SERVER_URL}`;
 			await axios
 				.get(`${baseURL}/getuserinfo`, { withCredentials: true })
 				.then((response) => {

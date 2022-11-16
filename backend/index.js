@@ -5,13 +5,14 @@ const cookieSession = require("cookie-session");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 require("dotenv").config();
-const port = 8000;
+const port = process.env.SERVER_URL || 8000;
 
 const http = require("http");
 app.use(
 	cors({
 		origin: process.env.FRONT_URL,
 		credentials: true,
+		optionsSuccessStatus: 200, 
 	})
 );
 const server = http.createServer(app);
@@ -19,6 +20,7 @@ const { Server } = require("socket.io");
 const io = new Server(server, {
 	cors: {
 		origin: process.env.FRONT_URL,
+		credentials: true,
 		methods: ["GET", "POST", "DELETE"],
 	},
 });

@@ -12,7 +12,7 @@ import Avatar from "@mui/material/Avatar";
 import Divider from "@mui/material/Divider";
 import { styled } from "@mui/material/styles";
 import Badge from "@mui/material/Badge";
-
+import { baseURL } from "../helper/baseURL";
 const StyledBadge = styled(Badge)(({ theme }) => ({
 	"& .MuiBadge-badge": {
 		backgroundColor: "#273885",
@@ -37,7 +37,6 @@ const ChatList = () => {
 	const [image, setImage] = useState("");
 	useEffect(() => {
 		const fetchData = async () => {
-			const baseURL = `${process.env.REACT_APP_SERVER_URL}`;
 			await axios
 				.get(`${baseURL}/getchatlist`, { withCredentials: true })
 				.then((res) => {

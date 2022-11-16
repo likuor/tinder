@@ -12,7 +12,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@material-ui/core/Button";
 import Paper from "@mui/material/Paper";
-
+import { baseURL } from "../helper/baseURL";
 const socket = io(`${process.env.REACT_APP_SERVER_URL}`, {
 	query: { id: "1234" },
 });
@@ -28,7 +28,7 @@ const Chatroom = () => {
 	const { matchedUserName } = location.state;
 
 	useEffect(() => {
-		const baseURL = `${process.env.REACT_APP_SERVER_URL}`;
+
 		const fetchData = async () => {
 			await axios
 				.get(`${baseURL}/getuserinfo`, { withCredentials: true })

@@ -15,7 +15,7 @@ import BasicButton from "./BasicButton";
 import userImageAtsu from "../image/userImages/test.jpg";
 import { AuthContext } from "../AuthContext";
 import axios from "axios";
-
+import { baseURL } from "../helper/baseURL";
 const ExpandInfo = styled((props) => {
 	const { expand, ...other } = props;
 	return <IconButton {...other} />;
@@ -36,9 +36,8 @@ const ItmeCard = ({ usersLength, userData, usersIndex, setusersIndex }) => {
 
 	const showNextUser = () => {
 		if (usersIndex < usersLength) {
-			const baseURL = `${process.env.REACT_APP_SERVER_URL}/sendlike`;
 			const sendInfo = { to: userData._id };
-			axios.post(baseURL, sendInfo, { withCredentials: true });
+			axios.post(`${baseURL}/sendlike`, sendInfo, { withCredentials: true });
 			return setusersIndex(usersIndex + 1);
 		} else {
 			return alert("No more users!");
@@ -46,9 +45,12 @@ const ItmeCard = ({ usersLength, userData, usersIndex, setusersIndex }) => {
 	};
 	const [image, setImage] = useState("");
 	useEffect(() => {
-		const baseURL = `${process.env.REACT_APP_SERVER_URL}/userimage`;
 		axios
-			.post(baseURL, { user_id: userData?._id }, { withCredentials: true })
+			.post(
+				`${baseURL}/userimage`,
+				{ user_id: userData?._id },
+				{ withCredentials: true }
+			)
 			.then((res) => {
 				setImage(res.data);
 			});

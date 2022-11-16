@@ -15,7 +15,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import BoxLayout from "../Layout/BoxLayout";
 import axios from "axios";
 import { courses, genders, sexualOrientations } from "../Data/SelectBoxOptions";
-
+import { baseURL } from "../helper/baseURL";
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 	"& .MuiDialogContent-root": {
 		padding: theme.spacing(2),
@@ -78,10 +78,10 @@ export default function BasicModal(props) {
 	useEffect(() => {
 		const fetchData = async () => {
 			await axios
-				.get(`${process.env.REACT_APP_SERVER_URL}/interests`)
+				.get(`${baseURL}/interests`)
 				.then((response) => {
 					axios
-						.get(`${process.env.REACT_APP_SERVER_URL}/getuserinfo`, {
+						.get(`${baseURL}/getuserinfo`, {
 							withCredentials: true,
 						})
 						.then((res) => {
@@ -128,9 +128,8 @@ export default function BasicModal(props) {
 		formData.append("userInfo", updatedUserInfo);
 
 		if (placedUserInfo !== updatedUserInfo) {
-			const baseURL = `${process.env.REACT_APP_SERVER_URL}/setting`;
 			axios
-				.post(baseURL, formData, {
+				.post(`${baseURL}/setting`, formData, {
 					headers: { "Content-Type": "multipart/form-data" },
 				})
 				.then((res) => {

@@ -6,16 +6,20 @@ import MainLayout from "../Layout/MainLayout";
 import axios from "axios";
 import NomoreUser from "./NomoreUser";
 // const randomUser = pickRandomUser(users);
+import { baseURL } from "../helper/baseURL";
 
 const Home = () => {
 	const [usersData, setUsersData] = useState([]);
 	const [usersIndex, setusersIndex] = useState(0);
 	useEffect(() => {
 		const fetchMatchableUsers = async () => {
-			const baseURL = `${process.env.REACT_APP_SERVER_URL}/user`;
-			await axios.get(baseURL, { withCredentials: true }).then((res) => {
-				setUsersData(res.data);
-			});
+			await axios
+				.get(`${baseURL}/user`, {
+					withCredentials: true,
+				})
+				.then((res) => {
+					setUsersData(res.data);
+				});
 		};
 		fetchMatchableUsers();
 	}, []);
