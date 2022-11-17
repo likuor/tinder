@@ -35,6 +35,7 @@ const LoginUser = async (req, res) => {
       return res.status(400).json('password is wrong');
     } else {
       req.session.id = user._id.toString();
+      console.log("req", req.session.id);
       res.cookie('id', req.session.id);
       return res.status(200).json(user);
     }
@@ -46,7 +47,6 @@ const LoginUser = async (req, res) => {
 const cookieCheck = async (req, res) => {
   try {
     const loggeinSession = req.session.id;
-
     return res.status(200).json(loggeinSession);
   } catch (err) {
     res.status(500).json(err);
