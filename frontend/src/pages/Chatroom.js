@@ -13,9 +13,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@material-ui/core/Button";
 import Paper from "@mui/material/Paper";
 import { baseURL } from "../helper/baseURL";
-const socket = io(`${process.env.REACT_APP_SERVER_URL}`, {
-	query: { id: "1234" },
-});
+const socket = io(`${baseURL}`);
 
 const Chatroom = () => {
 	const params = useParams();
