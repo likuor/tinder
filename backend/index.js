@@ -5,7 +5,8 @@ const cookieSession = require("cookie-session");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 require("dotenv").config();
-const port = process.env.SERVER_URL || process.env.FRONT_URL;
+// const port = process.env.SERVER_URL || process.env.FRONT_URL;
+const port = 8000;
 
 const http = require("http");
 app.use(
