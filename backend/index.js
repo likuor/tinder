@@ -27,10 +27,13 @@ const io = new Server(server, {
 });
 app.use(
 	cookieSession({
-		name: "id",
+		name: "session",
 		secret: "key",
+		resave: true,
+		saveUninitialized: false,
 		cookie: {
 			maxAge: 10000 * 60 * 60,
+			secure: false,
 		},
 	})
 );
