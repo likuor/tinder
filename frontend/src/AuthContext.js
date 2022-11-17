@@ -22,7 +22,7 @@ const AuthContextProvider = (props) => {
 					withCredentials: true,
 				})
 				.then((res) => {
-					console.log("yes");
+					console.log("yes", res.data);
 					return setIsLogin(res.data);
 				});
 		};
