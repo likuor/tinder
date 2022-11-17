@@ -36,7 +36,7 @@ const LoginUser = async (req, res) => {
     } else {
       req.session.id = user._id.toString();
       console.log("req", req.session.id);
-      res.cookie('id', req.session.id);
+      // res.cookie('id', req.session.id);
       return res.status(200).json(user);
     }
   } catch (err) {
