@@ -13,7 +13,7 @@ const server = http.createServer(app);
 app.use(
 	cors({
 		origin: [process.env.FRONT_URL, "http://localhost:3000"],
-		credentials: true,
+		// credentials: true,
 		optionsSuccessStatus: 200, 
 	})
 );
