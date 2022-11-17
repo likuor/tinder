@@ -5,18 +5,18 @@ const cookieSession = require("cookie-session");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 require("dotenv").config();
-// const port = process.env.SERVER_URL || process.env.FRONT_URL;
+// const port = process.env.SERVER_URL || 8000;
 const port = 8000;
 
 const http = require("http");
+const server = http.createServer(app);
 app.use(
 	cors({
-		origin: process.env.FRONT_URL,
+		origin: [process.env.FRONT_URL, "http://localhost:3000"],
 		credentials: true,
 		optionsSuccessStatus: 200, 
 	})
 );
-const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server, {
 	cors: {
@@ -56,21 +56,21 @@ const interestsRoute = require("./routes/interests");
 const likesRoute = require("./routes/likes");
 const chatRoute = require("./routes/chat");
 const imageRoute = require("./routes/image");
-const {
-	S3Client,
-} = require("@aws-sdk/client-s3");
+// const {
+// 	S3Client,
+// } = require("@aws-sdk/client-s3");
 
-const bucketName = process.env.BUCKET_NAME;
-const bucketRegion = process.env.BUCKET_REGION;
-const accessKey = process.env.ACCESS_KEY;
-const secretAccessKey = process.env.SECRET_ACCESS_KEY;
-const s3 = new S3Client({
-	credentials: {
-		accessKeyId: accessKey,
-		secretAccessKey: secretAccessKey,
-	},
-	region: bucketRegion,
-});
+// const bucketName = process.env.BUCKET_NAME;
+// const bucketRegion = process.env.BUCKET_REGION;
+// const accessKey = process.env.ACCESS_KEY;
+// const secretAccessKey = process.env.SECRET_ACCESS_KEY;
+// const s3 = new S3Client({
+// 	credentials: {
+// 		accessKeyId: accessKey,
+// 		secretAccessKey: secretAccessKey,
+// 	},
+// 	region: bucketRegion,
+// });
 mongoose
 	.connect(process.env.APP_MONGO_URL)
 	.then(() => {
@@ -79,19 +79,19 @@ mongoose
 	.catch((err) => {
 		console.log(err);
 	});
-app.use(function (req, res, next) {
-	res.setHeader("Access-Control-Allow-Origin", `${process.env.SERVER_URL}`);
-	res.setHeader(
-		"Access-Control-Allow-Methods",
-		"GET, POST, OPTIONS, PUT, PATCH, DELETE"
-	);
-	res.setHeader(
-		"Access-Control-Allow-Headers",
-		"X-Requested-With,content-type"
-	);
-	res.setHeader("Access-Control-Allow-Credentials", true);
-	next();
-});
+// app.use(function (req, res, next) {
+// 	res.setHeader("Access-Control-Allow-Origin", `${process.env.SERVER_URL}`);
+// 	res.setHeader(
+// 		"Access-Control-Allow-Methods",
+// 		"GET, POST, OPTIONS, PUT, PATCH, DELETE"
+// 	);
+// 	res.setHeader(
+// 		"Access-Control-Allow-Headers",
+// 		"X-Requested-With,content-type"
+// 	);
+// 	res.setHeader("Access-Control-Allow-Credentials", true);
+// 	next();
+// });
 app.use("/", authRoute);
 app.use("/", settingRoute);
 app.use("/", interestsRoute);
