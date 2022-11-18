@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import BottomNavigation from '@mui/material/BottomNavigation';
@@ -7,15 +7,28 @@ import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import PersonIcon from '@mui/icons-material/Person';
 import SearchIcon from '@mui/icons-material/Search';
 import Paper from '@mui/material/Paper';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
-  const [value, setValue] = useState(0);
+  const location = useLocation();
+  const [value, setValue] = useState();
+
+  useEffect(() => {
+    switch (location.pathname) {
+      case '/':
+        return setValue(0);
+      case '/chat':
+        return setValue(1);
+      case '/profile':
+        return setValue(2);
+      default:
+        return setValue(1);
+    }
+  }, [location]);
 
   return (
     <Box sx={{ pb: 7 }}>
       <CssBaseline />
-
       <Paper
         sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}
         elevation={3}
