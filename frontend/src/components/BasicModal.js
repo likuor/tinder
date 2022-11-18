@@ -15,7 +15,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import BoxLayout from '../Layout/BoxLayout';
 import axios from 'axios';
 import { courses, genders, sexualOrientations } from '../Data/SelectBoxOptions';
-
+import imageCompression from "browser-image-compression"
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 	"& .MuiDialogContent-root": {
 		padding: theme.spacing(2),
@@ -96,8 +96,17 @@ export default function BasicModal(props) {
 
     fetchData();
   }, [selectedImage, user]);
-
-	const handleCloseModal = () => {
+	const compressImage = async (image) => {
+			const imageFile = image;
+			const options = {
+				maxSizeMB: 1,
+				maxWidthOrHeight: 1920,
+				useWebWorker: true,
+			};
+		const compressedFile = await imageCompression(imageFile, options);
+		return compressedFile;
+}
+	const handleCloseModal = async() => {
 		setOpen(false);
 
    const updatedSexualOri = sexualOri?.map((chosenSex) => chosenSex);
@@ -120,7 +129,10 @@ export default function BasicModal(props) {
 		const placedUserInfo = JSON.stringify(user);
 		const updatedUserInfo = JSON.stringify(userInfo);
 		const formData = new FormData();
-		formData.append("image", selectedImage);
+
+		console.log("image", selectedImage);
+		const image = await compressImage(selectedImage);
+		formData.append("image", image);
 		formData.append("userInfo", updatedUserInfo);
 
 		if (placedUserInfo !== updatedUserInfo) {
