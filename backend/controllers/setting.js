@@ -4,6 +4,7 @@ const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 const crypto = require("crypto");
 const randomImageName = (bytes = 32) =>
 	crypto.randomBytes(bytes).toString("hex");
+const sharp = require("sharp");
 const bucketName = process.env.BUCKET_NAME;
 const bucketRegion = process.env.BUCKET_REGION;
 const accessKey = process.env.ACCESS_KEY;
