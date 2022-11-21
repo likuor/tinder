@@ -19,6 +19,7 @@ const AuthContextProvider = (props) => {
   // console.log(process.env.REACT_APP_SERVER_URL);
   // console.log("test", process.env.TEST);
   useEffect(() => {
+
     setIsLogin(JSON.parse(localStorage.getItem('id')));
     // const fetchLoggedinUser = async () => {
     //   await axios
@@ -32,6 +33,7 @@ const AuthContextProvider = (props) => {
     //     });
     // };
     // fetchLoggedinUser();
+
   }, [state]);
   console.log('isLogin', isLogin);
 
