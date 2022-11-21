@@ -4,7 +4,6 @@ import style from 'styled-components';
 import '../styles/style.css';
 import ImageListItem from '@mui/material/ImageListItem';
 import IconButton from '@mui/material/IconButton';
-import InfoIcon from '@mui/icons-material/Info';
 import { styled } from '@mui/material/styles';
 import Collapse from '@mui/material/Collapse';
 import Typography from '@mui/material/Typography';
@@ -15,6 +14,8 @@ import Stack from '@mui/material/Stack';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import Fab from '@mui/material/Fab';
 import Box from '@mui/material/Box';
+import FloatingButton from './FloatingButton';
+import axios from 'axios';
 
 const CardDiv = style.div`
   display: flex;
@@ -47,13 +48,38 @@ const TinderCardCom = ({ usersData, isPicsLoaded }) => {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
   const onSwipe = (direction) => {
-    console.log('You swiped: ' + direction);
+    console.log('cards loaded', direction);
   };
 
-  const onCardLeftScreen = (myIdentifier) => {
-    console.log(myIdentifier + ' left the screen');
+  const onCardLeftScreen = (userId) => {
+    // console.log(userId);
+    // const baseURL = 'http://localhost:8000/sendlike';
+    // const sendInfo = { to: userId };
+    // axios.post(baseURL, sendInfo, { withCredentials: true });
+  };
+
+  const swiped = (direction) => {
+    console.log('You swiped: ' + direction);
+    // console.log('user ' + userId);
+
+    switch (direction) {
+      case 'right':
+        const baseURL = 'http://localhost:8000/sendlike';
+        // console.log(baseURL);
+        // const sendInfo = { to: userId };
+        // axios.post(baseURL, sendInfo, { withCredentials: true });
+        return;
+
+      case 'left':
+        // const baseURL = 'http://localhost:8000/sendlike';
+        // const sendInfo = { to: userData._id };
+        // axios.post(baseURL, sendInfo, { withCredentials: true });
+        return;
+
+      default:
+        break;
+    }
   };
 
   return (
@@ -63,8 +89,9 @@ const TinderCardCom = ({ usersData, isPicsLoaded }) => {
           <CardDiv key={person._id}>
             <TinderCard
               className='swipe'
-              onSwipe={onSwipe}
-              onCardLeftScreen={() => onCardLeftScreen('fooBar')}
+              // onSwipe={onSwipe}
+              onSwipe={swiped}
+              onCardLeftScreen={() => onCardLeftScreen(person._id)}
               preventSwipe={['up', 'down']}
             >
               <Card
@@ -114,9 +141,8 @@ const TinderCardCom = ({ usersData, isPicsLoaded }) => {
         );
       })}
       <Box sx={{ '& > :not(style)': { m: 1 } }}>
-        <Fab color='primary' aria-label='add' onClick={handleExpandClick}>
-          <InfoIcon />
-        </Fab>
+        <FloatingButton color='primary' onClick={handleExpandClick} />
+        <FloatingButton color='warning' onClick={handleExpandClick} />
       </Box>
     </>
   );

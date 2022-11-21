@@ -26,14 +26,14 @@ const Home = () => {
   }, []);
 
   const fetchUsersPics = async (allMatchableUsers) => {
-    const baseURL2 = 'http://localhost:8000/userimage';
+    const picsURL = 'http://localhost:8000/userimage';
 
     for (let i = 0; i < allMatchableUsers.length; i++) {
       setIsPicsLoaded(false);
 
       await axios
         .post(
-          baseURL2,
+          picsURL,
           { user_id: allMatchableUsers[i]._id },
           { withCredentials: true }
         )
