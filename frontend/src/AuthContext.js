@@ -25,7 +25,8 @@ const AuthContextProvider = (props) => {
           withCredentials: true,
         })
         .then((res) => {
-          console.log('yes', res.data);
+          console.log('res', res);
+          console.log('res data', res.data);
           localStorage.setItem('id', JSON.stringify(res.data));
           return setIsLogin(res.data);
         });
