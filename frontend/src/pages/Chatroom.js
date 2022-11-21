@@ -1,19 +1,19 @@
 import React, { useEffect, useRef, useState, useContext } from 'react';
-import io from 'socket.io-client';
-import axios from 'axios';
-import { useParams, useLocation } from 'react-router-dom';
-import ChatroomLayout from '../Layout/ChatroomLayout';
-import { Container } from '@mui/material';
-import Avatar from '@mui/material/Avatar';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Paper from '@mui/material/Paper';
-import { AuthContext } from '../AuthContext';
+// import io from 'socket.io-client';
+// import axios from 'axios';
+// import { useParams, useLocation } from 'react-router-dom';
+// import ChatroomLayout from '../Layout/ChatroomLayout';
+// import { Container } from '@mui/material';
+// import Avatar from '@mui/material/Avatar';
+// import Grid from '@material-ui/core/Grid';
+// import Typography from '@material-ui/core/Typography';
+// import Box from '@mui/material/Box';
+// import TextField from '@mui/material/TextField';
+// import Button from '@mui/material/Button';
+// import Paper from '@mui/material/Paper';
+// import { AuthContext } from '../AuthContext';
 
-const socket = io('http://localhost:8000', { query: { id: '1234' } });
+// const socket = io('http://localhost:8000', { query: { id: '1234' } });
 
 const Chatroom = () => {
   // const params = useParams();
