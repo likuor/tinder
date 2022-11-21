@@ -14,36 +14,42 @@ const s3 = new S3Client({
 	},
 	region: bucketRegion,
 });
-const getImage = async (req, res) => {
+const getImageForProfile = async (req, res) => {
 	try {
-		if (Array.isArray(req.body.user_id)) {
-			const urlArray = [];
-			for (const user of req.body.user_id) {
-				const image = await Images.findOne({
-					user_id: user.userInfo._id,
-				});
-				const url = await getImageFromS3(image.path);
-				await urlArray.push(url);
-			}
-			res.status(200).json(urlArray);
-		} else {
-			if (req.body.user_id) {
-				const image = await Images.findOne({
-					user_id: req.body.user_id,
-				});
-				const url = await getImageFromS3(image.path);
-				res.status(200).json(url);
-			} else {
-				const image = await Images.findOne({
-					user_id: req.session.id,
-				});
-				if (image === null) return res.status(200).json("nothing");
-				const url = await getImageFromS3(image.path);
-				res.status(200).json(url);
-			}
-		}
+		const image = await Images.findOne({
+			user_id: req.session.id,
+		});
+		if (image === null) return res.status(200).json("nothing");
+		const url = await getImageFromS3(image.path);
+		res.status(200).json(url);
 	} catch (err) {
 		res.status(200).json(err);
 	}
 };
-module.exports = { getImage };
+const getImageForHome = async (req, res) => {
+	try {
+		const urlArray = [];
+		for (const user of req.body.user_id) {
+			const image = await Images.findOne({
+				user_id: user.userInfo._id,
+			});
+			const url = await getImageFromS3(image.path);
+			await urlArray.push(url);
+		}
+		res.status(200).json(urlArray);
+	} catch (err) {
+		res.status(200).json(err);
+	}
+};
+const getImageForChat = async (req, res) => {
+	try {
+		const image = await Images.findOne({
+			user_id: req.body.user_id,
+		});
+		const url = await getImageFromS3(image.path);
+		res.status(200).json(url);
+	} catch (err) {
+		res.status(200).json(err);
+	}
+};
+module.exports = { getImageForProfile, getImageForHome, getImageForChat};

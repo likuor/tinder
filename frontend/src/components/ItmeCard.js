@@ -50,6 +50,7 @@ const ItmeCard = ({ usersLength, userData, usersIndex, setusersIndex }) => {
         setImage(res.data);
       });
   }, [usersIndex]);
+
   return (
     <>
       <Card

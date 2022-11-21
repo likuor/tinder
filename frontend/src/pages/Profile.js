@@ -31,21 +31,21 @@ const Profile = () => {
         .then((response) => {
           setUser(response.data);
           axios
-            .post(
-              `${baseURL}/image`,
-              { user_id: user?._id },
-              { withCredentials: true }
-            )
-            .then((res) => {
-              if (res.data !== 'nothing') {
-                setImage(res.data);
-              }
-            });
+						.post(
+							`${baseURL}/profileimage`,
+							{ user_id: user?._id },
+							{ withCredentials: true }
+						)
+						.then((res) => {
+							if (res.data !== "nothing") {
+								setImage(res.data);
+							}
+						});
         });
     };
 
     fetchData();
-  }, []);
+  }, [user?._id]);
 
   const handleLogout = (event) => {
     event.preventDefault();
