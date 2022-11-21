@@ -19,20 +19,21 @@ const AuthContextProvider = (props) => {
   // console.log(process.env.REACT_APP_SERVER_URL);
   // console.log("test", process.env.TEST);
   useEffect(() => {
-    const fetchLoggedinUser = async () => {
-      await axios
-        .get(`${process.env.REACT_APP_SERVER_URL}/cookie`, {
-          withCredentials: true,
-        })
-        .then((res) => {
-          console.log('yes', res.data);
-          localStorage.setItem('id', JSON.stringify(res.data));
-          return setIsLogin(res.data);
-        });
-    };
-    fetchLoggedinUser();
+    setIsLogin(JSON.parse(localStorage.getItem('id')));
+    // const fetchLoggedinUser = async () => {
+    //   await axios
+    //     .get(`${process.env.REACT_APP_SERVER_URL}/cookie`, {
+    //       withCredentials: true,
+    //     })
+    //     .then((res) => {
+    //       console.log('yes', res.data);
+    //       localStorage.setItem('id', JSON.stringify(res.data));
+    //       return setIsLogin(res.data);
+    //     });
+    // };
+    // fetchLoggedinUser();
   }, [state]);
-  // console.log('state', state);
+  console.log('isLogin', isLogin);
 
   return (
     <AuthContext.Provider
