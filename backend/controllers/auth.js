@@ -35,10 +35,12 @@ const LoginUser = async (req, res) => {
     if (!isUserMatch) {
       return res.status(400).json('password is wrong');
     } else {
+
       // req.session.id = user._id.toString();
       console.log("Api calling");
       console.log("req", user);
       // // res.cookie('id', req.session.id);
+
       return res.status(200).json(user);
     }
   } catch (err) {
@@ -49,21 +51,21 @@ const LoginUser = async (req, res) => {
 const cookieCheck = async (req, res) => {
   try {
     const loggeinSession = req.session.id;
-      console.log("req", req.session.id);
+    console.log('req', req.session.id);
     return res.status(200).json(loggeinSession);
   } catch (err) {
     res.status(500).json(err);
   }
 };
 
-const Logout = async(req,res) => {
+const Logout = async (req, res) => {
   try {
-    req.session.id = null
-    res.status(200).json("logout")
+    req.session.id = null;
+    res.status(200).json('logout');
   } catch (err) {
-    res.status(500),json(err)
+    res.status(500), json(err);
   }
-}
+};
 const GetUser = async (req, res) => {
   try {
     const user = await User.findById(req.session.id);
@@ -73,9 +75,9 @@ const GetUser = async (req, res) => {
   }
 };
 module.exports = {
-	CreateUser,
-	LoginUser,
-	GetUser,
-	cookieCheck,
-	Logout,
+  CreateUser,
+  LoginUser,
+  GetUser,
+  cookieCheck,
+  Logout,
 };

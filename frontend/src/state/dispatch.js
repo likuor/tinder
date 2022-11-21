@@ -9,10 +9,10 @@ export const loginCall = async (user, dispatch) => {
     const res = await axios.post(`${baseURL}/login`, user, {
       withCredentials: true,
     });
-    console.log('LOGIN', user);
+    console.log('LOGIN', res.data);
 
     // console.log(res.data);
-    // localStorage.setItem('id', JSON.stringify(res.data));
+    localStorage.setItem('id', JSON.stringify(res.data._id));
     dispatch({ type: 'LOGIN_SUCCESS', payload: res.data });
   } catch (err) {
     dispatch({ type: 'LOGIN_ERROR', payload: err });
