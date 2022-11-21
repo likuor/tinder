@@ -14,7 +14,7 @@ import {
   checkPassword,
   checkConfirmPassword,
 } from '../helper/AuthValidation';
-
+import { baseURL } from '../helper/baseURL';
 const Auth = () => {
   const { user } = useContext(AuthContext);
   const [email, setEmail] = useState({ input: undefined, errMessage: '' });
@@ -55,14 +55,13 @@ const Auth = () => {
         setConfirmPassword
       ) === true
     ) {
-      const baseURL = 'http://localhost:8000/signup';
       const newUser = {
         email: refEmail.current.value,
         password: refPassword.current.value,
       };
 
       axios
-        .post(baseURL, newUser)
+        .post(`${baseURL}/signup`, newUser)
         .then(() => {
           return navigate('/login');
         })
