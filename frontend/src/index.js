@@ -5,7 +5,7 @@ import App from './App';
 import Theme from './theme/Theme';
 import { ThemeProvider } from '@mui/material';
 import { BrowserRouter } from 'react-router-dom';
-import AuthContextProvider from './AuthContext';
+import AuthContextProvider from './state/AuthContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

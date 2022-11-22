@@ -12,6 +12,24 @@ export const loginCall = async (user, dispatch) => {
   }
 };
 
+export const checkLogin = async (dispatch) => {
+  dispatch({ type: 'LOGIN_START' });
+  const baseURL = 'http://localhost:8000/cookie';
+
+  try {
+    const res = await axios.get(baseURL, {
+      withCredentials: true,
+    });
+    if (res.data) {
+      dispatch({ type: 'LOGIN_SUCCESS', payload: res.data });
+    } else {
+      dispatch({ type: 'LOGIN_ERROR' });
+    }
+  } catch (err) {
+    dispatch({ type: 'LOGIN_ERROR', payload: err });
+  }
+};
+
 export const logoutCall = async (dispatch) => {
   dispatch({ type: 'LOGIN_START' });
 };

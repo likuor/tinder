@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import EditIcon from '@mui/icons-material/Edit';
 import BasicModal from '../components/BasicModal';
 import axios from 'axios';
+import Link from '@mui/material/Link';
 
 const Profile = () => {
   const [user, setUser] = useState();
@@ -25,16 +26,16 @@ const Profile = () => {
         .then((response) => {
           setUser(response.data);
           axios
-						.post(
-							`${baseURL}/profileimage`,
-							{ user_id: user?._id },
-							{ withCredentials: true }
-						)
-						.then((res) => {
-							if (res.data !== "nothing") {
-								setImage(res.data);
-							}
-						});
+            .post(
+              `${baseURL}/profileimage`,
+              { user_id: user?._id },
+              { withCredentials: true }
+            )
+            .then((res) => {
+              if (res.data !== 'nothing') {
+                setImage(res.data);
+              }
+            });
         });
     };
 
@@ -76,6 +77,9 @@ const Profile = () => {
               />
             </Grid>
           </Box>
+          <Link href='/login' variant='body2'>
+            Logout
+          </Link>
         </Box>
       </MainLayout>
     </>
