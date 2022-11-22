@@ -51,12 +51,12 @@ const Chatroom = () => {
                     });
                 } else {
                   axios
-                    .post(`${baseURL}/image`, {
-                      user_id: res.data.user1,
-                    })
-                    .then((res) => {
-                      setImage(res.data);
-                    });
+										.post(`${baseURL}/userimage`, {
+											user_id: res.data.user1,
+										})
+										.then((res) => {
+											setImage(res.data);
+										});
                 }
               });
           }
