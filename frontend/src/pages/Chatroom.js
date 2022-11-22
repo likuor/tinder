@@ -14,7 +14,7 @@ import Paper from '@mui/material/Paper';
 import { AuthContext } from '../AuthContext';
 import { baseURL } from '../helper/baseURL';
 
-const socket = io(baseURL);
+const socket = io();
 
 const Chatroom = () => {
   const params = useParams();
