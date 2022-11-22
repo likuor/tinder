@@ -57,6 +57,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 const crypto = require("crypto")
 const sharp = require("sharp")
+const path = require("path")
 const { S3Client, PutObjectCommand, GetObjectCommand, DeleteBucketCommand } = require("@aws-sdk/client-s3");
 // const  { getSignedUrl } = require("@aws-sdk/s3-request-presigner"); 
 const Images = require("./models/Images");
@@ -81,7 +82,19 @@ mongoose
 	console.log(err);
 });
 
+const __dirname = path.resolve();
 
+if (process.env.NODE_ENV === "production") {
+	app.use(express.static(path.join(__dirname, "/frontend/build")));
+
+	app.get("*", (req, res) =>
+		res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
+	);
+} else {
+	app.get("/", (req, res) => {
+		res.send("API is running..");
+	});
+}
 app.use("/", authRoute);
 
 app.use("/", settingRoute);
