@@ -18,6 +18,9 @@ const BasicButton = (props) => {
               '&:hover': {
                 background: '#b676cc',
               },
+              borderRadius: '50%',
+              height: '60px',
+              width: '60px',
             }}
             onClick={onClick}
           >
@@ -34,6 +37,9 @@ const BasicButton = (props) => {
               '&:hover': {
                 background: '#768dcc',
               },
+              borderRadius: '50%',
+              height: '60px',
+              width: '60px',
             }}
             onClick={onClick}
           >

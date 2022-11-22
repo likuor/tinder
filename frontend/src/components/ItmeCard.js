@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import IconButton from '@mui/material/IconButton';
@@ -12,7 +12,6 @@ import Pill from './Pill';
 import Stack from '@mui/material/Stack';
 import CardActions from '@mui/material/CardActions';
 import BasicButton from './BasicButton';
-import { AuthContext } from '../AuthContext';
 import axios from 'axios';
 
 const ExpandInfo = styled((props) => {
@@ -28,6 +27,8 @@ const ExpandInfo = styled((props) => {
 
 const ItmeCard = ({ usersLength, userData, usersIndex, setusersIndex }) => {
   const [expanded, setExpanded] = useState(false);
+  const [image, setImage] = useState('');
+
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -42,7 +43,7 @@ const ItmeCard = ({ usersLength, userData, usersIndex, setusersIndex }) => {
       return alert('No more users!');
     }
   };
-  const [image, setImage] = useState('');
+
   useEffect(() => {
     const baseURL = 'http://localhost:8000/userimage';
     axios
@@ -50,7 +51,8 @@ const ItmeCard = ({ usersLength, userData, usersIndex, setusersIndex }) => {
       .then((res) => {
         setImage(res.data);
       });
-  }, [usersIndex]);
+  }, [userData?._id]);
+
   return (
     <>
       <Card

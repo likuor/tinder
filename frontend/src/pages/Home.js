@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-// import ItmeCard from '../components/ItmeCard';
+import ItmeCard from '../components/ItmeCard';
 import MainLayout from '../Layout/MainLayout';
 // import { pickRandomUser } from '../helper/Helper';
-// import { AuthContext } from '../AuthContext';
 import axios from 'axios';
 import NomoreUser from './NomoreUser';
 import TinderCardCom from '../components/TinderCardCom';
@@ -48,7 +47,7 @@ const Home = () => {
   return (
     <>
       <MainLayout>
-        {/* {usersIndex < usersData.length ? (
+        {usersIndex < usersData.length ? (
           <ItmeCard
             usersLength={usersData.length}
             userData={usersData[usersIndex]}
@@ -57,9 +56,9 @@ const Home = () => {
           />
         ) : (
           <NomoreUser />
-        )} */}
+        )}
 
-        <TinderCardCom usersData={usersData} isPicsLoaded={isPicsLoaded} />
+        {/* <TinderCardCom usersData={usersData} isPicsLoaded={isPicsLoaded} /> */}
       </MainLayout>
     </>
   );
