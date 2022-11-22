@@ -9,7 +9,7 @@ const port =  8000;
 // const port = 8000;
 
 const http = require("http");
-const server = createServer(app);
+const server = http.createServer(app);
 app.use(
 	cors({
 		origin: [process.env.FRONT_URL, "http://localhost:3000"],
