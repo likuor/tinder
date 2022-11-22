@@ -12,7 +12,7 @@ import Pill from './Pill';
 import Stack from '@mui/material/Stack';
 import CardActions from '@mui/material/CardActions';
 import BasicButton from './BasicButton';
-import { AuthContext } from '../state/AuthContext';
+import { AuthContext } from '../AuthContext';
 import axios from 'axios';
 
 const ExpandInfo = styled((props) => {

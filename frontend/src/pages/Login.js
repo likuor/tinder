@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
@@ -7,12 +7,11 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { AuthContext } from '../state/AuthContext';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { checkEmail, checkPassword } from '../helper/AuthValidation';
 import { loginCall } from '../state/dispatch';
 
 const Login = () => {
-  const { user, isLogin } = useContext(AuthContext);
   const [email, setEmail] = useState({ input: undefined, errMessage: '' });
   const [password, setPassword] = useState({
     input: undefined,
@@ -21,7 +20,6 @@ const Login = () => {
   const refEmail = useRef();
   const refPassword = useRef();
   const { dispatch } = useContext(AuthContext);
-  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
