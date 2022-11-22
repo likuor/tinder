@@ -28,7 +28,9 @@ function App() {
           element={isLogin ? <Chatroom /> : <Login />}
         />
         <Route path='/chat' element={isLogin ? <ChatList /> : <Login />} />
+
         <Route path='/profile' element={isLogin ? <Profile /> : <Login />} />
+
         <Route path='/login' element={isLogin ? <Profile /> : <Login />} />
         <Route path='/signup' element={isLogin ? <Profile /> : <Signup />} />
       </Routes>
