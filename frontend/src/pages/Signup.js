@@ -15,6 +15,7 @@ import {
   checkConfirmPassword,
 } from '../helper/AuthValidation';
 import { baseURL } from '../helper/baseURL';
+
 const Auth = () => {
   const { user } = useContext(AuthContext);
   const [email, setEmail] = useState({ input: undefined, errMessage: '' });
@@ -29,16 +30,11 @@ const Auth = () => {
   const refEmail = useRef();
   const refPassword = useRef();
   const refConfrimPassword = useRef();
-
   const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
-      if (!user.sexual_orientation.length === 0 || !user.gender) {
-        return navigate('/login');
-      } else {
-        return navigate('/');
-      }
+      return navigate('/');
     }
   }, [user, navigate]);
 

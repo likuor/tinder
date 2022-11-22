@@ -26,7 +26,6 @@ const Chatroom = () => {
   const [text, setText] = useState('');
   const location = useLocation();
   const { matchedUserName } = location.state;
-  const { isLogin } = useContext(AuthContext);
   useEffect(() => {
     // const baseURL = 'http://localhost:8000';
     const fetchData = async () => {
