@@ -3,15 +3,11 @@ import { baseURL } from '../helper/baseURL';
 export const loginCall = async (user, dispatch) => {
   dispatch({ type: 'LOGIN_START' });
 
-  console.log('LOGIN_START');
-
   try {
     const res = await axios.post(`${baseURL}/login`, user, {
       withCredentials: true,
     });
-    console.log('LOGIN', res.data);
-
-    // console.log(res.data);
+    console.log(res.data._id);
     localStorage.setItem('id', JSON.stringify(res.data._id));
     dispatch({ type: 'LOGIN_SUCCESS', payload: res.data });
   } catch (err) {

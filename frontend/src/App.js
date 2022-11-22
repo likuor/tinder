@@ -10,22 +10,23 @@ import Navbar from './components/Navbar';
 import { AuthContext } from './AuthContext';
 
 function App() {
-  const { isLogin } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+  console.log(user);
 
   return (
     <div className='App'>
       <Routes>
-        <Route path='/' element={isLogin ? <Home /> : <Login />} />
+        <Route path='/' element={user ? <Home /> : <Login />} />
         <Route
           path='/chat/room=:id'
-          element={isLogin ? <Chatroom /> : <Login />}
+          element={user ? <Chatroom /> : <Login />}
         />
-        <Route path='/chat' element={isLogin ? <ChatList /> : <Login />} />
-        <Route path='/profile' element={isLogin ? <Profile /> : <Login />} />
-        <Route path='/login' element={isLogin ? <Profile /> : <Login />} />
-        <Route path='/signup' element={isLogin ? <Profile /> : <Signup />} />
+        <Route path='/chat' element={user ? <ChatList /> : <Login />} />
+        <Route path='/profile' element={user ? <Profile /> : <Login />} />
+        <Route path='/login' element={user ? <Profile /> : <Login />} />
+        <Route path='/signup' element={user ? <Profile /> : <Signup />} />
       </Routes>
-      {isLogin ? <Navbar /> : ''}
+      {user ? <Navbar /> : ''}
     </div>
   );
 }
