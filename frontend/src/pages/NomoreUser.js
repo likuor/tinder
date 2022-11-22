@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import userImageAtsu from '../image/userImages/PngItem_1503945.png';
-import { AuthContext } from '../state/AuthContext';
+import { AuthContext } from '../AuthContext';
 import MainLayout from '../Layout/MainLayout';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';

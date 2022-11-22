@@ -1,22 +1,29 @@
-import React, { createContext, useEffect, useReducer } from 'react';
-import AuthReducer from './AuthReducer';
-import { checkLogin } from './dispatch';
+import axios from 'axios';
+import React, { useState, createContext, useEffect, useReducer } from 'react';
+import AuthReducer from './state/AuthReducer';
 
 const initialState = {
   user: null,
   isFetching: false,
   error: false,
-  isLogin: false,
 };
 
 export const AuthContext = createContext(initialState);
 
 const AuthContextProvider = (props) => {
   const [state, dispatch] = useReducer(AuthReducer, initialState);
+  const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
-    checkLogin(dispatch);
-  }, []);
+    const fetchLoggedinUser = async () => {
+      await axios
+        .get('http://localhost:8000/cookie', { withCredentials: true })
+        .then((res) => {
+          return setIsLogin(res.data);
+        });
+    };
+    fetchLoggedinUser();
+  }, [state]);
 
   return (
     <AuthContext.Provider
@@ -24,7 +31,7 @@ const AuthContextProvider = (props) => {
         user: state.user,
         isFetching: state.isFetching,
         error: state.error,
-        isLogin: state.isLogin,
+        isLogin,
         dispatch,
       }}
     >

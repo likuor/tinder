@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
-import { AuthContext } from '../state/AuthContext';
+import { AuthContext } from '../AuthContext';
 
 const socket = io('http://localhost:8000', { query: { id: '1234' } });
 
@@ -51,12 +51,12 @@ const Chatroom = () => {
                     });
                 } else {
                   axios
-                    .post(`${baseURL}/userimage`, {
-                      user_id: res.data.user1,
-                    })
-                    .then((res) => {
-                      setImage(res.data);
-                    });
+										.post(`${baseURL}/userimage`, {
+											user_id: res.data.user1,
+										})
+										.then((res) => {
+											setImage(res.data);
+										});
                 }
               });
           }

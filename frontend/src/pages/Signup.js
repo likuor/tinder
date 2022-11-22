@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import axios from 'axios';
-import { AuthContext } from '../state/AuthContext';
+import { AuthContext } from '../AuthContext';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import {
   checkEmail,

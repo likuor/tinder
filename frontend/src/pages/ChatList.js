@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
-import { AuthContext } from '../state/AuthContext';
+import { AuthContext } from '../AuthContext';
 import { Link } from 'react-router-dom';
 import MainLayout from '../Layout/MainLayout';
 import List from '@mui/material/List';
@@ -43,10 +43,10 @@ const ChatList = () => {
         .then((res) => {
           setChat(res.data);
           axios
-            .post(`${baseURL}/chatlistimage`, { user_id: res.data })
-            .then((res) => {
-              setImage(res.data);
-            });
+						.post(`${baseURL}/chatlistimage`, { user_id: res.data })
+						.then((res) => {
+							setImage(res.data);
+						});
         });
     };
     fetchData().catch(console.error);
