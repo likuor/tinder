@@ -28,6 +28,7 @@ const CreateUser = async (req, res) => {
 
 const LoginUser = async (req, res) => {
   try {
+    console.log('body', req.body);
     const user = await User.findOne({ email: req.body.email });
     if (!user) return res.status(404).send('We can not find the user');
     const isUserMatch = await bcrypt.compare(req.body.password, user.password);
@@ -35,8 +36,10 @@ const LoginUser = async (req, res) => {
       return res.status(400).json('password is wrong');
     } else {
       // req.session.id = user._id.toString();
-      // console.log('req', req.session.id);
-      // res.cookie('id', req.session.id);
+      console.log('Api calling');
+      console.log('req', user);
+      // // res.cookie('id', req.session.id);
+
       return res.status(200).json(user);
     }
   } catch (err) {
