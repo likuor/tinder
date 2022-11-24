@@ -102,18 +102,6 @@ app.use("/", interestsRoute);
 app.use("/", likesRoute);
 app.use("/", chatRoute);
 app.use("/", imageRoute);
-
-// app.get("/image", async (req, res) => {
-// 	const image = await Pictuers.findOne({ usr_id: "6364005204c4d5b81220fe46" });
-// 	const getObjectParams = {
-// 		Bucket: bucketName,
-// 		Key: image.path
-// 	}
-// 	const command = new GetObjectCommand(getObjectParams);
-// 	const url = await getSignedUrl(s3, command, { expiresIn: 36000 });
-// 	res.status(200).json(url);
-// })
-
 app.post("/deleteimage", async(req, res) => {
 	const image = await Images.findOne({ usr_id: "6364005204c4d5b81220fe46" });
 	const getObjectParams = {
