@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import ItmeCard from '../components/ItmeCard';
+// import ItmeCard from '../components/ItmeCard';
 import MainLayout from '../Layout/MainLayout';
 // import { pickRandomUser } from '../helper/Helper';
 import axios from 'axios';
-import NomoreUser from './NomoreUser';
+// import NomoreUser from './NomoreUser';
 // const randomUser = pickRandomUser(users);
 import TinderCardCom from '../components/TinderCardCom';
 

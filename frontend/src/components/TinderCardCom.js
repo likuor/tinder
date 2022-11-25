@@ -24,7 +24,7 @@ const ImgDiv = style.div`
   position: relative;
   justify-content: center;
   width: 300px;
-  height: 300px;
+  height: 400px;
   background-size: cover;
 `;
 
@@ -55,6 +55,10 @@ const TinderCardCom = ({ usersData }) => {
     }
   };
 
+  // const onCardLeftScreen = (myIdentifier) => {
+  //   console.log(myIdentifier + ' left the screen');
+  // };
+
   return (
     <>
       {usersData?.map((person) => {
@@ -63,6 +67,7 @@ const TinderCardCom = ({ usersData }) => {
             <TinderCard
               className='swipe'
               onSwipe={onSwipe}
+              // onCardLeftScreen={() => onCardLeftScreen('fooBar')}
               preventSwipe={['up', 'down']}
             >
               <Card
@@ -109,7 +114,6 @@ const TinderCardCom = ({ usersData }) => {
       })}
       <Box sx={{ '& > :not(style)': { m: 1 } }}>
         <FloatingButton color='primary' onClick={handleExpandClick} />
-        <FloatingButton color='warning' onClick={handleExpandClick} />
       </Box>
     </>
   );
