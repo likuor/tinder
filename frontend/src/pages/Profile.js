@@ -10,73 +10,77 @@ import BasicModal from '../components/BasicModal';
 import axios from 'axios';
 
 const Profile = () => {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
   const [open, setOpen] = useState(false);
-  const [image, setImage] = useState('');
+
   const handleClickOpen = () => {
     setOpen(true);
+  };
+
+  const getUserImage = async (user) => {
+    const picsURL = 'http://localhost:8000/profileimage';
+    const res = await axios.post(
+      picsURL,
+      { user_id: user?._id },
+      { withCredentials: true }
+    );
+    if (res.data !== 'nothing') {
+      user.imageURL = res.data;
+    }
+    return user;
   };
 
   useEffect(() => {
     const fetchData = async () => {
       const baseURL = 'http://localhost:8000';
-      await axios
-        .get(`${baseURL}/getuserinfo`, { withCredentials: true })
-        .then((response) => {
-          setUser(response.data);
-          axios
-						.post(
-							`${baseURL}/profileimage`,
-							{ user_id: user?._id },
-							{ withCredentials: true }
-						)
-						.then((res) => {
-							if (res.data !== "nothing") {
-								setImage(res.data);
-							}
-						});
-        });
+      const res = await axios.get(`${baseURL}/getuserinfo`, {
+        withCredentials: true,
+      });
+      const userWithImage = await getUserImage(res.data);
+      setUser(userWithImage);
     };
 
     fetchData();
-  }, [user?._id]);
+  }, []);
 
   return (
     <>
       <MainLayout>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            maxWidth: 345,
-            mx: 'auto',
-            py: '1.3rem',
-          }}
-        >
-          <Avatar src={image} sx={{ m: 1, width: 56, height: 56 }} />
-          <Typography variant='h1'>{user?.username}</Typography>
-          <Box>
-            <Grid>
-              <IconButton
-                aria-label='edit'
-                color={'primary'}
-                size='large'
-                onClick={handleClickOpen}
-              >
-                <EditIcon />
-              </IconButton>
-            </Grid>
-            <Grid>
-              <BasicModal
-                open={open}
-                setOpen={setOpen}
-                user={user}
-                setUser={setUser}
-              />
-            </Grid>
+        {user && (
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              maxWidth: 345,
+              mx: 'auto',
+              py: '1.3rem',
+            }}
+          >
+            <Avatar src={user.imageURL} sx={{ m: 1, width: 56, height: 56 }} />
+            <Typography variant='h1'>{user?.username}</Typography>
+            <Box>
+              <Grid>
+                <IconButton
+                  aria-label='edit'
+                  color={'primary'}
+                  size='large'
+                  onClick={handleClickOpen}
+                >
+                  <EditIcon />
+                </IconButton>
+              </Grid>
+              <Grid>
+                <BasicModal
+                  open={open}
+                  setOpen={setOpen}
+                  user={user}
+                  setUser={setUser}
+                />
+              </Grid>
+            </Box>
           </Box>
-        </Box>
+        )}
       </MainLayout>
     </>
   );
