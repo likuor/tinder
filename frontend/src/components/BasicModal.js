@@ -16,6 +16,7 @@ import BoxLayout from '../Layout/BoxLayout';
 import axios from 'axios';
 import { courses, genders, sexualOrientations } from '../Data/SelectBoxOptions';
 import imageCompression from 'browser-image-compression';
+
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
     padding: theme.spacing(2),
@@ -60,8 +61,6 @@ export default function BasicModal(props) {
   const genderRef = useRef(null);
   const ageRef = useRef(null);
 
-  console.log(user);
-
   // image
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
@@ -77,27 +76,34 @@ export default function BasicModal(props) {
   const [sexualOri, setSexualOri] = useState([]);
   const [inputSexualOriVal, setInputSexualOriVal] = useState('');
 
+  // const getInterestsData = async () => {
+  //   const interestsURL = 'http://localhost:8000/interests';
+
+  //   const allInterests = await axios.get(interestsURL);
+  //   console.log(allInterests.data);
+  // };
+
+  // getInterestsData();
+
   useEffect(() => {
     const fetchData = async () => {
-      await axios.get('http://localhost:8000/interests').then((response) => {
-        axios
-          .get('http://localhost:8000/getuserinfo', { withCredentials: true })
-          .then((res) => {
-            setInterestsData(response.data);
-            setCourse(res.data?.course);
-            setGender(res.data?.gender);
-            setSexualOri(res.data?.sexual_orientation);
-            setInterests(res.data?.interests);
-          });
-      });
+      const res = await axios.get('http://localhost:8000/interests');
+
+      setInterestsData(res.data);
+      setCourse(user?.course);
+      setGender(user?.gender);
+      setSexualOri(user?.sexual_orientation);
+      setInterests(user?.interests);
 
       if (selectedImage) {
         setImageUrl(URL.createObjectURL(selectedImage));
+      } else {
+        setImageUrl(user?.imageURL);
       }
     };
 
     fetchData();
-  }, [selectedImage, user]);
+  }, [selectedImage]);
 
   const compressImage = async (image) => {
     const imageFile = image;
@@ -122,7 +128,8 @@ export default function BasicModal(props) {
       _id: user._id,
       email: user.email,
       username: nameRef.current.value,
-      // image: imageUrl,
+      image: user._id,
+      imageURL: imageUrl,
       about: aboutRef.current.value,
       age: Number(ageRef.current.value),
       course: courseRef.current.value,
@@ -130,17 +137,18 @@ export default function BasicModal(props) {
       interests: UpdatedInterests,
       sexual_orientation: updatedSexualOri,
     };
+
     const placedUserInfo = JSON.stringify(user);
     const updatedUserInfo = JSON.stringify(userInfo);
 
-    const formData = new FormData();
-    if (selectedImage) {
-      const image = await compressImage(selectedImage);
-      formData.append('image', image);
-    }
-    formData.append('userInfo', updatedUserInfo);
-
     if (placedUserInfo !== updatedUserInfo) {
+      const formData = new FormData();
+      if (selectedImage) {
+        const compressedImage = await compressImage(selectedImage);
+        formData.append('image', compressedImage);
+      }
+      formData.append('userInfo', updatedUserInfo);
+
       const baseURL = 'http://localhost:8000/setting';
       axios
         // .post(baseURL, userInfo)
@@ -148,7 +156,7 @@ export default function BasicModal(props) {
           headers: { 'Content-Type': 'multipart/form-data' },
         })
         .then((res) => {
-          setUser(userInfo);
+          // setUser(userInfo);
         });
     }
   };
@@ -184,9 +192,9 @@ export default function BasicModal(props) {
                 onChange={(e) => setSelectedImage(e.target.files[0])}
               />
             </Button>
-            {imageUrl && selectedImage && (
+            {imageUrl && (
               <Box mt={2} textAlign='center'>
-                <img src={imageUrl} alt={selectedImage.name} height='100px' />
+                <img src={imageUrl} alt={user.username} height='100px' />
               </Box>
             )}
           </BoxLayout>
@@ -300,6 +308,7 @@ export default function BasicModal(props) {
               ))}
             </TextField>
           </BoxLayout>
+
           {/* sexual orieantation */}
           <BoxLayout>
             <Autocomplete
