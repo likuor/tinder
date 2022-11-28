@@ -40,7 +40,7 @@ const TinderCardCom = ({ usersData }) => {
     switch (direction) {
       case 'right':
         const userId = usersData[usersData.length - 1 - count]._id;
-        const baseURL = 'http://localhost:8000/sendlike';
+        const baseURL = `${process.env.REACT_APP_SERVER_URL}/sendlike`;
         const sendInfo = { to: userId };
         axios.post(baseURL, sendInfo, { withCredentials: true });
         setCount(count + 1);
