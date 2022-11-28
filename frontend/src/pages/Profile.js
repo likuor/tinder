@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import MainLayout from '../Layout/MainLayout';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
@@ -8,8 +8,12 @@ import Typography from '@mui/material/Typography';
 import EditIcon from '@mui/icons-material/Edit';
 import BasicModal from '../components/BasicModal';
 import axios from 'axios';
+import Link from '@mui/material/Link';
+import { AuthContext } from '../AuthContext';
+import { logoutCall } from '../state/dispatch';
 
 const Profile = () => {
+  const { dispatch } = useContext(AuthContext);
   const [user, setUser] = useState(null);
   const [open, setOpen] = useState(false);
 
@@ -18,7 +22,7 @@ const Profile = () => {
   };
 
   const getUserImage = async (user) => {
-    const picsURL = 'http://localhost:8000/profileimage';
+    const picsURL = `${process.env.REACT_APP_SERVER_URL}/profileimage`;
     const res = await axios.post(
       picsURL,
       { user_id: user?._id },
@@ -32,8 +36,8 @@ const Profile = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const baseURL = 'http://localhost:8000';
-      const res = await axios.get(`${baseURL}/getuserinfo`, {
+      const getUserInfoURL = `${process.env.REACT_APP_SERVER_URL}/getuserinfo`;
+      const res = await axios.get(getUserInfoURL, {
         withCredentials: true,
       });
       const userWithImage = await getUserImage(res.data);
@@ -77,6 +81,17 @@ const Profile = () => {
                   user={user}
                   setUser={setUser}
                 />
+              </Grid>
+              <Grid>
+                <Link
+                  // href='/login'
+                  onClick={() => {
+                    console.log('logout');
+                    logoutCall(dispatch);
+                  }}
+                >
+                  Logout
+                </Link>
               </Grid>
             </Box>
           </Box>

@@ -55,7 +55,7 @@ const Auth = () => {
         setConfirmPassword
       ) === true
     ) {
-      const baseURL = 'http://localhost:8000/signup';
+      const baseURL = `${process.env.REACT_APP_SERVER_URL}/signup`;
       const newUser = {
         email: refEmail.current.value,
         password: refPassword.current.value,

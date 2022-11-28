@@ -13,7 +13,7 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import { AuthContext } from '../AuthContext';
 
-const socket = io('http://localhost:8000', { query: { id: '1234' } });
+const socket = io(process.env.REACT_APP_SERVER_URL, { query: { id: '1234' } });
 
 const Chatroom = () => {
   const params = useParams();
@@ -28,7 +28,7 @@ const Chatroom = () => {
   const { isLogin } = useContext(AuthContext);
 
   useEffect(() => {
-    const baseURL = 'http://localhost:8000';
+    const baseURL = `${process.env.REACT_APP_SERVER_URL}/getuserinfo`;
     const fetchData = async () => {
       await axios
         .get(`${baseURL}/getuserinfo`, { withCredentials: true })
@@ -51,12 +51,12 @@ const Chatroom = () => {
                     });
                 } else {
                   axios
-										.post(`${baseURL}/userimage`, {
-											user_id: res.data.user1,
-										})
-										.then((res) => {
-											setImage(res.data);
-										});
+                    .post(`${baseURL}/userimage`, {
+                      user_id: res.data.user1,
+                    })
+                    .then((res) => {
+                      setImage(res.data);
+                    });
                 }
               });
           }
@@ -81,7 +81,7 @@ const Chatroom = () => {
       },
       roomId: params.id,
     });
-    axios.post('http://localhost:8000/savechat', {
+    axios.post(`${process.env.REACT_APP_SERVER_URL}/savechat`, {
       newText: {
         msg: messageRef.current.value,
         username: currentUser.username,

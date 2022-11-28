@@ -11,7 +11,7 @@ const Home = () => {
   const [usersData, setUsersData] = useState(null);
 
   const getUserImage = async (users) => {
-    const picsURL = 'http://localhost:8000/userimage';
+    const picsURL = `${process.env.REACT_APP_SERVER_URL}/userimage`;
     for (let i = 0; i < users.length; i++) {
       const result = await axios.post(
         picsURL,
@@ -25,7 +25,7 @@ const Home = () => {
 
   useEffect(() => {
     const fetchMatchableUsers = async () => {
-      const baseURL = 'http://localhost:8000/user';
+      const baseURL = `${process.env.REACT_APP_SERVER_URL}/user`;
       const res = await axios.get(baseURL, { withCredentials: true });
       const allMatchableUsers = res.data;
       const usersWithImage = await getUserImage(allMatchableUsers);

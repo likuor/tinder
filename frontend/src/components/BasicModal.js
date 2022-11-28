@@ -87,8 +87,8 @@ export default function BasicModal(props) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get('http://localhost:8000/interests');
-
+      const interestsURL = `${process.env.REACT_APP_SERVER_URL}/interests`;
+      const res = await axios.get(interestsURL);
       setInterestsData(res.data);
       setCourse(user?.course);
       setGender(user?.gender);
@@ -149,15 +149,13 @@ export default function BasicModal(props) {
       }
       formData.append('userInfo', updatedUserInfo);
 
-      const baseURL = 'http://localhost:8000/setting';
+      const updateProfileURL = `${process.env.REACT_APP_SERVER_URL}/setting`;
       axios
-        // .post(baseURL, userInfo)
-        .post(baseURL, formData, {
+        // .post(updateProfileURL, userInfo)
+        .post(updateProfileURL, formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
-        })
-        .then((res) => {
-          // setUser(userInfo);
         });
+      setUser(userInfo);
     }
   };
 

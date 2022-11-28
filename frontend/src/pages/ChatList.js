@@ -37,16 +37,19 @@ const ChatList = () => {
   const [image, setImage] = useState('');
   useEffect(() => {
     const fetchData = async () => {
-      const baseURL = 'http://localhost:8000';
       await axios
-        .get(`${baseURL}/getchatlist`, { withCredentials: true })
+        .get(`${process.env.REACT_APP_SERVER_URL}/getchatlist`, {
+          withCredentials: true,
+        })
         .then((res) => {
           setChat(res.data);
           axios
-						.post(`${baseURL}/chatlistimage`, { user_id: res.data })
-						.then((res) => {
-							setImage(res.data);
-						});
+            .post(`${process.env.REACT_APP_SERVER_URL}/chatlistimage`, {
+              user_id: res.data,
+            })
+            .then((res) => {
+              setImage(res.data);
+            });
         });
     };
     fetchData().catch(console.error);
