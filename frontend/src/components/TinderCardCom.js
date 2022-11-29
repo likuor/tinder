@@ -15,6 +15,7 @@ import FloatingButton from './FloatingButton';
 import axios from 'axios';
 
 const CardDiv = style.div`
+  backGround:red;
   display: flex;
   justify-content: center;
 `;
@@ -23,12 +24,11 @@ const ImgDiv = style.div`
   display: flex;
   position: relative;
   justify-content: center;
-  width: 300px;
+  width: 345px;
   height: 400px;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
 `;
 
 const TinderCardCom = ({ usersData }) => {
@@ -70,10 +70,16 @@ const TinderCardCom = ({ usersData }) => {
                   maxWidth: 345,
                   mx: 'auto',
                   my: '1.3rem',
+                  pb: expanded && '2rem',
                 }}
               >
                 <>
-                  <ImageListItem>
+                  <ImageListItem
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                    }}
+                  >
                     <ImgDiv
                       style={{
                         backgroundImage: `url(${person?.imageURL})`,
@@ -87,12 +93,30 @@ const TinderCardCom = ({ usersData }) => {
                     </ImgDiv>
                   </ImageListItem>
 
-                  <CardContent>
+                  <CardContent
+                    sx={{
+                      minWidth: 345,
+                      mx: 'auto',
+                    }}
+                  >
                     <Collapse in={expanded} timeout='auto' unmountOnExit>
                       <Typography variant='h1'>About me</Typography>
-                      <Typography variant='body1'>{person?.about}</Typography>
+                      <Typography
+                        variant='body1'
+                        sx={{
+                          mx: 'auto',
+                          py: 1,
+                        }}
+                      >
+                        {person?.about}
+                      </Typography>
                       <Typography variant='h1'>My Interests</Typography>
-                      <Stack direction='row' spacing={1} sx={{ mr: 0.3 }}>
+                      <Stack
+                        direction='row'
+                        spacing={1}
+                        flexWrap={'wrap'}
+                        sx={{ mx: 'auto', py: 1 }}
+                      >
                         {person?.interests?.map((interest, index) => {
                           return (
                             <Pill text={interest.hobby} key={interest.id} />
