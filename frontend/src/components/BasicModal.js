@@ -179,6 +179,7 @@ export default function BasicModal(props) {
         >
           Edit
         </BootstrapDialogTitle>
+
         <DialogContent dividers>
           {/* image */}
           <BoxLayout>
@@ -231,16 +232,18 @@ export default function BasicModal(props) {
               inputRef={aboutRef}
               label='About me'
               multiline
-              rows={10}
+              rows={4}
               defaultValue={user?.about}
               placeholder='Tell us about yourself'
               variant='standard'
+              inputProps={{ maxLength: 149 }}
             />
           </BoxLayout>
 
           {/* Interests  */}
           <BoxLayout>
             <Autocomplete
+              getOptionDisabled={(option) => interests.length >= 5 && true}
               multiple
               sx={{ width: 260 }}
               limitTags={5}
@@ -292,6 +295,7 @@ export default function BasicModal(props) {
           <BoxLayout>
             <TextField
               id='outlined-select-currency'
+              required
               select
               inputRef={genderRef}
               label='Gender'
@@ -311,6 +315,7 @@ export default function BasicModal(props) {
           <BoxLayout>
             <Autocomplete
               multiple
+              required
               sx={{ width: 260 }}
               limitTags={5}
               name='sexualOrientation'

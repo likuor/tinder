@@ -68,9 +68,9 @@ const TinderCardCom = ({ usersData }) => {
               <Card
                 sx={{
                   maxWidth: 345,
+                  minHeight: expanded && 700,
                   mx: 'auto',
                   my: '1.3rem',
-                  pb: expanded && '2rem',
                 }}
               >
                 <>
