@@ -26,38 +26,34 @@ const ImgDiv = style.div`
   width: 300px;
   height: 400px;
   background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 `;
 
 const TinderCardCom = ({ usersData }) => {
   const [expanded, setExpanded] = useState(false);
-  const [count, setCount] = useState(0);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
-  const onSwipe = (direction) => {
+  const swiped = (direction, userId) => {
     switch (direction) {
       case 'right':
-        const userId = usersData[usersData.length - 1 - count]._id;
-        const baseURL = `${process.env.REACT_APP_SERVER_URL}/sendlike`;
         const sendInfo = { to: userId };
-        axios.post(baseURL, sendInfo, { withCredentials: true });
-        setCount(count + 1);
+        axios.post(`${process.env.REACT_APP_SERVER_URL}/sendlike`, sendInfo, {
+          withCredentials: true,
+        });
         return;
 
       case 'left':
-        setCount(count + 1);
         return;
 
       default:
         break;
     }
   };
-
-  // const onCardLeftScreen = (myIdentifier) => {
-  //   console.log(myIdentifier + ' left the screen');
-  // };
 
   return (
     <>
@@ -66,8 +62,7 @@ const TinderCardCom = ({ usersData }) => {
           <CardDiv key={person._id}>
             <TinderCard
               className='swipe'
-              onSwipe={onSwipe}
-              // onCardLeftScreen={() => onCardLeftScreen('fooBar')}
+              onSwipe={(dir) => swiped(dir, person._id)}
               preventSwipe={['up', 'down']}
             >
               <Card
